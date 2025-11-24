@@ -1,7 +1,7 @@
 <x-layout>
-    <ul class="flex flex-col">
+    <ul class="flex flex-col gap-y-4">
         @foreach ($posts as $post)
-            <li class="py-2">
+            <li>
                 <img src="{{ asset('storage/' . $post->image) }}" alt="" class="w-full" width="{{ $post->width }}" height="{{ $post->height }}">
                 <div class="px-2 py-4 flex flex-col gap-2">
                     <div class="flex justify-between items-center">
