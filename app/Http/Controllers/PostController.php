@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Post;
 use Intervention\Image\ImageManager;
-use Intervention\Image\Drivers\Imagick\Driver;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class PostController extends Controller {
     //
@@ -42,7 +42,7 @@ class PostController extends Controller {
             ],
             'name' => 'nullable|string|max:50',
             'email' => 'nullable|email|max:100',
-            'text' => 'required|string|min:10|max:400',
+            'text' => 'required|string|min:3|max:400',
         ]);
 
         if ($request->hasFile('image')) {
@@ -62,13 +62,13 @@ class PostController extends Controller {
                 $image->scale(height: 3600);
             }
 
-            // ファイル名を生成（ユニークな名前）
-            $filename = uniqid() . '.avif';
+            // ファイル名を生成（ユニークな名前）※拡張子を .webp に変更
+            $filename = uniqid() . '.webp';
 
             // storage/app/public/images に AVIF形式で保存
             $path = 'images/' . $filename;
             $fullPath = storage_path('app/public/' . $path);
-            $image->toAvif(quality: 80)->save($fullPath);
+            $image->toWebp(quality: 80)->save($fullPath);
 
             // 最終的な幅・高さ・ファイルサイズを取得
             $width = $image->width();
