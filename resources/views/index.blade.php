@@ -20,7 +20,7 @@
             </li>
         @endforeach
     </ul>
-    <div class="py-4 max-w-[95%] mx-auto">
+    <div class="py-8 max-w-[95%] mx-auto">
         {{ $posts->links() }}
     </div>
 </x-layout>
