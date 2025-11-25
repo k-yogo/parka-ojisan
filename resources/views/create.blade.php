@@ -1,6 +1,6 @@
 <x-layout>
     <div class="w-full flex justify-center items-center flex-1">
-        <form action="{{ route('posts.store') }}" method="post" class="py-4 px-2 w-full flex flex-col gap-y-4"
+        <form action="{{ route('posts.store') }}" method="post" class="p-4 w-full flex flex-col gap-y-4"
             enctype="multipart/form-data">
             @csrf
             <div class="flex flex-col gap-y-2">

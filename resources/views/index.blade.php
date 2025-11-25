@@ -3,7 +3,7 @@
         @foreach ($posts as $post)
             <li>
                 <img src="{{ asset('storage/' . $post->image) }}" alt="" class="w-full" width="{{ $post->width }}" height="{{ $post->height }}">
-                <div class="px-2 py-4 flex flex-col gap-2">
+                <div class="sm:p-4 py-4 px-2 flex flex-col gap-2">
                     <div class="flex justify-between items-center">
                         @if ($post->email)
                             <a href="mailto:{{ $post->email }}"
