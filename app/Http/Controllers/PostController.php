@@ -10,7 +10,7 @@ use Intervention\Image\Drivers\Gd\Driver;
 class PostController extends Controller {
     //
     public function index() {
-        $posts = Post::latest()->paginate(4);
+        $posts = Post::latest()->paginate(10);
         return view('index', compact('posts'));
     }
 
