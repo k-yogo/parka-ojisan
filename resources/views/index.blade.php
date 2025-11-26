@@ -7,11 +7,11 @@
                     <div class="flex justify-between items-center">
                         @if ($post->email)
                             <a href="mailto:{{ $post->email }}"
-                                class="text-blue-500 underline">{{ $post->name ?? 'no name' }}</a>
+                                class="text-blue-500 underline hover:no-underline">{{ $post->name ?? 'no name' }}</a>
                         @else
                             <span class="">{{ $post->name ?? 'no name' }}</span>
                         @endif
-                        <span class="text-sm text-gray-500">{{ $post->created_at->format('Y/m/d') }}</span>
+                        <span class="text-sm text-gray-500" title="{{ $post->created_at->format('Y/m/d H:i') }}">{{ $post->created_at->format('Y/m/d') }}</span>
                     </div>
                     @if ($post->text)
                         <p>{{ $post->text }}</p>

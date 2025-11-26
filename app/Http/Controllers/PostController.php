@@ -25,7 +25,7 @@ class PostController extends Controller {
                 'image',
                 'mimes:jpeg,png,jpg,gif,webp,avif',
                 'max:5120',
-                'dimensions:min_width=400,min_height=50',  // 最低400×250px
+                'dimensions:min_width=400,min_height=400',  // 最低400×400px
                 function ($attribute, $value, $fail) {
                     $image = getimagesize($value);
                     if ($image) {
