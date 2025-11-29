@@ -7,9 +7,9 @@
                 <label for="image" class="block text-sm">Image</label>
 
                 <div class="flex items-center justify-center w-full">
-                    <label for="image"
-                        class="flex flex-col items-center justify-center w-full h-64 bg-gray-50 border border-dashed border-gray-200 rounded-md cursor-pointer hover:bg-gray-100">
-                        <div class="flex flex-col items-center justify-center text-gray-600 pt-5 pb-6">
+                    <label for="image" id="dropZone"
+                        class="flex flex-col items-center justify-center w-full h-64 bg-gray-50 border border-dashed border-gray-200 rounded-md cursor-pointer hover:bg-gray-100 relative">
+                        <div id="dropZoneText" class="flex flex-col items-center justify-center text-gray-600 pt-5 pb-6">
                             <svg class="w-8 h-8 mb-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 width="24" height="24" fill="none" viewBox="0 0 24 24">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -76,21 +76,10 @@
 
     document.addEventListener('DOMContentLoaded', function() {
 
-        const dropZone = document.querySelector('label[for="image"].flex');
+        const dropZone = document.getElementById('dropZone');
         const fileInput = document.getElementById('image');
 
-
-        if (!dropZone) {
-            console.error('❌ dropZone not found!');
-            return;
-        }
-
-        if (!fileInput) {
-            console.error('❌ fileInput not found!');
-            return;
-        }
-
-        const dropZoneText = dropZone.querySelector('.flex.flex-col.items-center');
+        const dropZoneText = document.getElementById('dropZoneText');
 
         // ドラッグオーバー時のスタイル変更
         ['dragenter', 'dragover'].forEach(eventName => {
@@ -128,7 +117,6 @@
                 dataTransfer.items.add(files[0]);
                 fileInput.files = dataTransfer.files;
 
-
                 // 画像プレビューを表示
                 displayImagePreview(files[0]);
             }
@@ -136,8 +124,6 @@
 
         // 画像プレビューを表示する関数
         function displayImagePreview(file) {
-            console.log('🖼️ Displaying image preview:', file.name);
-
             // 既存のプレビューがあれば削除
             const existingPreview = dropZone.querySelector('.image-preview');
             if (existingPreview) {
@@ -177,12 +163,8 @@
                     resetDropZone();
                 };
 
-                // dropZoneを相対位置に設定
-                dropZone.style.position = 'relative';
-
                 dropZone.appendChild(img);
                 dropZone.appendChild(deleteBtn);
-                console.log('✅ Image preview displayed with delete button!');
             };
 
             reader.readAsDataURL(file);
@@ -190,8 +172,6 @@
 
         // ドロップゾーンをリセットする関数
         function resetDropZone() {
-            console.log('🔄 Resetting drop zone...');
-
             // プレビュー画像と削除ボタンを削除
             const existingPreview = dropZone.querySelector('.image-preview');
             if (existingPreview) {
@@ -212,8 +192,6 @@
 
             // ファイルinputをクリア
             fileInput.value = '';
-
-            console.log('✅ Drop zone reset!');
         }
 
         // 通常のファイル選択時にも画像プレビューを表示
