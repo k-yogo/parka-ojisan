@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    // 🆕 OpenAI設定を追加
+    'openai' => [
+        'api_key' => env('OPENAI_API_KEY'),
+    ],
+
 ];

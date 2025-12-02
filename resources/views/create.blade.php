@@ -54,8 +54,7 @@
             <div class="flex flex-col gap-y-2">
                 <label for="text" class="block text-sm">Text</label>
                 <textarea name="text" id="text" rows="4"
-                    class="block w-full border-gray-200 border focus:border-blue-500 p-2 rounded-md focus:ring-blue-500"
-                    value="{{ old('text') }}"></textarea>
+                    class="block w-full border-gray-200 border focus:border-blue-500 p-2 rounded-md focus:ring-blue-500">{{ old('text') }}</textarea>
                 @error('text')
                     <p class="error text-sm text-red-500">{{ $message }}</p>
                 @enderror

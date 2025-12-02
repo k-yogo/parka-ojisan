@@ -45,6 +45,19 @@ class PostController extends Controller {
             'text' => 'required|string|min:3|max:400',
         ]);
 
+        // 2. AI判定（保存する前に！）
+        if ($request->hasFile('image')) {
+            $detector = new \App\Services\ParkaOjisanDetector();
+            $aiResult = $detector->detectFromUploadedFile($request->file('image'));
+
+            // パーカーおじさんでない場合はエラー
+            if (!$aiResult['is_parka_ojisan']) {
+                return back()
+                    ->withErrors(['image' => 'パーカーおじさんの画像をアップロードしてください！ 理由: ' . $aiResult['reason']])
+                    ->withInput();
+            }
+        }
+
         if ($request->hasFile('image')) {
             // Imagickドライバーを使用
             $manager = new ImageManager(new Driver());
@@ -65,7 +78,7 @@ class PostController extends Controller {
             // ファイル名を生成（ユニークな名前）※拡張子を .webp に変更
             $filename = uniqid() . '.webp';
 
-            // storage/app/public/images に AVIF形式で保存
+            // storage/app/public/images に WebP形式で保存
             $path = 'images/' . $filename;
             $fullPath = storage_path('app/public/' . $path);
             $image->toWebp(quality: 80)->save($fullPath);
