@@ -20,6 +20,7 @@
                             <p class="mb-2 text-sm"><span class="font-semibold">Click to upload</span> or drag and drop
                             </p>
                             <p class="text-xs">PNG, JPG, GIF, WebP (MIN. 400x400px)</p>
+                            <p class="text-xs text-gray-500 mt-2">🤖 AIがパーカーおじさんか判定します</p>
                         </div>
                         <input id="image" type="file" class="hidden" name="image" />
                     </label>
