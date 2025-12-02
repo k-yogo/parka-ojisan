@@ -9,7 +9,8 @@
                 <div class="flex items-center justify-center w-full">
                     <label for="image" id="dropZone"
                         class="flex flex-col items-center justify-center w-full h-64 bg-gray-50 border border-dashed border-gray-200 rounded-md cursor-pointer hover:bg-gray-100 relative">
-                        <div id="dropZoneText" class="flex flex-col items-center justify-center text-gray-600 pt-5 pb-6">
+                        <div id="dropZoneText"
+                            class="flex flex-col items-center justify-center text-gray-600 pt-5 pb-6">
                             <svg class="w-8 h-8 mb-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 width="24" height="24" fill="none" viewBox="0 0 24 24">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
@@ -59,12 +60,32 @@
                     <p class="error text-sm text-red-500">{{ $message }}</p>
                 @enderror
             </div>
-            <button type="submit"
-                class="my-2 px-4 py-2 bg-gray-900 hover:bg-gray-700 text-white rounded-md cursor-pointer">Post</button>
+            <button type="submit" id="submit-btn"
+                class="my-2 px-4 py-2 bg-gray-900 hover:bg-gray-700 text-white rounded-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+                <span id="btn-text">Post</span>
+            </button>
         </form>
     </div>
 </x-layout>
 <script>
+    // フォーム送信時の処理
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const submitBtn = document.getElementById('submit-btn');
+        const btnText = document.getElementById('btn-text');
+
+        // ボタンを無効化
+        submitBtn.disabled = true;
+
+        // ドットアニメーション
+        let dots = 0;
+        btnText.textContent = '解析中';
+
+        setInterval(() => {
+            dots = (dots + 1) % 4; // 0, 1, 2, 3, 0, 1, 2, 3...
+            btnText.textContent = '解析中' + '.'.repeat(dots || 1);
+        }, 500); // 0.5秒ごとに更新
+    });
+
     // ページ全体でドラッグ&ドロップのデフォルト動作を防ぐ
     ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
         document.body.addEventListener(eventName, (e) => {
@@ -154,7 +175,8 @@
                 // 削除ボタンを作成
                 const deleteBtn = document.createElement('button');
                 deleteBtn.type = 'button';
-                deleteBtn.className = 'delete-preview-btn absolute top-1 right-3 text-white hover:text-gray-300 text-3xl font-bold transition-colors cursor-pointer';
+                deleteBtn.className =
+                    'delete-preview-btn absolute top-1 right-3 text-white hover:text-gray-300 text-3xl font-bold transition-colors cursor-pointer';
                 deleteBtn.innerHTML = '✕';
                 deleteBtn.onclick = function(e) {
                     e.preventDefault();
