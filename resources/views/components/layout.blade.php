@@ -6,8 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="robots" content="noindex">
-    <meta name="og:image" content="{{ asset('ogp.jpg') }}">
     <meta name="og:description" content="パーカーおじさんの画像掲示板。アップロード時にAIでパーカーおじさんかどうか判定します。">
+    <meta name="og:image" content="{{ asset('ogp.jpg') }}">
+    <meta name="og:url" content="{{ url('/') }}">
+    <meta name="og:type" content="website">
+    <meta name="og:title" content="パーカーおじさん">
     <title>パーカーおじさん</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
