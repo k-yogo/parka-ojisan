@@ -65,14 +65,9 @@ class PostController extends Controller {
             // 画像を読み込む
             $image = $manager->read($request->file('image'));
 
-            // 横幅が2000pxより大きい場合はリサイズ（縦横比は維持）
-            if ($image->width() > 2000) {
-                $image->scale(width: 2000);
-            }
-
-            // 高さが3600pxより大きい場合はリサイズ（縦横比は維持）
-            if ($image->height() > 3600) {
-                $image->scale(height: 3600);
+            // 横幅が1500pxより大きい場合はリサイズ（縦横比は維持）
+            if ($image->width() > 1500) {
+                $image->scale(width: 1500);
             }
 
             // ファイル名を生成（ユニークな名前）※拡張子を .webp に変更
