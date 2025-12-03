@@ -1,59 +1,96 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# パーカーおじさん
+パーカーを着たおじさんの画像を投稿するサイトです。<br>
+投稿時にAIが画像を判定し、パーカーおじさん以外の画像は投稿できません。<br>
+レスポンシブ対応しているのでスマホからもご確認いただけます。
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+<!-- スクリーンショットがあれば追加 -->
+<img width="1400" alt="スクリーンショット" src="https://github.com/user-attachments/assets/670edf79-afea-4490-95f0-913af298dc8d">
 
-## About Laravel
+# URL
+https://parka-ojisan.k-yogo.dev/
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+# 使用技術
+- PHP 8.4
+- Laravel 12
+- MySQL 8.0
+- Tailwind CSS 4
+- Vite 7
+- OpenAI API (GPT-4o-mini)
+- Intervention Image (画像処理)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+# 開発環境
+- Docker / Docker Compose
+- Laravel Sail
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+# 本番環境
+- スターレンタルサーバー
 
-## Learning Laravel
+# 機能一覧
+- 画像投稿機能
+  - ドラッグ&ドロップ対応
+  - 画像プレビュー表示
+  - 自動リサイズ・WebP変換 (Intervention Image)
+- AI画像判定機能
+  - OpenAI GPT-4o-mini による画像分析
+  - パーカーおじさん以外は投稿拒否
+- バリデーション機能
+  - 画像サイズ制限 (最小400x400px)
+  - アスペクト比制限 (1:3 〜 3:1)
+  - ファイル形式制限 (PNG, JPG, GIF, WebP)
+- ページネーション機能
+- レスポンシブデザイン (Tailwind CSS)
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+# ローカル環境構築
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 必要なもの
+- Docker Desktop
+- OpenAI API Key
 
-## Laravel Sponsors
+## セットアップ手順
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+# リポジトリをクローン
+git clone https://github.com/your-username/parka-ojisan.git
+cd parka-ojisan
 
-### Premium Partners
+# .envファイルを作成
+cp .env.example .env
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+# OpenAI APIキーを設定
+# .env ファイルに以下を追加
+# OPENAI_API_KEY=sk-proj-xxxxxxxxxxxxx
 
-## Contributing
+# Sailを起動
+./vendor/bin/sail up -d
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+# 依存関係をインストール
+./vendor/bin/sail composer install
+./vendor/bin/sail npm install
 
-## Code of Conduct
+# アプリケーションキーを生成
+./vendor/bin/sail artisan key:generate
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# マイグレーション実行
+./vendor/bin/sail artisan migrate
 
-## Security Vulnerabilities
+# アセットをビルド
+./vendor/bin/sail npm run build
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# ストレージリンクを作成
+./vendor/bin/sail artisan storage:link
+```
 
-## License
+## 開発サーバー起動
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+./vendor/bin/sail up -d
+./vendor/bin/sail npm run dev
+```
+
+<!-- アクセス: http://localhost -->
+
+<!-- # テスト
+
+```bash
+./vendor/bin/sail artisan test
+``` -->
