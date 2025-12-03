@@ -50,7 +50,7 @@ https://parka-ojisan.k-yogo.dev/
 
 ```bash
 # リポジトリをクローン
-git clone https://github.com/your-username/parka-ojisan.git
+git clone https://github.com/k-yogo/parka-ojisan.git
 cd parka-ojisan
 
 # .envファイルを作成
