@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="og:description" content="パーカーおじさんの画像掲示板。アップロード時にAIでパーカーおじさんかどうか判定します。">
     <meta name="og:url" content="{{ url('/') }}">
-    <meta name="og:image" content="{{ asset('ogp.png') }}">
+    {{-- <meta name="og:image" content="{{ asset('ogp.png') }}"> --}}
     <meta name="og:type" content="website">
     <meta name="og:title" content="パーカーおじさん">
     <title>パーカーおじさん</title>
