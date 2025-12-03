@@ -4,7 +4,7 @@
 レスポンシブ対応しているのでスマホからもご確認いただけます。
 
 <!-- スクリーンショットがあれば追加 -->
-<img width="1400" alt="スクリーンショット" src="https://github.com/user-attachments/assets/670edf79-afea-4490-95f0-913af298dc8d">
+<img width="1400" alt="スクリーンショット" src="https://github.com/user-attachments/assets/c8a26e15-e05f-4f42-bcf1-cffb363dcc2d">
 
 # URL
 https://parka-ojisan.k-yogo.dev/
