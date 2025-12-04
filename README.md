@@ -6,10 +6,10 @@
 <!-- スクリーンショットがあれば追加 -->
 <img width="1400" alt="スクリーンショット" src="https://github.com/user-attachments/assets/c8a26e15-e05f-4f42-bcf1-cffb363dcc2d">
 
-# URL
+## URL
 https://parka-ojisan.k-yogo.dev/
 
-# 使用技術
+## 使用技術
 - PHP 8.4
 - Laravel 12
 - MySQL 8.0
@@ -18,14 +18,14 @@ https://parka-ojisan.k-yogo.dev/
 - OpenAI API (GPT-4o-mini)
 - Intervention Image (画像処理)
 
-# 開発環境
+## 開発環境
 - Docker / Docker Compose
 - Laravel Sail
 
-# 本番環境
+## 本番環境
 - スターレンタルサーバー
 
-# 機能一覧
+## 機能一覧
 - 画像投稿機能
   - ドラッグ&ドロップ対応
   - 画像プレビュー表示
@@ -40,13 +40,13 @@ https://parka-ojisan.k-yogo.dev/
 - ページネーション機能
 - レスポンシブデザイン (Tailwind CSS)
 
-# ローカル環境構築
+## ローカル環境構築
 
-## 必要なもの
+### 必要なもの
 - Docker Desktop
 - OpenAI API Key
 
-## セットアップ手順
+### セットアップ手順
 
 ```bash
 # リポジトリをクローン
@@ -80,17 +80,9 @@ cp .env.example .env
 ./vendor/bin/sail artisan storage:link
 ```
 
-## 開発サーバー起動
+### 開発サーバー起動
 
 ```bash
 ./vendor/bin/sail up -d
 ./vendor/bin/sail npm run dev
 ```
-
-<!-- アクセス: http://localhost -->
-
-<!-- # テスト
-
-```bash
-./vendor/bin/sail artisan test
-``` -->
