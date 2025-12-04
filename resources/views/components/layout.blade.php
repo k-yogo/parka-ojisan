@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="robots" content="noindex">
     <meta name="og:description" content="パーカーおじさんの画像掲示板。アップロード時にAIでパーカーおじさんかどうか判定します。">
     <meta name="og:url" content="{{ url('/') }}">
     <meta name="og:image" content="{{ asset('ogp.png') }}">
