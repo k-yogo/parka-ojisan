@@ -17,7 +17,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 
-<body class="flex flex-col min-h-dvh text-gray-950">
+<body class="flex flex-col min-h-dvh text-gray-950 bg-white">
     <header class="p-4 flex justify-between items-center sticky top-0 bg-white z-10 border-b border-gray-200">
         <h1><a href="{{ route('posts.index') }}" class="hover:opacity-70" aria-label="Home">パーカーおじさん</a></h1>
         <a href="{{ route('posts.create') }}" class="hover:opacity-70" aria-label="New Post" title="New Post">
