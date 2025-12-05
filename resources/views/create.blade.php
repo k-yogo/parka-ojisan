@@ -8,7 +8,7 @@
 
                 <div class="flex items-center justify-center w-full">
                     <label for="image" id="dropZone"
-                        class="flex flex-col items-center justify-center w-full h-64 bg-gray-50 border border-dashed border-gray-200 rounded-md cursor-pointer hover:bg-gray-100 relative">
+                        class="flex flex-col items-center justify-center w-full h-64 bg-gray-50 border border-dashed border-gray-200 rounded-md cursor-pointer hover:bg-gray-100 relative transition-colors">
                         <div id="dropZoneText"
                             class="flex flex-col items-center justify-center text-gray-600 pt-5 pb-6">
                             <svg class="w-8 h-8 mb-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -62,7 +62,7 @@
                 @enderror
             </div>
             <button type="submit" id="submit-btn"
-                class="my-2 px-4 py-2 bg-gray-900 hover:bg-gray-700 text-white rounded-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+                class="my-2 px-4 py-2 bg-gray-900 hover:bg-gray-700 text-white rounded-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
                 <span id="btn-text">Post</span>
             </button>
         </form>
