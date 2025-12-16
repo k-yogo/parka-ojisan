@@ -9,4 +9,5 @@
     --font-sans: "Noto Sans JP", "Instrument Sans", ui-sans-serif, system-ui,
         sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
         "Noto Color Emoji";
+    --max-width-create-container: calc(100vw - 2rem);
 }

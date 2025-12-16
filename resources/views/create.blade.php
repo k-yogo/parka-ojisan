@@ -1,6 +1,6 @@
 <x-layout>
-    <div class="w-full flex justify-center items-center flex-1">
-        <form action="{{ route('posts.store') }}" method="post" class="p-4 w-full flex flex-col gap-y-4"
+    <div class="w-full flex justify-center items-center flex-1 max-w-[var(--max-width-create-container)] mx-auto">
+        <form action="{{ route('posts.store') }}" method="post" class="py-4 w-full flex flex-col gap-y-4"
             enctype="multipart/form-data">
             @csrf
             <div class="flex flex-col gap-y-2">
@@ -8,7 +8,7 @@
 
                 <div class="flex items-center justify-center w-full">
                     <label for="image" id="dropZone"
-                        class="flex flex-col items-center justify-center w-full h-64 bg-gray-50 border border-dashed border-gray-200 rounded-md cursor-pointer hover:bg-gray-100 relative transition-colors">
+                        class="flex flex-col items-center justify-center w-full h-64 bg-gray-50 border border-dashed border-gray-200 rounded-md cursor-pointer hover:bg-gray-100 relative transition-colors p-2">
                         <div id="dropZoneText"
                             class="flex flex-col items-center justify-center text-gray-600 pt-5 pb-6">
                             <svg class="w-8 h-8 mb-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
