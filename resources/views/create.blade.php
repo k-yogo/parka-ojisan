@@ -8,9 +8,9 @@
 
                 <div class="flex items-center justify-center w-full">
                     <label for="image" id="dropZone"
-                        class="flex flex-col items-center justify-center w-full h-64 bg-gray-50 border border-dashed border-gray-200 rounded-md cursor-pointer hover:bg-gray-100 relative transition-colors p-2">
+                        class="flex flex-col items-center justify-center w-full h-64 bg-gray-50 border border-dashed border-gray-200 rounded-md cursor-pointer hover:bg-gray-100 relative transition-colors">
                         <div id="dropZoneText"
-                            class="flex flex-col items-center justify-center text-gray-600 pt-5 pb-6">
+                            class="flex flex-col items-center justify-center text-gray-600 pt-5 pb-6 px-2">
                             <svg class="w-8 h-8 mb-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 width="24" height="24" fill="none" viewBox="0 0 24 24">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
