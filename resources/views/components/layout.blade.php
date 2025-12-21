@@ -10,6 +10,8 @@
     <meta name="og:image" content="{{ asset('ogp.png') }}">
     <meta name="og:type" content="website">
     <meta name="og:title" content="パーカーおじさん">
+    <link rel="icon" href="{{ asset('favicon.ico') }}">
+    <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
     <title>パーカーおじさん</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
