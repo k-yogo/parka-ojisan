@@ -7,7 +7,7 @@
 <img width="1400" alt="スクリーンショット" src="https://github.com/user-attachments/assets/c8a26e15-e05f-4f42-bcf1-cffb363dcc2d">
 
 ## URL
-https://parka-ojisan.k-yogo.dev/
+https://parka-ojisan.yogo.dev/
 
 ## 使用技術
 - PHP 8.4
