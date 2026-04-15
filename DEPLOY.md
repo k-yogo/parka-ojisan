@@ -44,6 +44,18 @@
 
 ---
 
+## 注意事項
+
+- `storage/app/public/` にアップロード画像が保存されている。サーバー上のディレクトリを削除・再構築する際は**必ず事前にバックアップすること**。
+- `storage/` は git 管理外のため、`git pull` や再クローンでは復元できない。
+
+```bash
+# storage のバックアップ
+cp -r ~/yogo.dev/parka-ojisan/storage ~/yogo.dev/storage.backup
+```
+
+---
+
 ## 初回セットアップ（サーバー上）
 
 ```bash
