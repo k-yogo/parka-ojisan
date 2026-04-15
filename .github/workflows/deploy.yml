@@ -31,13 +31,14 @@ jobs:
       - name: Transfer build files
         run: |
           rsync -avz --delete \
-            -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.SERVER_PORT }}" \
+            -e "ssh -i ~/.ssh/deploy_key -p ${{ secrets.SERVER_PORT }} -o StrictHostKeyChecking=no" \
             public/build/ \
             ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:~/yogo.dev/parka-ojisan/public/build/
 
       - name: Deploy
         run: |
           ssh -i ~/.ssh/deploy_key -p ${{ secrets.SERVER_PORT }} \
+            -o StrictHostKeyChecking=no \
             ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} << 'EOF'
             set -e
             cd ~/yogo.dev/parka-ojisan
