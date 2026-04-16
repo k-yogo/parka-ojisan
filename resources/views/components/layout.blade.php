@@ -9,10 +9,10 @@
     <meta name="og:url" content="{{ url('/') }}">
     <meta name="og:image" content="{{ asset('ogp.png') }}">
     <meta name="og:type" content="website">
-    <meta name="og:title" content="パーカーおじさん">
+    <meta name="og:title" content="パーカーおじさん画像掲示板">
     <link rel="icon" href="{{ asset('favicon.ico') }}">
     <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
-    <title>パーカーおじさん</title>
+    <title>パーカーおじさん画像掲示板</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet">
@@ -21,7 +21,7 @@
 
 <body class="flex flex-col min-h-dvh text-gray-950 bg-white">
     <header class="p-4 flex justify-between items-center sticky top-0 bg-white z-10 border-b border-gray-200">
-        <h1><a href="{{ route('posts.index') }}" class="hover:opacity-70" aria-label="Home">パーカーおじさん</a></h1>
+        <h1><a href="{{ route('posts.index') }}" class="hover:opacity-70" aria-label="Home">パーカーおじさん画像掲示板</a></h1>
         <a href="{{ route('posts.create') }}" class="hover:opacity-70" aria-label="New Post" title="New Post">
             <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                 viewBox="0 0 24 24" id="new-post">
