@@ -1,9 +1,9 @@
 import Layout from "@/Layouts/Layout";
-import { PageProps, PaginatedData, Post } from "@/types";
+import { PaginatedData, Post } from "@/types";
 import { InfiniteScroll, usePage } from "@inertiajs/react";
 
 const Index = ({ posts }: { posts: PaginatedData<Post> }) => {
-    const { flash } = usePage<PageProps>().props;
+    const { flash } = usePage().props;
 
     return (
         <>
