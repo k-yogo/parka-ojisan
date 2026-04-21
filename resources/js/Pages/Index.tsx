@@ -1,7 +1,8 @@
+import Layout from "@/Layouts/Layout";
 import { PageProps, PaginatedData, Post } from "@/types";
-import { usePage } from "@inertiajs/react";
+import { InfiniteScroll, usePage } from "@inertiajs/react";
 
-export default function Index({ posts }: { posts: PaginatedData<Post> }) {
+const Index = ({ posts }: { posts: PaginatedData<Post> }) => {
     const { flash } = usePage<PageProps>().props;
 
     return (
@@ -11,7 +12,7 @@ export default function Index({ posts }: { posts: PaginatedData<Post> }) {
                     ✅ {flash.success}
                 </div>
             )}
-            <ul className="flex flex-col gap-y-4">
+            <InfiniteScroll data="posts" as="ul" className="flex flex-col gap-y-4" preserveUrl>
                 {posts.data.map((post) => (
                     <li key={post.id}>
                         <img
@@ -43,7 +44,11 @@ export default function Index({ posts }: { posts: PaginatedData<Post> }) {
                         </div>
                     </li>
                 ))}
-            </ul>
+            </InfiniteScroll>
         </>
     );
 }
+
+Index.layout = Layout
+
+export default Index
