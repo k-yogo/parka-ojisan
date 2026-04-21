@@ -6,12 +6,13 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
+use Inertia\Inertia;
 
 class PostController extends Controller {
     //
     public function index() {
         $posts = Post::latest()->paginate(10);
-        return view('index', compact('posts'));
+        return Inertia::render('Index', ['posts' => $posts]);
     }
 
     public function create() {
