@@ -11,8 +11,9 @@ use Inertia\Inertia;
 class PostController extends Controller {
     //
     public function index() {
-        $posts = Post::latest()->paginate(10);
-        return Inertia::render('Index', ['posts' => $posts]);
+        return Inertia::render('Index', [
+            'posts' => Inertia::scroll(fn () => Post::latest()->paginate(10)),
+        ]);
     }
 
     public function create() {
