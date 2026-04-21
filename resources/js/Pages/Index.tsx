@@ -1,9 +1,12 @@
+import CreatePostModal from "@/Components/CreatePostModal";
 import Layout from "@/Layouts/Layout";
 import { PaginatedData, Post } from "@/types";
 import { InfiniteScroll, usePage } from "@inertiajs/react";
+import { useState } from "react";
 
 const Index = ({ posts }: { posts: PaginatedData<Post> }) => {
     const { flash } = usePage().props;
+    const [showModal, setShowModal] = useState(false);
 
     return (
         <>
@@ -12,7 +15,12 @@ const Index = ({ posts }: { posts: PaginatedData<Post> }) => {
                     ✅ {flash.success}
                 </div>
             )}
-            <InfiniteScroll data="posts" as="ul" className="flex flex-col gap-y-4" preserveUrl>
+            <InfiniteScroll
+                data="posts"
+                as="ul"
+                className="flex flex-col gap-y-4"
+                preserveUrl
+            >
                 {posts.data.map((post) => (
                     <li key={post.id}>
                         <img
@@ -45,10 +53,24 @@ const Index = ({ posts }: { posts: PaginatedData<Post> }) => {
                     </li>
                 ))}
             </InfiniteScroll>
+
+            {/* フローティング投稿ボタン */}
+            <button
+                onClick={() => setShowModal(true)}
+                className="fixed bottom-6 right-6 w-14 h-14 bg-gray-900 hover:bg-gray-700 text-white rounded-full text-3xl shadow-lg cursor-pointer transition-colors flex items-center justify-center"
+                aria-label="New Post"
+            >
+                +
+            </button>
+
+            <CreatePostModal
+                show={showModal}
+                onClose={() => setShowModal(false)}
+            />
         </>
     );
-}
+};
 
-Index.layout = Layout
+Index.layout = Layout;
 
-export default Index
+export default Index;
