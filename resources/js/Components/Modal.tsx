@@ -1,10 +1,4 @@
-import {
-    Dialog,
-    DialogPanel,
-    Transition,
-    TransitionChild,
-} from "@headlessui/react";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useEffect } from "react";
 
 export default function Modal({
     children,
@@ -18,48 +12,24 @@ export default function Modal({
     closeable?: boolean;
     onClose: CallableFunction;
 }>) {
-    const close = () => {
-        if (closeable) {
-            onClose();
-        }
-    };
+    useEffect(() => {
+        document.body.style.overflow = show ? "hidden" : "";
+        return () => { document.body.style.overflow = ""; };
+    }, [show]);
+
+    if (!show) return null;
 
     return (
-        <Transition show={show} leave="duration-200">
-            <Dialog
-                as="div"
-                id="modal"
-                className="fixed inset-0 z-50 flex transform items-center overflow-y-auto px-4 py-6 transition-all sm:px-0"
-                onClose={close}
-            >
-                <TransitionChild
-                    enter="ease-out duration-300"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                    leave="ease-in duration-200"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                >
-                    <div className="absolute inset-0 z-0 bg-gray-500/75" />
-                </TransitionChild>
-
-                <TransitionChild
-                    enter="ease-out duration-300"
-                    enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                    enterTo="opacity-100 translate-y-0 sm:scale-100"
-                    leave="ease-in duration-200"
-                    leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-                    leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                >
-                    <div className="relative z-10 w-full">
-                        <DialogPanel
-                            className={`mb-6 transform overflow-hidden rounded-lg bg-white shadow-xl transition-all mx-auto w-full ${className}`}
-                        >
-                            {children}
-                        </DialogPanel>
-                    </div>
-                </TransitionChild>
-            </Dialog>
-        </Transition>
+        <div className="fixed inset-0 z-50 overflow-y-auto">
+            <div
+                className="fixed inset-0 bg-gray-500/75"
+                onClick={() => closeable && onClose()}
+            />
+            <div className="flex min-h-full items-center justify-center px-4 py-6">
+                <div className={`relative z-10 w-full ${className} rounded-lg bg-white shadow-xl`}>
+                    {children}
+                </div>
+            </div>
+        </div>
     );
 }

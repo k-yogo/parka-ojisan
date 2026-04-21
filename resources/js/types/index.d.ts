@@ -27,17 +27,18 @@ export interface User {
 }
 
 declare module '@inertiajs/core' {
+    interface InertiaConfig {
+        flashDataType: {
+            success?: string | null;
+        };
+    }
     interface SharedPageProps {
         auth: {
             user: User;
-        };
-        flash: {
-            success: string | null;
         };
     }
 }
 
 export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
     auth: { user: User };
-    flash: { success: string | null };
 };

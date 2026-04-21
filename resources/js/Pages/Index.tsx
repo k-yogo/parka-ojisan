@@ -5,7 +5,7 @@ import { InfiniteScroll, usePage } from "@inertiajs/react";
 import { useState } from "react";
 
 const Index = ({ posts }: { posts: PaginatedData<Post> }) => {
-    const { flash } = usePage().props;
+    const { flash } = usePage();
     const [showModal, setShowModal] = useState(false);
 
     return (

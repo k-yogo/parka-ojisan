@@ -97,6 +97,8 @@ class PostController extends Controller {
             ]);
         }
 
-        return redirect()->route('posts.index')->with('success', '投稿が完了しました！');
+        Inertia::flash('success', '投稿が完了しました！');
+
+        return redirect()->route('posts.index');
     }
 }
