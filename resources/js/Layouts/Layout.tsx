@@ -12,7 +12,7 @@ export default function Layout({ children }: PropsWithChildren) {
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
                 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap" rel="stylesheet" />
             </Head>
-            <body className="flex flex-col min-h-dvh text-gray-950 bg-white">
+            <div className="flex flex-col min-h-dvh text-gray-950 bg-white">
                 <header className="p-4 flex justify-between items-center sticky top-0 bg-white z-10 border-b border-gray-200">
                     <h1>
                         <Link href={route("posts.index")} className="hover:opacity-70" aria-label="Home">
@@ -40,7 +40,7 @@ export default function Layout({ children }: PropsWithChildren) {
                         <p>&copy; {new Date().getFullYear()} パーカーおじさん</p>
                     </div>
                 </footer>
-            </body>
+            </div>
         </>
     );
 }
