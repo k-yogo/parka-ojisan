@@ -27,7 +27,7 @@ export default function Layout({ children }: PropsWithChildren) {
                         </svg>
                     </Link>
                 </header>
-                <main className="w-full max-w-md mx-auto flex-1 flex flex-col">
+                <main className="w-full max-w-md mx-auto flex-1 flex flex-col pb-8">
                     {children}
                 </main>
                 <footer className="p-4 text-center text-sm text-gray-600 border-t border-gray-200 bg-white">
