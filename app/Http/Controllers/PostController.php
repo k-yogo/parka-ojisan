@@ -8,6 +8,7 @@ use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller {
     //
@@ -100,6 +101,19 @@ class PostController extends Controller {
         }
 
         Inertia::flash('success', '投稿が完了しました！');
+
+        return redirect()->route('posts.index');
+    }
+
+    public function destroy(Post $post) {
+        if (Auth::id() !== $post->user_id) {
+            abort(403);
+        }
+
+        Storage::disk('public')->delete($post->image);
+        $post->delete();
+
+        Inertia::flash('success', '投稿を削除しました！');
 
         return redirect()->route('posts.index');
     }

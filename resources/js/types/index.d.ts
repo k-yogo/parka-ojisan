@@ -9,6 +9,7 @@ export interface Post {
     text: string;
     created_at: string;
     updated_at: string;
+    user_id: number | null;
 }
 
 export interface PaginatedData<T> {

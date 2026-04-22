@@ -1,9 +1,9 @@
-import CreatePostModal from "@/Components/CreatePostModal";
-import Layout from "@/Layouts/Layout";
-import { PaginatedData, Post } from "@/types";
-import { InfiniteScroll, router, usePage } from "@inertiajs/react";
-import { Plus } from "lucide-react";
-import { useState } from "react";
+import CreatePostModal from '@/Components/CreatePostModal';
+import Layout from '@/Layouts/Layout';
+import { PaginatedData, Post } from '@/types';
+import { InfiniteScroll, router, usePage } from '@inertiajs/react';
+import { Plus } from 'lucide-react';
+import { useState } from 'react';
 
 const Index = ({ posts }: { posts: PaginatedData<Post> }) => {
     const { flash } = usePage();
@@ -44,18 +44,33 @@ const Index = ({ posts }: { posts: PaginatedData<Post> }) => {
                                         href={`mailto:${post.email}`}
                                         className="text-blue-500 underline hover:no-underline"
                                     >
-                                        {post.name ?? "no name"}
+                                        {post.name ?? 'no name'}
                                     </a>
                                 ) : (
-                                    <span>{post.name ?? "no name"}</span>
+                                    <span>{post.name ?? 'no name'}</span>
                                 )}
                                 <span className="text-sm text-gray-500">
                                     {new Date(
                                         post.created_at,
-                                    ).toLocaleDateString("ja-JP")}
+                                    ).toLocaleDateString('ja-JP')}
                                 </span>
                             </div>
                             <p>{post.text}</p>
+                            {auth.user?.id === post.user_id && (
+                                <button
+                                    onClick={() => {
+                                        if (
+                                            confirm('この投稿を削除しますか？')
+                                        ) {
+                                            router.delete(
+                                                route('posts.destroy', post.id),
+                                            );
+                                        }
+                                    }}
+                                >
+                                    削除
+                                </button>
+                            )}
                         </div>
                     </li>
                 ))}
@@ -67,7 +82,7 @@ const Index = ({ posts }: { posts: PaginatedData<Post> }) => {
                     if (auth.user) {
                         setShowModal(true);
                     } else {
-                        router.visit("/login");
+                        router.visit('/login');
                     }
                 }}
                 className="fixed bottom-6 right-6 w-14 h-14 bg-gray-900 hover:bg-gray-700 text-white rounded-full text-3xl shadow-lg cursor-pointer transition-colors flex items-center justify-center"
