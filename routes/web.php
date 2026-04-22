@@ -8,7 +8,7 @@ use Inertia\Inertia;
 
 Route::get('/', [PostController::class, 'index'])->name('posts.index');
 Route::get('/create', [PostController::class, 'create'])->name('posts.create');
-Route::post('/create/post', [PostController::class, 'store'])->name('posts.store');
+Route::post('/create/post', [PostController::class, 'store'])->middleware('auth')->name('posts.store');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -20,4 +20,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
