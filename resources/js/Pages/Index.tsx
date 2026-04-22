@@ -2,6 +2,7 @@ import CreatePostModal from "@/Components/CreatePostModal";
 import Layout from "@/Layouts/Layout";
 import { PaginatedData, Post } from "@/types";
 import { InfiniteScroll, usePage } from "@inertiajs/react";
+import { Plus } from "lucide-react";
 import { useState } from "react";
 
 const Index = ({ posts }: { posts: PaginatedData<Post> }) => {
@@ -60,7 +61,7 @@ const Index = ({ posts }: { posts: PaginatedData<Post> }) => {
                 className="fixed bottom-6 right-6 w-14 h-14 bg-gray-900 hover:bg-gray-700 text-white rounded-full text-3xl shadow-lg cursor-pointer transition-colors flex items-center justify-center"
                 aria-label="New Post"
             >
-                +
+                <Plus size={24} />
             </button>
 
             <CreatePostModal
