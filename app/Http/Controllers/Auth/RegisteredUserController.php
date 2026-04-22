@@ -14,13 +14,11 @@ use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class RegisteredUserController extends Controller
-{
+class RegisteredUserController extends Controller {
     /**
      * Display the registration view.
      */
-    public function create(): Response
-    {
+    public function create(): Response {
         return Inertia::render('Auth/Register');
     }
 
@@ -29,18 +27,19 @@ class RegisteredUserController extends Controller
      *
      * @throws ValidationException
      */
-    public function store(Request $request): RedirectResponse
-    {
+    public function store(Request $request): RedirectResponse {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
+            'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'user_id' => 'required|string|min:4|max:15|unique:users|regex:/^[a-zA-Z0-9_]+$/',
         ]);
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'user_id' => $request->user_id,
         ]);
 
         event(new Registered($user));

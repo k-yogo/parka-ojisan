@@ -12,6 +12,7 @@ export default function Register() {
         email: '',
         password: '',
         password_confirmation: '',
+        user_id: '',
     });
 
     const submit: FormEventHandler = (e) => {
@@ -42,6 +43,21 @@ export default function Register() {
                     />
 
                     <InputError message={errors.name} className="mt-2" />
+                </div>
+
+                <div className="mt-4">
+                    <InputLabel htmlFor="user_id" value="User ID" />
+
+                    <TextInput
+                        id="user_id"
+                        name="user_id"
+                        value={data.user_id}
+                        className="mt-1 block w-full"
+                        onChange={(e) => setData('user_id', e.target.value)}
+                        required
+                    />
+
+                    <InputError message={errors.user_id} className="mt-2" />
                 </div>
 
                 <div className="mt-4">
