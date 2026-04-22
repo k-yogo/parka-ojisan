@@ -7,12 +7,13 @@ use App\Models\Post;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller {
     //
     public function index() {
         return Inertia::render('Index', [
-            'posts' => Inertia::scroll(fn () => Post::latest()->paginate(10)),
+            'posts' => Inertia::scroll(fn() => Post::latest()->paginate(10)),
         ]);
     }
 
@@ -94,6 +95,7 @@ class PostController extends Controller {
                 'name' => $request->name,
                 'email' => $request->email,
                 'text' => $request->text,
+                'user_id' => Auth::id(),
             ]);
         }
 

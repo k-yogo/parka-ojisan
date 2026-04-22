@@ -18,5 +18,6 @@ class Post extends Model {
         'name',
         'email',
         'text',
+        'user_id',    // 追加
     ];
 }
