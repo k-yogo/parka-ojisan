@@ -32,7 +32,7 @@ class ProfileUpdateRequest extends FormRequest {
                 'regex:/^[a-zA-Z0-9_]+$/',
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
-            'icon' => ['nullable', 'image', 'max:2048'],
+            'icon' => ['nullable', 'image', 'max:4096'],
             'remove_icon' => ['nullable', 'boolean'],
         ];
     }

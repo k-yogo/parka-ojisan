@@ -34,7 +34,7 @@ class RegisteredUserController extends Controller {
             'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'user_id' => 'required|string|min:4|max:15|unique:users|regex:/^[a-zA-Z0-9_]+$/',
-            'icon' => 'nullable|image|max:2048',
+            'icon' => 'nullable|image|max:4096',
         ]);
 
         $iconPath = $request->hasFile('icon')
@@ -53,6 +53,6 @@ class RegisteredUserController extends Controller {
 
         Auth::login($user);
 
-        return redirect(route('dashboard'));
+        return redirect(route('posts.index'));
     }
 }
