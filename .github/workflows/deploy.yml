@@ -19,6 +19,8 @@ jobs:
           cache: 'npm'
 
       - name: Build assets
+        env:
+          VITE_APP_NAME: ${{ vars.VITE_APP_NAME }}
         run: npm ci && npm run build
 
       - name: Setup SSH key
