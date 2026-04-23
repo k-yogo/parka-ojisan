@@ -16,13 +16,6 @@ export default function Layout({ children }: PropsWithChildren) {
     return (
         <>
             <Head>
-                <meta
-                    name="og:description"
-                    content="パーカーおじさんの画像掲示板。アップロード時にAIでパーカーおじさんかどうか判定します。"
-                />
-                <meta name="og:type" content="website" />
-                <meta name="og:title" content="パーカーおじさん" />
-                <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link
                     rel="preconnect"
                     href="https://fonts.gstatic.com"
