@@ -44,9 +44,7 @@ class PostController extends Controller {
                     }
                 },
             ],
-            'name' => 'nullable|string|max:50',
-            'email' => 'nullable|email|max:100',
-            'text' => 'required|string|min:3|max:400',
+            'text' => 'required|string|min:2|max:400',
         ]);
 
         // 2. AI判定（保存する前に！）
@@ -93,8 +91,6 @@ class PostController extends Controller {
                 'width' => $width,
                 'height' => $height,
                 'file_size' => $fileSize,
-                'name' => $request->name,
-                'email' => $request->email,
                 'text' => $request->text,
                 'user_id' => Auth::id(),
             ]);

@@ -1,6 +1,6 @@
-import Modal from "@/Components/Modal";
-import { useForm } from "@inertiajs/react";
-import { DragEvent, useRef, useState } from "react";
+import Modal from '@/Components/Modal';
+import { useForm } from '@inertiajs/react';
+import { DragEvent, useRef, useState } from 'react';
 
 export default function CreatePostModal({
     show,
@@ -11,14 +11,10 @@ export default function CreatePostModal({
 }) {
     const { data, setData, post, processing, errors, reset } = useForm<{
         image: File | null;
-        name: string;
-        email: string;
         text: string;
     }>({
         image: null,
-        name: "",
-        email: "",
-        text: "",
+        text: '',
     });
 
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -26,16 +22,16 @@ export default function CreatePostModal({
     const [isDragging, setIsDragging] = useState(false);
 
     const handleFile = (file: File) => {
-        setData("image", file);
+        setData('image', file);
         const reader = new FileReader();
         reader.onload = (e) => setPreview(e.target?.result as string);
         reader.readAsDataURL(file);
     };
 
     const resetImage = () => {
-        setData("image", null);
+        setData('image', null);
         setPreview(null);
-        if (fileInputRef.current) fileInputRef.current.value = "";
+        if (fileInputRef.current) fileInputRef.current.value = '';
     };
 
     const handleDragOver = (e: DragEvent) => {
@@ -63,7 +59,7 @@ export default function CreatePostModal({
 
     const handleSubmit = (e: { preventDefault: () => void }) => {
         e.preventDefault();
-        post(route("posts.store"), {
+        post(route('posts.store'), {
             onSuccess: () => {
                 reset();
                 resetImage();
@@ -112,8 +108,8 @@ export default function CreatePostModal({
                                 <label
                                     className={`flex flex-col items-center justify-center w-full h-64 border border-dashed rounded-md cursor-pointer transition-colors ${
                                         isDragging
-                                            ? "bg-blue-50 border-blue-400"
-                                            : "bg-gray-50 border-gray-200 hover:bg-gray-100"
+                                            ? 'bg-blue-50 border-blue-400'
+                                            : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
                                     }`}
                                     onDragOver={handleDragOver}
                                     onDragLeave={handleDragLeave}
@@ -137,7 +133,7 @@ export default function CreatePostModal({
                                         <p className="mb-2 text-sm">
                                             <span className="font-semibold">
                                                 Click to upload
-                                            </span>{" "}
+                                            </span>{' '}
                                             or drag and drop
                                         </p>
                                         <p className="text-xs">
@@ -166,60 +162,6 @@ export default function CreatePostModal({
                             )}
                         </div>
 
-                        {/* Name */}
-                        <div className="flex flex-col gap-y-2">
-                            <label
-                                htmlFor="name"
-                                className="flex justify-between items-center text-sm"
-                            >
-                                <span>Name</span>
-                                <span className="text-xs text-gray-500">
-                                    Optional
-                                </span>
-                            </label>
-                            <input
-                                id="name"
-                                type="text"
-                                className="block w-full border-gray-200 border focus:border-blue-500 focus:ring-blue-500 p-2 rounded-md"
-                                value={data.name}
-                                onChange={(e) =>
-                                    setData("name", e.target.value)
-                                }
-                            />
-                            {errors.name && (
-                                <p className="text-sm text-red-500">
-                                    {errors.name}
-                                </p>
-                            )}
-                        </div>
-
-                        {/* Email */}
-                        <div className="flex flex-col gap-y-2">
-                            <label
-                                htmlFor="email"
-                                className="flex justify-between items-center text-sm"
-                            >
-                                <span>Email</span>
-                                <span className="text-xs text-gray-500">
-                                    Optional
-                                </span>
-                            </label>
-                            <input
-                                id="email"
-                                type="email"
-                                className="block w-full border-gray-200 border focus:border-blue-500 focus:ring-blue-500 p-2 rounded-md"
-                                value={data.email}
-                                onChange={(e) =>
-                                    setData("email", e.target.value)
-                                }
-                            />
-                            {errors.email && (
-                                <p className="text-sm text-red-500">
-                                    {errors.email}
-                                </p>
-                            )}
-                        </div>
-
                         {/* Text */}
                         <div className="flex flex-col gap-y-2">
                             <label htmlFor="text" className="text-sm">
@@ -231,7 +173,7 @@ export default function CreatePostModal({
                                 className="block w-full border-gray-200 border focus:border-blue-500 focus:ring-blue-500 p-2 rounded-md"
                                 value={data.text}
                                 onChange={(e) =>
-                                    setData("text", e.target.value)
+                                    setData('text', e.target.value)
                                 }
                             />
                             {errors.text && (
@@ -246,7 +188,7 @@ export default function CreatePostModal({
                             disabled={processing}
                             className="my-2 px-4 py-2 bg-gray-900 hover:bg-gray-700 text-white rounded-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                         >
-                            {processing ? "解析中..." : "Post"}
+                            {processing ? '解析中...' : 'Post'}
                         </button>
                     </form>
                 </div>
