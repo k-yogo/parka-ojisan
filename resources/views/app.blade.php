@@ -6,7 +6,7 @@
 
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
-        <meta property="og:description" content="パーカーおじさんの画像掲示板。アップロード時にAIでパーカーおじさんかどうか判定します。">
+        <meta property="og:description" content="パーカーおじさんの画像投稿SNS。アップロード時にAIでパーカーおじさんかどうか判定します。">
         <meta property="og:url" content="{{ url('/') }}">
         <meta property="og:image" content="{{ asset('ogp.png') }}">
         <meta property="og:type" content="website">
