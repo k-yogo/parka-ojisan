@@ -75,18 +75,22 @@ const Index = ({ posts }: { posts: PaginatedData<Post> }) => {
                                             <span className="text-sm text-gray-500">
                                                 @{post.user.user_id}
                                             </span>
-                                            <span className="text-sm text-gray-500 px-1">
-                                                ·
-                                            </span>
+                                            {auth.user?.id === post.user_id && (
+                                                <span className="text-sm text-gray-500 px-1">
+                                                    ·
+                                                </span>
+                                            )}
                                         </span>
                                     </div>
-                                    <span className="text-sm text-gray-500">
+                                    <span
+                                        className={`text-sm text-gray-500 ${auth.user?.id !== post.user_id ? 'ml-auto' : ''}`}
+                                    >
                                         {new Date(
                                             post.created_at,
                                         ).toLocaleDateString('ja-JP')}
                                     </span>
-                                    <div className="ml-auto">
-                                        {auth.user?.id === post.user_id && (
+                                    {auth.user?.id === post.user_id && (
+                                        <div className="ml-auto">
                                             <div className="relative">
                                                 <button
                                                     type="button"
@@ -132,8 +136,8 @@ const Index = ({ posts }: { posts: PaginatedData<Post> }) => {
                                                     </div>
                                                 )}
                                             </div>
-                                        )}
-                                    </div>
+                                        </div>
+                                    )}
                                 </div>
                                 <p>{post.text}</p>
                             </div>
