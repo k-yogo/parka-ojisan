@@ -53,7 +53,6 @@ class RegisteredUserController extends Controller {
 
         Auth::login($user);
 
-        Inertia::flash('success', '登録しました！');
-        return redirect(route('posts.index'));
+        return redirect(route('dashboard'));
     }
 }
