@@ -7,15 +7,13 @@ use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class ProfileUpdateRequest extends FormRequest
-{
+class ProfileUpdateRequest extends FormRequest {
     /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, ValidationRule|array<mixed>|string>
      */
-    public function rules(): array
-    {
+    public function rules(): array {
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => [
@@ -24,6 +22,14 @@ class ProfileUpdateRequest extends FormRequest
                 'lowercase',
                 'email',
                 'max:255',
+                Rule::unique(User::class)->ignore($this->user()->id),
+            ],
+            'user_id' => [
+                'required',
+                'string',
+                'min:4',
+                'max:15',
+                'regex:/^[a-zA-Z0-9_]+$/',
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
         ];

@@ -21,6 +21,7 @@ export default function UpdateProfileInformation({
         useForm({
             name: user.name,
             email: user.email,
+            user_id: user.user_id,
         });
 
     const submit: FormEventHandler = (e) => {
@@ -56,6 +57,20 @@ export default function UpdateProfileInformation({
                     />
 
                     <InputError className="mt-2" message={errors.name} />
+                </div>
+
+                <div>
+                    <InputLabel htmlFor="user_id" value="User ID" />
+
+                    <TextInput
+                        id="user_id"
+                        className="mt-1 block w-full"
+                        value={data.user_id}
+                        onChange={(e) => setData('user_id', e.target.value)}
+                        required
+                    />
+
+                    <InputError className="mt-2" message={errors.user_id} />
                 </div>
 
                 <div>
@@ -107,9 +122,7 @@ export default function UpdateProfileInformation({
                         leave="transition ease-in-out"
                         leaveTo="opacity-0"
                     >
-                        <p className="text-sm text-gray-600">
-                            Saved.
-                        </p>
+                        <p className="text-sm text-gray-600">Saved.</p>
                     </Transition>
                 </div>
             </form>

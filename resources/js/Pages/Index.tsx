@@ -3,12 +3,19 @@ import Layout from '@/Layouts/Layout';
 import { PaginatedData, Post } from '@/types';
 import { InfiniteScroll, router, usePage } from '@inertiajs/react';
 import { Plus } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const Index = ({ posts }: { posts: PaginatedData<Post> }) => {
     const { flash } = usePage();
     const { auth } = usePage().props;
     const [showModal, setShowModal] = useState(false);
+
+    useEffect(() => {
+        if (flash.success) {
+            const timer = setTimeout(() => router.flash(() => ({})), 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [flash.success]);
 
     return (
         <>
