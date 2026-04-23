@@ -1,6 +1,5 @@
 import { Head, Link, usePage, router } from '@inertiajs/react';
 import { PropsWithChildren, useState, useEffect } from 'react';
-import { UserRound } from 'lucide-react';
 
 export default function Layout({ children }: PropsWithChildren) {
     const { auth } = usePage().props;
@@ -61,12 +60,7 @@ export default function Layout({ children }: PropsWithChildren) {
                                     className="w-full h-full object-cover"
                                 />
                             ) : (
-                                <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                                    <UserRound
-                                        size={20}
-                                        className="text-gray-500"
-                                    />
-                                </div>
+                                <div className="w-full h-full bg-gray-200 flex items-center justify-center"></div>
                             )}
                         </button>
                         {menuOpen && (
