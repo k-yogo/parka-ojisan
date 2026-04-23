@@ -66,7 +66,7 @@ export default function UpdateProfileInformation({
                 </div>
 
                 <div>
-                    <InputLabel htmlFor="user_id" value="User ID" />
+                    <InputLabel htmlFor="user_id" value="ID" />
 
                     <TextInput
                         id="user_id"
@@ -119,10 +119,10 @@ export default function UpdateProfileInformation({
                 )}
 
                 <div>
-                    <InputLabel htmlFor="icon" value="Profile Image" />
+                    <InputLabel htmlFor="icon" value="Icon" />
 
                     {user.icon_path && !data.remove_icon && !preview && (
-                        <div className="mt-1 flex items-center gap-4">
+                        <div className="my-2 py-2 flex items-center gap-4">
                             <img
                                 src={`/storage/${user.icon_path}`}
                                 className="h-16 w-16 rounded-full object-cover"
@@ -138,7 +138,7 @@ export default function UpdateProfileInformation({
                     )}
 
                     {preview && (
-                        <div className="my-2 flex items-center gap-4">
+                        <div className="my-2 py-2 flex items-center gap-4">
                             <img
                                 src={preview}
                                 className="h-16 w-16 rounded-full object-cover"

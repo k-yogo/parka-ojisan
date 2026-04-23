@@ -50,7 +50,7 @@ export default function Register() {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel htmlFor="user_id" value="User ID" />
+                    <InputLabel htmlFor="user_id" value="ID" />
 
                     <TextInput
                         id="user_id"
@@ -124,7 +124,7 @@ export default function Register() {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel htmlFor="icon" value="Profile Image" />
+                    <InputLabel htmlFor="icon" value="Icon" />
 
                     {preview && (
                         <div className="my-2 flex items-center gap-4">
