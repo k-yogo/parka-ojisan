@@ -10,6 +10,7 @@ export interface Post {
     created_at: string;
     updated_at: string;
     user_id: number | null;
+    user: User;
 }
 
 export interface PaginatedData<T> {
@@ -42,6 +43,8 @@ declare module '@inertiajs/core' {
     }
 }
 
-export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
+export type PageProps<
+    T extends Record<string, unknown> = Record<string, unknown>,
+> = T & {
     auth: { user: User };
 };

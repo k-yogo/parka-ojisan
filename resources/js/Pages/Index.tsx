@@ -2,13 +2,14 @@ import CreatePostModal from '@/Components/CreatePostModal';
 import Layout from '@/Layouts/Layout';
 import { PaginatedData, Post } from '@/types';
 import { InfiniteScroll, router, usePage } from '@inertiajs/react';
-import { Plus } from 'lucide-react';
+import { Plus, Trash2, Ellipsis } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 const Index = ({ posts }: { posts: PaginatedData<Post> }) => {
     const { flash } = usePage();
     const { auth } = usePage().props;
     const [showModal, setShowModal] = useState(false);
+    const [openMenuId, setOpenMenuId] = useState<number | null>(null);
 
     useEffect(() => {
         if (flash.success) {
@@ -16,6 +17,14 @@ const Index = ({ posts }: { posts: PaginatedData<Post> }) => {
             return () => clearTimeout(timer);
         }
     }, [flash.success]);
+
+    useEffect(() => {
+        const handleClickOutside = () => setOpenMenuId(null);
+        if (openMenuId !== null) {
+            document.addEventListener('click', handleClickOutside);
+        }
+        return () => document.removeEventListener('click', handleClickOutside);
+    }, [openMenuId]);
 
     return (
         <>
@@ -36,7 +45,7 @@ const Index = ({ posts }: { posts: PaginatedData<Post> }) => {
                 }
             >
                 {posts.data.map((post) => (
-                    <li key={post.id}>
+                    <li key={post.id} className="flex flex-col gap-y-0">
                         <img
                             src={`/storage/${post.image}`}
                             alt=""
@@ -44,40 +53,90 @@ const Index = ({ posts }: { posts: PaginatedData<Post> }) => {
                             width={post.width}
                             height={post.height}
                         />
-                        <div className="p-4 sm:py-4 sm:px-2 flex flex-col gap-2">
-                            <div className="flex justify-between items-center">
-                                {post.email ? (
-                                    <a
-                                        href={`mailto:${post.email}`}
-                                        className="text-blue-500 underline hover:no-underline"
-                                    >
-                                        {post.name ?? 'no name'}
-                                    </a>
+                        <div className="p-4 sm:py-4 sm:px-2 flex gap-x-3 items-start">
+                            <div>
+                                {post.user.icon_path ? (
+                                    <img
+                                        src={`/storage/${post.user.icon_path}`}
+                                        alt=""
+                                        className="w-10 h-10 rounded-full object-cover"
+                                    />
                                 ) : (
-                                    <span>{post.name ?? 'no name'}</span>
+                                    <div className="w-10 h-10 rounded-full bg-gray-300" />
                                 )}
-                                <span className="text-sm text-gray-500">
-                                    {new Date(
-                                        post.created_at,
-                                    ).toLocaleDateString('ja-JP')}
-                                </span>
                             </div>
-                            <p>{post.text}</p>
-                            {auth.user?.id === post.user_id && (
-                                <button
-                                    onClick={() => {
-                                        if (
-                                            confirm('この投稿を削除しますか？')
-                                        ) {
-                                            router.delete(
-                                                route('posts.destroy', post.id),
-                                            );
-                                        }
-                                    }}
-                                >
-                                    削除
-                                </button>
-                            )}
+                            <div className="flex flex-col gap-2 flex-1">
+                                <div className="flex justify-between items-center">
+                                    <div className="flex items-center gap-x-1">
+                                        <span className="font-semibold text-[15px]">
+                                            {post.user.name}
+                                        </span>
+                                        <span>
+                                            <span className="text-sm text-gray-500">
+                                                @{post.user.user_id}
+                                            </span>
+                                            <span className="text-sm text-gray-500 px-1">
+                                                ·
+                                            </span>
+                                        </span>
+                                    </div>
+                                    <span className="text-sm text-gray-500">
+                                        {new Date(
+                                            post.created_at,
+                                        ).toLocaleDateString('ja-JP')}
+                                    </span>
+                                    <div className="ml-auto">
+                                        {auth.user.id === post.user_id && (
+                                            <div className="relative">
+                                                <button
+                                                    type="button"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        setOpenMenuId(
+                                                            openMenuId ===
+                                                                post.id
+                                                                ? null
+                                                                : post.id,
+                                                        );
+                                                    }}
+                                                    className="text-gray-400 hover:text-gray-600 text-xl cursor-pointer"
+                                                >
+                                                    <Ellipsis size={18} />
+                                                </button>
+                                                {openMenuId === post.id && (
+                                                    <div className="absolute right-0 bg-white shadow-md rounded-lg top-0">
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => {
+                                                                if (
+                                                                    confirm(
+                                                                        'Are you sure you want to delete this post?',
+                                                                    )
+                                                                ) {
+                                                                    router.delete(
+                                                                        route(
+                                                                            'posts.destroy',
+                                                                            post.id,
+                                                                        ),
+                                                                    );
+                                                                }
+                                                                setOpenMenuId(
+                                                                    null,
+                                                                );
+                                                            }}
+                                                            className="px-4 py-2 text-sm text-red-500 hover:bg-gray-100 w-full text-left cursor-pointer flex items-center gap-x-2"
+                                                        >
+                                                            <Trash2 size={16} />
+                                                            <span>Delete</span>
+                                                        </button>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                                <p>{post.text}</p>
+                            </div>
                         </div>
                     </li>
                 ))}
