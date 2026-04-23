@@ -6,12 +6,16 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver;
+use Inertia\Inertia;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller {
     //
     public function index() {
-        $posts = Post::latest()->paginate(10);
-        return view('index', compact('posts'));
+        return Inertia::render('Index', [
+            'posts' => Inertia::scroll(fn() => Post::latest()->with('user')->paginate(3)),
+        ]);
     }
 
     public function create() {
@@ -40,9 +44,7 @@ class PostController extends Controller {
                     }
                 },
             ],
-            'name' => 'nullable|string|max:50',
-            'email' => 'nullable|email|max:100',
-            'text' => 'required|string|min:3|max:400',
+            'text' => 'required|string|min:2|max:400',
         ]);
 
         // 2. AI判定（保存する前に！）
@@ -71,7 +73,7 @@ class PostController extends Controller {
             }
 
             // ファイル名を生成（ユニークな名前）※拡張子を .webp に変更
-            $filename = uniqid() . '.webp';
+            $filename = str()->random(40) . '.webp';
 
             // storage/app/public/images に WebP形式で保存
             $path = 'images/' . $filename;
@@ -89,12 +91,26 @@ class PostController extends Controller {
                 'width' => $width,
                 'height' => $height,
                 'file_size' => $fileSize,
-                'name' => $request->name,
-                'email' => $request->email,
                 'text' => $request->text,
+                'user_id' => Auth::id(),
             ]);
         }
 
-        return redirect()->route('posts.index')->with('success', '投稿が完了しました！');
+        Inertia::flash('success', '投稿が完了しました！');
+
+        return redirect()->route('posts.index');
+    }
+
+    public function destroy(Post $post) {
+        if (Auth::id() !== $post->user_id) {
+            abort(403);
+        }
+
+        Storage::disk('public')->delete($post->image);
+        $post->delete();
+
+        Inertia::flash('success', '投稿を削除しました！');
+
+        return redirect()->route('posts.index');
     }
 }

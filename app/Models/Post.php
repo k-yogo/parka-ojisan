@@ -18,5 +18,10 @@ class Post extends Model {
         'name',
         'email',
         'text',
+        'user_id',    // 追加
     ];
+
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo {
+        return $this->belongsTo(User::class);
+    }
 }

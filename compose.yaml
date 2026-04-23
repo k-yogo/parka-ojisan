@@ -22,35 +22,48 @@ services:
         networks:
             - sail
         depends_on:
-            - pgsql
-    pgsql:
-        image: 'postgres:18-alpine'
+            - mysql
+    mysql:
+        image: 'mysql/mysql-server:8.0'
+        platform: linux/amd64
         ports:
-            - '${FORWARD_DB_PORT:-5432}:5432'
+            - '${FORWARD_DB_PORT:-3306}:3306'
         environment:
-            PGPASSWORD: '${DB_PASSWORD:-secret}'
-            POSTGRES_DB: '${DB_DATABASE}'
-            POSTGRES_USER: '${DB_USERNAME}'
-            POSTGRES_PASSWORD: '${DB_PASSWORD:-secret}'
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD:-secret}'
+            MYSQL_ROOT_HOST: '%'
+            MYSQL_DATABASE: '${DB_DATABASE}'
+            MYSQL_USER: '${DB_USERNAME}'
+            MYSQL_PASSWORD: '${DB_PASSWORD:-secret}'
+            MYSQL_ALLOW_EMPTY_PASSWORD: 1
         volumes:
-            - 'sail-pgsql:/var/lib/postgresql/data'
-            - './vendor/laravel/sail/database/pgsql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql'
+            - 'sail-mysql:/var/lib/mysql'
+            - './vendor/laravel/sail/database/mysql/create-testing-database.sql:/docker-entrypoint-initdb.d/10-create-testing-database.sql'
         networks:
             - sail
         healthcheck:
             test:
                 - CMD
-                - pg_isready
-                - '-q'
-                - '-d'
-                - '${DB_DATABASE}'
-                - '-U'
-                - '${DB_USERNAME}'
+                - mysqladmin
+                - ping
+                - '-p${DB_PASSWORD}'
             retries: 3
             timeout: 5s
+    phpmyadmin:
+        image: 'phpmyadmin/phpmyadmin'
+        platform: linux/amd64
+        ports:
+            - '${FORWARD_PHPMYADMIN_PORT:-8080}:80'
+        environment:
+            PMA_HOST: mysql
+            PMA_USER: '${DB_USERNAME}'
+            PMA_PASSWORD: '${DB_PASSWORD:-secret}'
+        networks:
+            - sail
+        depends_on:
+            - mysql
 networks:
     sail:
         driver: bridge
 volumes:
-    sail-pgsql:
+    sail-mysql:
         driver: local
