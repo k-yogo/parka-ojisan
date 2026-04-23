@@ -62,7 +62,7 @@ const Index = ({ posts }: { posts: PaginatedData<Post> }) => {
                                         className="w-10 h-10 rounded-full object-cover"
                                     />
                                 ) : (
-                                    <div className="w-10 h-10 rounded-full bg-gray-300" />
+                                    <div className="w-10 h-10 rounded-full bg-gray-200" />
                                 )}
                             </div>
                             <div className="flex flex-col gap-2 flex-1">
