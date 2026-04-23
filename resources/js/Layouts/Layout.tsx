@@ -44,7 +44,7 @@ export default function Layout({ children }: PropsWithChildren) {
                             パーカーおじさん
                         </Link>
                     </h1>
-                    <div className="relative">
+                    <div className="relative leading-0">
                         <button
                             type="button"
                             onClick={(e) => {
@@ -64,7 +64,7 @@ export default function Layout({ children }: PropsWithChildren) {
                             )}
                         </button>
                         {menuOpen && (
-                            <div className="absolute right-0 mt-0 w-44 bg-white shadow-lg rounded-lg border border-gray-100 overflow-hidden">
+                            <div className="absolute right-0 mt-1 w-44 bg-white shadow-lg rounded-lg border border-gray-100 overflow-hidden">
                                 {auth.user ? (
                                     <>
                                         <Link
