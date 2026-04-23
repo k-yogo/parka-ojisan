@@ -75,7 +75,7 @@ class PostController extends Controller {
             }
 
             // ファイル名を生成（ユニークな名前）※拡張子を .webp に変更
-            $filename = uniqid() . '.webp';
+            $filename = str()->random(40) . '.webp';
 
             // storage/app/public/images に WebP形式で保存
             $path = 'images/' . $filename;

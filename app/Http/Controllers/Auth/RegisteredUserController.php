@@ -13,6 +13,7 @@ use Illuminate\Validation\Rules;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 use Inertia\Response;
+use App\Services\IconImageService;
 
 class RegisteredUserController extends Controller {
     /**
@@ -33,19 +34,26 @@ class RegisteredUserController extends Controller {
             'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
             'user_id' => 'required|string|min:4|max:15|unique:users|regex:/^[a-zA-Z0-9_]+$/',
+            'icon' => 'nullable|image|max:2048',
         ]);
+
+        $iconPath = $request->hasFile('icon')
+            ? (new IconImageService())->store($request->file('icon'))
+            : null;
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'user_id' => $request->user_id,
+            'icon_path' => $iconPath,
         ]);
 
         event(new Registered($user));
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        Inertia::flash('success', '登録しました！');
+        return redirect(route('posts.index'));
     }
 }

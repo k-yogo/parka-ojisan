@@ -4,7 +4,7 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
-import { FormEventHandler } from 'react';
+import { FormEventHandler, useState, useRef } from 'react';
 
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -13,7 +13,11 @@ export default function Register() {
         password: '',
         password_confirmation: '',
         user_id: '',
+        icon: null as File | null,
     });
+
+    const [preview, setPreview] = useState<string | null>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
@@ -117,6 +121,46 @@ export default function Register() {
                         message={errors.password_confirmation}
                         className="mt-2"
                     />
+                </div>
+
+                <div className="mt-4">
+                    <InputLabel htmlFor="icon" value="Profile Image" />
+
+                    {preview && (
+                        <div className="my-2 flex items-center gap-4">
+                            <img
+                                src={preview}
+                                className="h-16 w-16 rounded-full object-cover"
+                            />
+                            <button
+                                type="button"
+                                className="text-sm text-red-600 hover:underline"
+                                onClick={() => {
+                                    setPreview(null);
+                                    setData('icon', null);
+                                    if (fileInputRef.current)
+                                        fileInputRef.current.value = '';
+                                }}
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    )}
+
+                    <input
+                        id="icon"
+                        type="file"
+                        accept="image/*"
+                        className="mt-1 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-gray-800 file:text-white file:text-sm file:cursor-pointer"
+                        onChange={(e) => {
+                            const file = e.target.files?.[0] ?? null;
+                            setData('icon', file);
+                            setPreview(file ? URL.createObjectURL(file) : null);
+                        }}
+                        ref={fileInputRef}
+                    />
+
+                    <InputError message={errors.icon} className="mt-2" />
                 </div>
 
                 <div className="mt-4 flex items-center justify-end">

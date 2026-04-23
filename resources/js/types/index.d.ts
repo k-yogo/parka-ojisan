@@ -26,6 +26,7 @@ export interface User {
     email: string;
     email_verified_at?: string;
     user_id: string;
+    icon_path: string | null;
 }
 
 declare module '@inertiajs/core' {

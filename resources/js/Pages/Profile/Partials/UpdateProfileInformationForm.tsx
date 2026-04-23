@@ -4,7 +4,7 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Transition } from '@headlessui/react';
 import { Link, useForm, usePage } from '@inertiajs/react';
-import { FormEventHandler } from 'react';
+import { FormEventHandler, useState, useRef } from 'react';
 
 export default function UpdateProfileInformation({
     mustVerifyEmail,
@@ -17,17 +17,23 @@ export default function UpdateProfileInformation({
 }) {
     const user = usePage().props.auth.user;
 
-    const { data, setData, patch, errors, processing, recentlySuccessful } =
+    const { data, setData, post, errors, processing, recentlySuccessful } =
         useForm({
             name: user.name,
             email: user.email,
             user_id: user.user_id,
+            icon: null as File | null,
+            _method: 'patch',
+            remove_icon: false,
         });
+
+    const [preview, setPreview] = useState<string | null>(null);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        patch(route('profile.update'));
+        post(route('profile.update'));
     };
 
     return (
@@ -111,6 +117,63 @@ export default function UpdateProfileInformation({
                         )}
                     </div>
                 )}
+
+                <div>
+                    <InputLabel htmlFor="icon" value="Profile Image" />
+
+                    {user.icon_path && !data.remove_icon && !preview && (
+                        <div className="mt-1 flex items-center gap-4">
+                            <img
+                                src={`/storage/${user.icon_path}`}
+                                className="h-16 w-16 rounded-full object-cover"
+                            />
+                            <button
+                                type="button"
+                                className="text-sm text-red-600 hover:underline"
+                                onClick={() => setData('remove_icon', true)}
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    )}
+
+                    {preview && (
+                        <div className="my-2 flex items-center gap-4">
+                            <img
+                                src={preview}
+                                className="h-16 w-16 rounded-full object-cover"
+                            />
+                            <button
+                                type="button"
+                                className="text-sm text-red-600 hover:underline"
+                                onClick={() => {
+                                    setPreview(null);
+                                    setData('icon', null);
+                                    if (fileInputRef.current)
+                                        fileInputRef.current.value = '';
+                                }}
+                            >
+                                Delete
+                            </button>
+                        </div>
+                    )}
+
+                    <input
+                        id="icon"
+                        type="file"
+                        accept="image/*"
+                        className="my-2 block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-gray-800 file:text-white file:text-sm file:cursor-pointer"
+                        ref={fileInputRef}
+                        onChange={(e) => {
+                            const file = e.target.files?.[0] ?? null;
+                            setData('icon', file);
+                            setData('remove_icon', false);
+                            setPreview(file ? URL.createObjectURL(file) : null);
+                        }}
+                    />
+
+                    <InputError className="mt-2" message={errors.icon} />
+                </div>
 
                 <div className="flex items-center gap-4">
                     <PrimaryButton disabled={processing}>Save</PrimaryButton>

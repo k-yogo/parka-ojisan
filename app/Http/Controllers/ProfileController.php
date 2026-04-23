@@ -10,14 +10,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Facades\Storage;
+use App\Services\IconImageService;
 
-class ProfileController extends Controller
-{
+class ProfileController extends Controller {
     /**
      * Display the user's profile form.
      */
-    public function edit(Request $request): Response
-    {
+    public function edit(Request $request): Response {
         return Inertia::render('Profile/Edit', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
@@ -27,8 +27,17 @@ class ProfileController extends Controller
     /**
      * Update the user's profile information.
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
-    {
+    public function update(ProfileUpdateRequest $request): RedirectResponse {
+        if ($request->hasFile('icon')) {
+            if ($request->user()->icon_path) {
+                Storage::disk('public')->delete($request->user()->icon_path);
+            }
+            $request->user()->icon_path = (new IconImageService())->store($request->file('icon'));
+        } elseif ($request->boolean('remove_icon') && $request->user()->icon_path) {
+            Storage::disk('public')->delete($request->user()->icon_path);
+            $request->user()->icon_path = null;
+        }
+
         $request->user()->fill($request->validated());
 
         if ($request->user()->isDirty('email')) {
@@ -43,13 +52,16 @@ class ProfileController extends Controller
     /**
      * Delete the user's account.
      */
-    public function destroy(Request $request): RedirectResponse
-    {
+    public function destroy(Request $request): RedirectResponse {
         $request->validate([
             'password' => ['required', 'current_password'],
         ]);
 
         $user = $request->user();
+
+        if ($user->icon_path) {
+            Storage::disk('public')->delete($user->icon_path);
+        }
 
         Auth::logout();
 
@@ -58,6 +70,7 @@ class ProfileController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return Redirect::to('/');
+        Inertia::flash('success', '削除しました！');
+        return redirect(route('posts.index'));
     }
 }
