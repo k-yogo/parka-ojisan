@@ -1,8 +1,18 @@
-import { Head, Link, usePage, router } from "@inertiajs/react";
-import { PropsWithChildren } from "react";
+import { Head, Link, usePage, router } from '@inertiajs/react';
+import { PropsWithChildren, useState, useEffect } from 'react';
+import { UserRound } from 'lucide-react';
 
 export default function Layout({ children }: PropsWithChildren) {
     const { auth } = usePage().props;
+    const [menuOpen, setMenuOpen] = useState(false);
+
+    useEffect(() => {
+        const handleClickOutside = () => setMenuOpen(false);
+        if (menuOpen) {
+            document.addEventListener('click', handleClickOutside);
+        }
+        return () => document.removeEventListener('click', handleClickOutside);
+    }, [menuOpen]);
 
     return (
         <>
@@ -28,23 +38,76 @@ export default function Layout({ children }: PropsWithChildren) {
                 <header className="p-4 flex justify-between items-center sticky top-0 bg-white z-10 border-b border-gray-200">
                     <h1>
                         <Link
-                            href={route("posts.index")}
-                            className="hover:opacity-70"
+                            href={route('posts.index')}
+                            className="hover:opacity-70 transition-opacity"
                             aria-label="Home"
                         >
                             パーカーおじさん
                         </Link>
                     </h1>
-                    {auth.user ? (
-                        <button onClick={() => router.post(route("logout"))}>
-                            ログアウト
+                    <div className="relative">
+                        <button
+                            type="button"
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                setMenuOpen(!menuOpen);
+                            }}
+                            className="w-10 h-10 rounded-full overflow-hidden cursor-pointer hover:opacity-80 transition-opacity"
+                        >
+                            {auth.user?.icon_path ? (
+                                <img
+                                    src={`/storage/${auth.user.icon_path}`}
+                                    alt=""
+                                    className="w-full h-full object-cover"
+                                />
+                            ) : (
+                                <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+                                    <UserRound
+                                        size={20}
+                                        className="text-gray-500"
+                                    />
+                                </div>
+                            )}
                         </button>
-                    ) : (
-                        <>
-                            <Link href={route("login")}>ログイン</Link>
-                            <Link href={route("register")}>新規登録</Link>
-                        </>
-                    )}
+                        {menuOpen && (
+                            <div className="absolute right-0 mt-0 w-44 bg-white shadow-lg rounded-lg border border-gray-100 overflow-hidden">
+                                {auth.user ? (
+                                    <>
+                                        <Link
+                                            href={route('profile.edit')}
+                                            className="block px-4 py-3 text-sm hover:bg-gray-50"
+                                        >
+                                            Profile
+                                        </Link>
+                                        <button
+                                            type="button"
+                                            onClick={() =>
+                                                router.post(route('logout'))
+                                            }
+                                            className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-50 cursor-pointer"
+                                        >
+                                            Logout
+                                        </button>
+                                    </>
+                                ) : (
+                                    <>
+                                        <Link
+                                            href={route('login')}
+                                            className="block px-4 py-3 text-sm hover:bg-gray-50"
+                                        >
+                                            Login
+                                        </Link>
+                                        <Link
+                                            href={route('register')}
+                                            className="block px-4 py-3 text-sm hover:bg-gray-50"
+                                        >
+                                            Register
+                                        </Link>
+                                    </>
+                                )}
+                            </div>
+                        )}
+                    </div>
                 </header>
                 <main className="w-full max-w-md mx-auto flex-1 flex flex-col pb-8">
                     {children}

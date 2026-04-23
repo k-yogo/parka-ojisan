@@ -86,7 +86,7 @@ const Index = ({ posts }: { posts: PaginatedData<Post> }) => {
                                         ).toLocaleDateString('ja-JP')}
                                     </span>
                                     <div className="ml-auto">
-                                        {auth.user.id === post.user_id && (
+                                        {auth.user?.id === post.user_id && (
                                             <div className="relative">
                                                 <button
                                                     type="button"
