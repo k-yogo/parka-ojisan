@@ -91,6 +91,12 @@ export default function Login({
                 </div>
 
                 <div className="mt-4 flex items-center justify-end">
+                    <Link
+                        href={route('register')}
+                        className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 mr-auto"
+                    >
+                        Register
+                    </Link>
                     {canResetPassword && (
                         <Link
                             href={route('password.request')}
