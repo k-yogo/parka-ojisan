@@ -108,7 +108,7 @@ const Index = ({ posts }: { posts: PaginatedData<Post> }) => {
                                                     <Ellipsis size={18} />
                                                 </button>
                                                 {openMenuId === post.id && (
-                                                    <div className="absolute right-0 bg-white shadow-md rounded-lg top-0">
+                                                    <div className="absolute right-0 bg-white shadow-md rounded-lg top-1">
                                                         <button
                                                             type="button"
                                                             onClick={() => {
