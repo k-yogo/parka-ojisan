@@ -14,7 +14,7 @@
             $ogDescription = 'パーカーおじさんの画像投稿SNS。アップロード時にAIでパーカーおじさんかどうか判定します。';
 
             if ($component === 'Post/Show') {
-                $ogTitle = $props['post']['user']['name'] . '（@' . $props['post']['user']['user_id'] . '）' . 'さん';
+                $ogTitle = $props['post']['user']['name'] . '（@' . $props['post']['user']['user_id'] . '）' . 'さん - パーカーおじさん';
                 $ogImage = asset('storage/' . $props['post']['image']);
                 $ogDescription = $props['post']['text'];
             } elseif ($component === 'User/Show') {
