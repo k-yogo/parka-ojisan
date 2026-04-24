@@ -139,7 +139,7 @@ const Index = ({ posts }: { posts: PaginatedData<Post> }) => {
                                         </div>
                                     )}
                                 </div>
-                                <p>{post.text}</p>
+                                <p className="whitespace-pre-wrap">{post.text}</p>
                             </div>
                         </div>
                     </li>
