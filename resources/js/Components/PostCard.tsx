@@ -50,6 +50,11 @@ export default function PostCard({ post }: { post: Post }) {
                                 @{post.user.user_id}
                             </span>
                         </Link>
+                        {auth.user?.id === post.user_id && (
+                            <span className="text-sm text-gray-500 px-1">
+                                ·
+                            </span>
+                        )}
                         <span
                             className={`text-sm text-gray-500 ${auth.user?.id !== post.user_id ? 'ml-auto' : ''}`}
                         >
@@ -92,7 +97,7 @@ export default function PostCard({ post }: { post: Post }) {
                                                 className="px-4 py-2 text-sm text-red-500 hover:bg-gray-100 w-full text-left cursor-pointer flex items-center gap-x-2"
                                             >
                                                 <Trash2 size={16} />
-                                                <span>Delete</span>
+                                                <span className="whitespace-nowrap">削除</span>
                                             </button>
                                         </div>
                                     )}
