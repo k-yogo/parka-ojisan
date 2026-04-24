@@ -62,7 +62,7 @@ export default function Layout({ children }: PropsWithChildren) {
                                             }
                                             className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-50 cursor-pointer"
                                         >
-                                            Logout
+                                            Log Out
                                         </button>
                                     </>
                                 ) : (
@@ -71,7 +71,7 @@ export default function Layout({ children }: PropsWithChildren) {
                                             href={route('login')}
                                             className="block px-4 py-3 text-sm hover:bg-gray-50"
                                         >
-                                            Login
+                                            Log In
                                         </Link>
                                         <Link
                                             href={route('register')}
