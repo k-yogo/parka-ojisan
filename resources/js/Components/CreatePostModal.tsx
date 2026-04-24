@@ -1,5 +1,5 @@
 import Modal from '@/Components/Modal';
-import { useForm } from '@inertiajs/react';
+import { router, useForm } from '@inertiajs/react';
 import { DragEvent, useEffect, useRef, useState } from 'react';
 
 export default function CreatePostModal({
@@ -74,6 +74,13 @@ export default function CreatePostModal({
                 reset();
                 resetImage();
                 onClose();
+            },
+            onError: () => {
+                router.visit(window.location.href, {
+                    reset: ['posts'],
+                    preserveState: true,
+                    preserveScroll: true,
+                });
             },
         });
     };
