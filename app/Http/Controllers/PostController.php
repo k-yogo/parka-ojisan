@@ -113,4 +113,10 @@ class PostController extends Controller {
 
         return redirect()->route('posts.index');
     }
+
+    public function show(string $username, Post $post) {
+        return Inertia::render('Post/Show', [
+            'post' => $post->load('user'),
+        ]);
+    }
 }

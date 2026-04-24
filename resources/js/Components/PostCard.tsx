@@ -1,6 +1,6 @@
 import { Post } from '@/types';
 import { Link, router, usePage } from '@inertiajs/react';
-import { Ellipsis, Trash2 } from 'lucide-react';
+import { Ellipsis, Link2, Trash2 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 export default function PostCard({ post }: { post: Post }) {
@@ -50,33 +50,46 @@ export default function PostCard({ post }: { post: Post }) {
                                 @{post.user.user_id}
                             </span>
                         </Link>
-                        {auth.user?.id === post.user_id && (
-                            <span className="text-sm text-gray-500 px-1">
-                                ·
-                            </span>
-                        )}
-                        <span
-                            className={`text-sm text-gray-500 ${auth.user?.id !== post.user_id ? 'ml-auto' : ''}`}
+                        <span className="text-sm text-gray-500 px-1">·</span>
+                        <Link
+                            href={`/${post.user.user_id}/status/${post.id}`}
+                            className={`text-sm text-gray-500`}
                         >
                             {new Date(post.created_at).toLocaleDateString(
                                 'ja-JP',
                             )}
-                        </span>
-                        {auth.user?.id === post.user_id && (
-                            <div className="ml-auto">
-                                <div className="relative">
-                                    <button
-                                        type="button"
-                                        onClick={(e) => {
-                                            e.stopPropagation();
-                                            setMenuOpen(!menuOpen);
-                                        }}
-                                        className="text-gray-400 hover:text-gray-600 text-xl cursor-pointer"
-                                    >
-                                        <Ellipsis size={18} />
-                                    </button>
-                                    {menuOpen && (
-                                        <div className="absolute right-0 bg-white shadow-md rounded-lg top-0 overflow-hidden">
+                        </Link>
+
+                        <div className="ml-auto">
+                            <div className="relative">
+                                <button
+                                    type="button"
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        setMenuOpen(!menuOpen);
+                                    }}
+                                    className="text-gray-400 hover:text-gray-600 text-xl cursor-pointer"
+                                >
+                                    <Ellipsis size={18} />
+                                </button>
+                                {menuOpen && (
+                                    <div className="absolute -right-1 bg-white shadow-md rounded-lg top-0 overflow-hidden">
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                navigator.clipboard.writeText(
+                                                    `${window.location.origin}/${post.user.user_id}/status/${post.id}`,
+                                                );
+                                                setMenuOpen(false);
+                                            }}
+                                            className="px-4 py-2 text-sm hover:bg-gray-100 w-full text-left cursor-pointer flex items-center gap-x-2"
+                                        >
+                                            <Link2 size={16} />
+                                            <span className="whitespace-nowrap">
+                                                リンクをコピー
+                                            </span>
+                                        </button>
+                                        {auth.user?.id === post.user_id && (
                                             <button
                                                 type="button"
                                                 onClick={() => {
@@ -97,13 +110,15 @@ export default function PostCard({ post }: { post: Post }) {
                                                 className="px-4 py-2 text-sm text-red-500 hover:bg-gray-100 w-full text-left cursor-pointer flex items-center gap-x-2"
                                             >
                                                 <Trash2 size={16} />
-                                                <span className="whitespace-nowrap">削除</span>
+                                                <span className="whitespace-nowrap">
+                                                    削除
+                                                </span>
                                             </button>
-                                        </div>
-                                    )}
-                                </div>
+                                        )}
+                                    </div>
+                                )}
                             </div>
-                        )}
+                        </div>
                     </div>
                     <p className="whitespace-pre-wrap">{post.text}</p>
                 </div>
