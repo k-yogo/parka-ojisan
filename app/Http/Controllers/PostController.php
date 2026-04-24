@@ -96,7 +96,7 @@ class PostController extends Controller {
             ]);
         }
 
-        Inertia::flash('success', '投稿が完了しました！');
+        Inertia::flash('success', '投稿が完了しました');
 
         return redirect()->route('posts.index');
     }
@@ -109,7 +109,7 @@ class PostController extends Controller {
         Storage::disk('public')->delete($post->image);
         $post->delete();
 
-        Inertia::flash('success', '投稿を削除しました！');
+        Inertia::flash('success', '投稿を削除しました');
 
         return redirect()->route('posts.index');
     }

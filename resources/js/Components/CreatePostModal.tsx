@@ -1,6 +1,6 @@
 import Modal from '@/Components/Modal';
 import { useForm } from '@inertiajs/react';
-import { DragEvent, useRef, useState } from 'react';
+import { DragEvent, useEffect, useRef, useState } from 'react';
 
 export default function CreatePostModal({
     show,
@@ -20,6 +20,16 @@ export default function CreatePostModal({
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [preview, setPreview] = useState<string | null>(null);
     const [isDragging, setIsDragging] = useState(false);
+
+    const [dots, setDots] = useState('');
+
+    useEffect(() => {
+        if (!processing) return;
+        const timer = setInterval(() => {
+            setDots((prev) => (prev.length >= 3 ? '' : prev + '.'));
+        }, 500);
+        return () => clearInterval(timer);
+    }, [processing]);
 
     const handleFile = (file: File) => {
         setData('image', file);
@@ -188,7 +198,16 @@ export default function CreatePostModal({
                             disabled={processing}
                             className="my-2 px-4 py-2 bg-gray-900 hover:bg-gray-700 text-white rounded-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                         >
-                            {processing ? '解析中...' : 'Post'}
+                            {processing ? (
+                                <>
+                                    解析中
+                                    <span className="inline-block w-6 text-left">
+                                        {dots}
+                                    </span>
+                                </>
+                            ) : (
+                                'Post'
+                            )}
                         </button>
                     </form>
                 </div>

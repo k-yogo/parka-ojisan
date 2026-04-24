@@ -13,7 +13,7 @@ const Index = ({ posts }: { posts: PaginatedData<Post> }) => {
 
     useEffect(() => {
         if (flash.success) {
-            const timer = setTimeout(() => router.flash(() => ({})), 3000);
+            const timer = setTimeout(() => router.flash(() => ({})), 3550);
             return () => clearTimeout(timer);
         }
     }, [flash.success]);
@@ -29,10 +29,17 @@ const Index = ({ posts }: { posts: PaginatedData<Post> }) => {
     return (
         <>
             {flash.success && (
-                <div className="fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50">
-                    ✅ {flash.success}
+                <div
+                    className="fixed top-2 right-4 bg-gray-900 text-white px-6 py-3 rounded-lg shadow-lg z-50"
+                    style={{
+                        animation:
+                            'flash-notification 3.5s ease-in-out 0.05s both',
+                    }}
+                >
+                    {flash.success}
                 </div>
             )}
+
             <InfiniteScroll
                 data="posts"
                 as="ul"
@@ -114,7 +121,7 @@ const Index = ({ posts }: { posts: PaginatedData<Post> }) => {
                                                             onClick={() => {
                                                                 if (
                                                                     confirm(
-                                                                        'Are you sure you want to delete this post?',
+                                                                        'この投稿を削除しますか？',
                                                                     )
                                                                 ) {
                                                                     router.delete(
@@ -139,7 +146,9 @@ const Index = ({ posts }: { posts: PaginatedData<Post> }) => {
                                         </div>
                                     )}
                                 </div>
-                                <p className="whitespace-pre-wrap">{post.text}</p>
+                                <p className="whitespace-pre-wrap">
+                                    {post.text}
+                                </p>
                             </div>
                         </div>
                     </li>
