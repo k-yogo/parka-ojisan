@@ -53,8 +53,10 @@ export default function Layout({ children }: PropsWithChildren) {
                                 e.stopPropagation();
                                 setMenuOpen(!menuOpen);
                             }}
-                            className="w-10 h-10 rounded-full overflow-hidden cursor-pointer hover:opacity-80 transition-opacity"
+                            className="w-10 h-10 rounded-full overflow-hidden cursor-pointer relative group"
                         >
+                            <div className="absolute w-full h-full top-0 left-0 group-hover:bg-[rgba(26,26,26,0.15)] rounded-full duration-200"></div>
+
                             {auth.user?.icon_path ? (
                                 <img
                                     src={`/storage/${auth.user.icon_path}`}

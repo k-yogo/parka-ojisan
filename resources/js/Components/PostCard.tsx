@@ -25,7 +25,10 @@ export default function PostCard({ post }: { post: Post }) {
                 height={post.height}
             />
             <div className="p-4 sm:py-4 sm:px-2 flex gap-x-3 items-start">
-                <Link href={`/${post.user.user_id}`}>
+                <Link href={`/${post.user.user_id}`} className='relative group'>
+                    <div className='absolute w-full h-full top-0 left-0 group-hover:bg-[rgba(26,26,26,0.15)] rounded-full duration-200'>
+
+                    </div>
                     {post.user.icon_path ? (
                         <img
                             src={`/storage/${post.user.icon_path}`}
@@ -43,7 +46,7 @@ export default function PostCard({ post }: { post: Post }) {
                             href={`/${post.user.user_id}`}
                             className="flex items-center gap-x-1"
                         >
-                            <span className="font-semibold text-[15px]">
+                            <span className="font-semibold text-[15px] hover:underline">
                                 {post.user.name}
                             </span>
                             <span className="text-sm text-gray-500">
@@ -53,7 +56,7 @@ export default function PostCard({ post }: { post: Post }) {
                         <span className="text-sm text-gray-500 px-1">·</span>
                         <Link
                             href={`/${post.user.user_id}/status/${post.id}`}
-                            className={`text-sm text-gray-500`}
+                            className={`text-sm text-gray-500 hover:underline`}
                         >
                             {new Date(post.created_at).toLocaleDateString(
                                 'ja-JP',
