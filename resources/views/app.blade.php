@@ -11,9 +11,12 @@
             $component = $page['component'];
             $props = $page['props'];
 
+            $ogDescription = 'パーカーおじさんの画像投稿SNS。アップロード時にAIでパーカーおじさんかどうか判定します。';
+
             if ($component === 'Post/Show') {
-                $ogTitle = $props['post']['user']['name'] . 'さんの投稿' . ' - パーカーおじさん';
+                $ogTitle = $props['post']['user']['name'] . '（@' . $props['post']['user']['user_id'] . '）' . 'さん';
                 $ogImage = asset('storage/' . $props['post']['image']);
+                $ogDescription = $props['post']['text'];
             } elseif ($component === 'User/Show') {
                 $ogTitle = $props['user']['name'] . '（@' . $props['user']['user_id'] . '）' . 'さん - パーカーおじさん';
                 $ogImage = $props['user']['icon_path']
@@ -25,7 +28,7 @@
             }
         @endphp
 
-        <meta property="og:description" content="パーカーおじさんの画像投稿SNS。アップロード時にAIでパーカーおじさんかどうか判定します。">
+        <meta property="og:description" content="{{ $ogDescription }}">
         <meta property="og:url" content="{{ url('/') }}">
         <meta property="og:type" content="website">
         <meta property="og:title" content="{{ $ogTitle }}">
