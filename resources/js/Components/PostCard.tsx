@@ -80,6 +80,10 @@ export default function PostCard({ post }: { post: Post }) {
                                                 navigator.clipboard.writeText(
                                                     `${window.location.origin}/${post.user.user_id}/status/${post.id}`,
                                                 );
+                                                router.flash(() => ({
+                                                    success:
+                                                        'リンクをコピーしました',
+                                                }));
                                                 setMenuOpen(false);
                                             }}
                                             className="px-4 py-2 text-sm hover:bg-gray-100 w-full text-left cursor-pointer flex items-center gap-x-2"
