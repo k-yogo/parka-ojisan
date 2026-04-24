@@ -6,7 +6,7 @@ import { Head } from '@inertiajs/react';
 const Show = ({ post }: { post: Post }) => {
     return (
         <>
-            <Head title={`${post.user.name}の投稿`} />
+            <Head title={`${post.user.name}さんの投稿`} />
 
             <ul>
                 <PostCard post={post} />

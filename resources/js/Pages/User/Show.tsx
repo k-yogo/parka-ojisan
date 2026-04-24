@@ -6,7 +6,7 @@ import { Head } from '@inertiajs/react';
 const Show = ({ user, posts }: { user: User; posts: PaginatedData<Post> }) => {
     return (
         <>
-            <Head title={`${user.name}(@${user.user_id})`} />
+            <Head title={`${user.name}（@${user.user_id}）さん`} />
 
             <div className="flex flex-col items-center gap-y-3 py-8">
                 {user.icon_path ? (

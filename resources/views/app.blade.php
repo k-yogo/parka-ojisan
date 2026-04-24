@@ -12,10 +12,10 @@
             $props = $page['props'];
 
             if ($component === 'Post/Show') {
-                $ogTitle = $props['post']['user']['name'] . 'の投稿' . ' - パーカーおじさん';
+                $ogTitle = $props['post']['user']['name'] . 'さんの投稿' . ' - パーカーおじさん';
                 $ogImage = asset('storage/' . $props['post']['image']);
             } elseif ($component === 'User/Show') {
-                $ogTitle = $props['user']['name'] . '(@' . $props['user']['user_id'] . ')' . ' - パーカーおじさん';
+                $ogTitle = $props['user']['name'] . '（@' . $props['user']['user_id'] . '）' . 'さん - パーカーおじさん';
                 $ogImage = $props['user']['icon_path']
                     ? asset('storage/' . $props['user']['icon_path'])
                     : asset('ogp.png');
