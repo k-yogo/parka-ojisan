@@ -13,9 +13,29 @@ export default function Layout({ children }: PropsWithChildren) {
         return () => document.removeEventListener('click', handleClickOutside);
     }, [menuOpen]);
 
+    const { flash } = usePage();
+
+    useEffect(() => {
+        if (flash.success) {
+            const timer = setTimeout(() => router.flash(() => ({})), 3550);
+            return () => clearTimeout(timer);
+        }
+    }, [flash.success]);
+
     return (
         <>
             <div className="flex flex-col min-h-dvh text-gray-950 bg-white">
+                {flash.success && (
+                    <div
+                        className="fixed top-2 right-4 bg-gray-900 text-white px-6 py-3 rounded-lg shadow-lg z-50"
+                        style={{
+                            animation:
+                                'flash-notification 3.5s ease-in-out 0.05s both',
+                        }}
+                    >
+                        {flash.success}
+                    </div>
+                )}
                 <header className="px-4 py-3 flex justify-between items-center sticky top-0 bg-white z-10 border-b border-gray-200">
                     <h1>
                         <Link
@@ -53,7 +73,13 @@ export default function Layout({ children }: PropsWithChildren) {
                                             href={route('profile.edit')}
                                             className="block px-4 py-3 text-sm hover:bg-gray-50"
                                         >
-                                            Profile
+                                            会員情報
+                                        </Link>
+                                        <Link
+                                            href={`/${auth.user.user_id}`}
+                                            className="block px-4 py-3 text-sm hover:bg-gray-50"
+                                        >
+                                            プロフィール
                                         </Link>
                                         <button
                                             type="button"
@@ -62,7 +88,7 @@ export default function Layout({ children }: PropsWithChildren) {
                                             }
                                             className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-50 cursor-pointer"
                                         >
-                                            Log Out
+                                            ログアウト
                                         </button>
                                     </>
                                 ) : (
@@ -71,13 +97,13 @@ export default function Layout({ children }: PropsWithChildren) {
                                             href={route('login')}
                                             className="block px-4 py-3 text-sm hover:bg-gray-50"
                                         >
-                                            Log In
+                                            ログイン
                                         </Link>
                                         <Link
                                             href={route('register')}
                                             className="block px-4 py-3 text-sm hover:bg-gray-50"
                                         >
-                                            Register
+                                            登録
                                         </Link>
                                     </>
                                 )}

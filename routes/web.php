@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\UserController;
 
 Route::get('/', [PostController::class, 'index'])->name('posts.index');
 Route::get('/create', [PostController::class, 'create'])->name('posts.create');
@@ -22,3 +23,5 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__ . '/auth.php';
+
+Route::get('/{username}', [UserController::class, 'show'])->name('user.show');
