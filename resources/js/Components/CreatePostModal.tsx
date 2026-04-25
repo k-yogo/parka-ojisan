@@ -1,5 +1,6 @@
 import Modal from '@/Components/Modal';
 import { router, useForm } from '@inertiajs/react';
+import { X } from 'lucide-react';
 import { DragEvent, useEffect, useRef, useState } from 'react';
 
 export default function CreatePostModal({
@@ -91,9 +92,9 @@ export default function CreatePostModal({
                 <button
                     type="button"
                     onClick={handleClose}
-                    className="absolute top-2 right-4 text-gray-400 hover:text-gray-600 text-xl cursor-pointer"
+                    className="absolute top-2 right-3 text-gray-400 hover:text-gray-600 cursor-pointer transition-colors"
                 >
-                    ✕
+                    <X size={32} />
                 </button>
                 <div className="w-full max-w-md mx-auto flex flex-col gap-y-4">
                     <h2 className="text-sm text-center">
@@ -116,9 +117,9 @@ export default function CreatePostModal({
                                     <button
                                         type="button"
                                         onClick={resetImage}
-                                        className="absolute top-1 right-3 text-white hover:text-gray-300 text-3xl font-bold cursor-pointer"
+                                        className="absolute top-2 right-2 bg-black/60 hover:bg-black/80 text-white rounded-full p-1 cursor-pointer transition-colors"
                                     >
-                                        ✕
+                                        <X size={18} />
                                     </button>
                                 </div>
                             ) : (
@@ -213,7 +214,7 @@ export default function CreatePostModal({
                                     </span>
                                 </>
                             ) : (
-                                'Post'
+                                '投稿'
                             )}
                         </button>
                     </form>
