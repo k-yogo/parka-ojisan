@@ -1,11 +1,34 @@
 import { Post } from '@/types';
 import { Link, router, usePage } from '@inertiajs/react';
-import { Ellipsis, Link2, Trash2 } from 'lucide-react';
+import { Ellipsis, Link2, Trash2, Heart, Share } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 export default function PostCard({ post }: { post: Post }) {
     const { auth } = usePage().props;
     const [menuOpen, setMenuOpen] = useState(false);
+    const [isLiked, setIsLiked] = useState(post.is_liked);
+    const [likesCount, setLikesCount] = useState(post.likes_count);
+
+    const handleLike = () => {
+        if (!auth.user) {
+            router.visit('/login');
+            return;
+        }
+        setIsLiked(!isLiked);
+        setLikesCount(isLiked ? likesCount - 1 : likesCount + 1);
+        if (isLiked) {
+            router.delete(route('likes.destroy', post.id), {
+                preserveScroll: true,
+                only: ['flash'],
+            });
+        } else {
+            router.post(
+                route('likes.store', post.id),
+                {},
+                { preserveScroll: true, only: ['flash'] },
+            );
+        }
+    };
 
     useEffect(() => {
         const handleClickOutside = () => setMenuOpen(false);
@@ -25,10 +48,8 @@ export default function PostCard({ post }: { post: Post }) {
                 height={post.height}
             />
             <div className="p-4 sm:py-4 sm:px-2 flex gap-x-3 items-start">
-                <Link href={`/${post.user.user_id}`} className='relative group'>
-                    <div className='absolute w-full h-full top-0 left-0 group-hover:bg-[rgba(26,26,26,0.15)] rounded-full duration-200'>
-
-                    </div>
+                <Link href={`/${post.user.user_id}`} className="relative group">
+                    <div className="absolute w-full h-full top-0 left-0 group-hover:bg-[rgba(26,26,26,0.15)] rounded-full duration-200"></div>
                     {post.user.icon_path ? (
                         <img
                             src={`/storage/${post.user.icon_path}`}
@@ -128,6 +149,42 @@ export default function PostCard({ post }: { post: Post }) {
                         </div>
                     </div>
                     <p className="whitespace-pre-wrap">{post.text}</p>
+                    <div className="mt-2 flex items-center justify-between">
+                        <div className="flex items-center gap-x-1">
+                            <button
+                                onClick={handleLike}
+                                className={`cursor-pointer peer ${isLiked ? 'text-red-500' : 'text-gray-400 hover:text-red-500'}`}
+                            >
+                                <Heart
+                                    size={22}
+                                    fill={isLiked ? 'red' : 'none'}
+                                    color="currentColor"
+                                />
+                            </button>
+                            <span
+                                className={`text-xs ${isLiked ? 'text-red-500' : 'text-gray-400 peer-hover:text-red-500'}`}
+                            >
+                                {likesCount}
+                            </span>
+                        </div>
+
+                        <button
+                            onClick={() => {
+                                if (navigator.share) {
+                                    navigator.share({
+                                        url: `${window.location.origin}/${post.user.user_id}/status/${post.id}`,
+                                    });
+                                } else {
+                                    navigator.clipboard.writeText(
+                                        `${window.location.origin}/${post.user.user_id}/status/${post.id}`,
+                                    );
+                                }
+                            }}
+                            className="text-gray-400 hover:text-gray-600 cursor-pointer"
+                        >
+                            <Share size={18} />
+                        </button>
+                    </div>
                 </div>
             </div>
         </li>

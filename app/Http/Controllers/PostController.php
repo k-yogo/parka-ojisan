@@ -11,10 +11,14 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller {
-    //
     public function index() {
+        $userId = Auth::id();
         return Inertia::render('Index', [
-            'posts' => Inertia::scroll(fn() => Post::latest()->with('user')->paginate(3)),
+            'posts' => Inertia::scroll(fn() => Post::latest()
+                ->with('user')
+                ->withCount('likes')
+                ->when($userId, fn($q) => $q->withExists(['likes as is_liked' => fn($q) => $q->where('user_id', $userId)]))
+                ->paginate(3)),
         ]);
     }
 
@@ -115,8 +119,15 @@ class PostController extends Controller {
     }
 
     public function show(string $username, Post $post) {
+        $userId = Auth::id();
+        $post->load('user')->loadCount('likes');
+        if ($userId) {
+            $post->is_liked = $post->likes()->where('user_id', $userId)->exists();
+        } else {
+            $post->is_liked = false;
+        }
         return Inertia::render('Post/Show', [
-            'post' => $post->load('user'),
+            'post' => $post,
         ]);
     }
 }
