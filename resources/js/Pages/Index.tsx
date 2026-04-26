@@ -22,7 +22,7 @@ const Index = ({ posts }: { posts: PaginatedData<Post> }) => {
                         router.visit('/login');
                     }
                 }}
-                className="fixed bottom-2 right-2 sm:bottom-6 sm:right-6 w-14 h-14 bg-gray-900 hover:bg-gray-700 text-white rounded-full text-3xl shadow-lg cursor-pointer transition-colors flex items-center justify-center"
+                className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 w-14 h-14 bg-gray-900 hover:bg-gray-700 text-white rounded-full text-3xl shadow-lg cursor-pointer transition-colors flex items-center justify-center"
                 aria-label="New Post"
             >
                 <Plus size={24} />
