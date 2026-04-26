@@ -21,7 +21,8 @@ export default function PostCard({ post }: { post: Post }) {
             return;
         }
         setIsLiked(!isLiked);
-        setLikesCount(isLiked ? likesCount - 1 : likesCount + 1);
+        const newCount = isLiked ? likesCount - 1 : likesCount + 1;
+        setLikesCount(newCount);
         if (isLiked) {
             router.delete(route('likes.destroy', post.id), {
                 preserveScroll: true,
