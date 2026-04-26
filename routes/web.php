@@ -6,6 +6,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\LikeController;
 
 Route::get('/', [PostController::class, 'index'])->name('posts.index');
 Route::get('/create', [PostController::class, 'create'])->name('posts.create');
@@ -27,3 +28,6 @@ require __DIR__ . '/auth.php';
 Route::get('/{username}/status/{post}', [PostController::class, 'show'])->name('posts.show');
 
 Route::get('/{username}', [UserController::class, 'show'])->name('user.show');
+
+Route::post('/posts/{post}/like', [LikeController::class, 'store'])->middleware('auth')->name('likes.store');
+Route::delete('/posts/{post}/like', [LikeController::class, 'destroy'])->middleware('auth')->name('likes.destroy');

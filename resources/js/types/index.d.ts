@@ -11,6 +11,8 @@ export interface Post {
     updated_at: string;
     user_id: number | null;
     user: User;
+    likes_count: number;
+    is_liked: boolean;
 }
 
 export interface PaginatedData<T> {
