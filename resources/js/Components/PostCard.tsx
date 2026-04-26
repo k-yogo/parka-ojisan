@@ -138,6 +138,23 @@ export default function PostCard({ post }: { post: Post }) {
                                                                 'posts.destroy',
                                                                 post.id,
                                                             ),
+                                                            {
+                                                                onSuccess:
+                                                                    () => {
+                                                                        router.visit(
+                                                                            window
+                                                                                .location
+                                                                                .href,
+                                                                            {
+                                                                                reset: [
+                                                                                    'posts',
+                                                                                ],
+                                                                                preserveState: true,
+                                                                                preserveScroll: true,
+                                                                            },
+                                                                        );
+                                                                    },
+                                                            },
                                                         );
                                                     }
                                                     setMenuOpen(false);

@@ -75,7 +75,13 @@ export default function CreatePostModal({
                 reset();
                 resetImage();
                 onClose();
+                router.visit(window.location.href, {
+                    reset: ['posts'],
+                    preserveState: true,
+                    preserveScroll: true,
+                });
             },
+
             onError: () => {
                 router.visit(window.location.href, {
                     reset: ['posts'],
