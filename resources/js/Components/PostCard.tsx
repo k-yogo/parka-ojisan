@@ -165,6 +165,7 @@ export default function PostCard({ post }: { post: Post }) {
                                     size={22}
                                     fill={isLiked ? 'red' : 'none'}
                                     color="currentColor"
+                                    strokeWidth={1}
                                 />
                             </button>
                             <span
