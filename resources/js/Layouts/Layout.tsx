@@ -89,14 +89,7 @@ export default function Layout({ children }: PropsWithChildren) {
                                                 router.post(
                                                     route('logout'),
                                                     {},
-                                                    {
-                                                        onSuccess: () =>
-                                                            router.visit('/', {
-                                                                reset: [
-                                                                    'posts',
-                                                                ],
-                                                            }),
-                                                    },
+                                                    { reset: ['posts'] },
                                                 )
                                             }
                                             className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-50 cursor-pointer"
