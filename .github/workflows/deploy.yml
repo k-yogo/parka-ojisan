@@ -45,6 +45,7 @@ jobs:
             cd ~/yogo.dev/parka-ojisan
             git pull origin main
             /usr/bin/php8.4 /usr/bin/composer install --no-dev --optimize-autoloader --no-scripts
+            /usr/bin/php8.4 artisan package:discover --ansi
             /usr/bin/php8.4 artisan migrate --force
             /usr/bin/php8.4 artisan config:cache
             /usr/bin/php8.4 artisan route:cache
