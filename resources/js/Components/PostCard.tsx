@@ -1,13 +1,19 @@
 import { Post } from '@/types';
-import { Link, router, usePage } from '@inertiajs/react';
+import { Link, router, usePage, useRemember } from '@inertiajs/react';
 import { Ellipsis, Link2, Trash2, Heart, Share } from 'lucide-react';
 import { useState, useEffect } from 'react';
 
 export default function PostCard({ post }: { post: Post }) {
     const { auth } = usePage().props;
     const [menuOpen, setMenuOpen] = useState(false);
-    const [isLiked, setIsLiked] = useState(post.is_liked);
-    const [likesCount, setLikesCount] = useState(post.likes_count);
+    const [isLiked, setIsLiked] = useRemember(
+        post.is_liked,
+        `post-liked:${post.id}`,
+    );
+    const [likesCount, setLikesCount] = useRemember(
+        post.likes_count,
+        `post-likes-count:${post.id}`,
+    );
 
     const handleLike = () => {
         if (!auth.user) {
