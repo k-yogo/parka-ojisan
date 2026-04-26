@@ -16,7 +16,9 @@ class AuthenticatedSessionController extends Controller {
      * Display the login view.
      */
     public function create(Request $request): Response {
-        if ($referer = $request->headers->get('referer')) {
+        $referer = $request->headers->get('referer');
+
+        if ($referer && str_starts_with($referer, config('app.url'))) {
             session(['url.intended' => $referer]);
         }
 
