@@ -11,7 +11,7 @@ export default function PostList({ userId }: { userId?: number }) {
                 const url = userId
                     ? `/api/posts?page=${pageParam}&user_id=${userId}`
                     : `/api/posts?page=${pageParam}`;
-                return new Promise((resolve) =>
+                return new Promise<any>((resolve) =>
                     setTimeout(
                         () =>
                             fetch(url)
