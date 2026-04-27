@@ -17,7 +17,7 @@ export default function PostList({ userId }: { userId?: number }) {
                             fetch(url)
                                 .then((res) => res.json())
                                 .then(resolve),
-                        200,
+                        0,
                     ),
                 );
             },
