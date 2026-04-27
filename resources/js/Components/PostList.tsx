@@ -1,23 +1,46 @@
 import PostCard from '@/Components/PostCard';
-import { PaginatedData, Post } from '@/types';
-import { InfiniteScroll } from '@inertiajs/react';
+import { Post } from '@/types';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { useEffect, useRef } from 'react';
 
-export default function PostList({ posts }: { posts: PaginatedData<Post> }) {
-    return (
-        <InfiniteScroll
-            data="posts"
-            as="ul"
-            className="flex flex-col gap-y-4"
-            preserveUrl
-            loading={
-                <div className="flex justify-center py-8">
-                    <div className="w-8 h-8 border-4 border-gray-300 border-t-gray-900 rounded-full animate-spin" />
-                </div>
+export default function PostList({ userId }: { userId?: number }) {
+    const { data, fetchNextPage, hasNextPage } = useInfiniteQuery({
+        queryKey: ['posts', userId],
+        queryFn: ({ pageParam = 1 }) => {
+            const url = userId
+                ? `/api/posts?page=${pageParam}&user_id=${userId}`
+                : `/api/posts?page=${pageParam}`;
+            return fetch(url).then((res) => res.json());
+        },
+        initialPageParam: 1,
+        getNextPageParam: (lastPage) => {
+            if (lastPage.links.next) {
+                return lastPage.meta.current_page + 1;
             }
-        >
-            {posts.data.map((post) => (
+            return undefined;
+        },
+    });
+
+    const posts = data?.pages.flatMap((page) => page.data) ?? [];
+
+    const bottomRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(([entry]) => {
+            if (entry.isIntersecting && hasNextPage) {
+                fetchNextPage();
+            }
+        });
+        if (bottomRef.current) observer.observe(bottomRef.current);
+        return () => observer.disconnect();
+    }, [hasNextPage, fetchNextPage]);
+
+    return (
+        <ul className="flex flex-col gap-y-4">
+            {posts.map((post: Post) => (
                 <PostCard key={post.id} post={post} />
             ))}
-        </InfiniteScroll>
+            <div ref={bottomRef} />
+        </ul>
     );
 }

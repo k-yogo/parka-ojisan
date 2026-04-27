@@ -1,9 +1,9 @@
 import Layout from '@/Layouts/Layout';
 import PostList from '@/Components/PostList';
-import { PaginatedData, Post, User } from '@/types';
+import { User } from '@/types';
 import { Head } from '@inertiajs/react';
 
-const Show = ({ user, posts }: { user: User; posts: PaginatedData<Post> }) => {
+const Show = ({ user }: { user: User }) => {
     return (
         <>
             <Head title={`${user.name}（@${user.user_id}）さん`} />
@@ -24,7 +24,7 @@ const Show = ({ user, posts }: { user: User; posts: PaginatedData<Post> }) => {
                 </div>
             </div>
 
-            <PostList posts={posts} />
+            <PostList userId={user.id} />
         </>
     );
 };

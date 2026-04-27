@@ -1,7 +1,7 @@
 import PostCard from '@/Components/PostCard';
 import Layout from '@/Layouts/Layout';
 import { Post } from '@/types';
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 
 const Show = ({ post }: { post: Post }) => {
     return (
@@ -9,7 +9,7 @@ const Show = ({ post }: { post: Post }) => {
             <Head title={`${post.user.name}さん:「${post.text}」`} />
 
             <ul>
-                <PostCard post={post} />
+                <PostCard post={post} onDelete={() => router.visit('/')} />
             </ul>
         </>
     );

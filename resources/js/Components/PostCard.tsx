@@ -2,9 +2,17 @@ import { Post } from '@/types';
 import { Link, router, usePage, useRemember } from '@inertiajs/react';
 import { Ellipsis, Link2, Trash2, Heart, Share } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
-export default function PostCard({ post }: { post: Post }) {
+export default function PostCard({
+    post,
+    onDelete,
+}: {
+    post: Post;
+    onDelete?: () => void;
+}) {
     const { auth } = usePage().props;
+    const queryClient = useQueryClient();
     const [menuOpen, setMenuOpen] = useState(false);
     const [isLiked, setIsLiked] = useRemember(
         post.is_liked,
@@ -23,17 +31,24 @@ export default function PostCard({ post }: { post: Post }) {
         setIsLiked(!isLiked);
         const newCount = isLiked ? likesCount - 1 : likesCount + 1;
         setLikesCount(newCount);
+
+        const xsrfToken = decodeURIComponent(
+            document.cookie
+                .split('; ')
+                .find((row) => row.startsWith('XSRF-TOKEN='))
+                ?.split('=')[1] ?? '',
+        );
+
         if (isLiked) {
-            router.delete(route('likes.destroy', post.id), {
-                preserveScroll: true,
-                only: ['flash'],
+            fetch(`/api/posts/${post.id}/like`, {
+                method: 'DELETE',
+                headers: { 'X-XSRF-TOKEN': xsrfToken },
             });
         } else {
-            router.post(
-                route('likes.store', post.id),
-                {},
-                { preserveScroll: true, only: ['flash'] },
-            );
+            fetch(`/api/posts/${post.id}/like`, {
+                method: 'POST',
+                headers: { 'X-XSRF-TOKEN': xsrfToken },
+            });
         }
     };
 
@@ -133,29 +148,70 @@ export default function PostCard({ post }: { post: Post }) {
                                                             'この投稿を削除しますか？',
                                                         )
                                                     ) {
-                                                        router.delete(
-                                                            route(
-                                                                'posts.destroy',
-                                                                post.id,
-                                                            ),
+                                                        fetch(
+                                                            `/api/posts/${post.id}`,
                                                             {
-                                                                onSuccess:
-                                                                    () => {
-                                                                        router.visit(
-                                                                            window
-                                                                                .location
-                                                                                .href,
-                                                                            {
-                                                                                reset: [
-                                                                                    'posts',
-                                                                                ],
-                                                                                preserveState: true,
-                                                                                preserveScroll: true,
-                                                                            },
-                                                                        );
-                                                                    },
+                                                                method: 'DELETE',
+                                                                headers: {
+                                                                    'X-XSRF-TOKEN':
+                                                                        decodeURIComponent(
+                                                                            document.cookie
+                                                                                .split(
+                                                                                    '; ',
+                                                                                )
+                                                                                .find(
+                                                                                    (
+                                                                                        row,
+                                                                                    ) =>
+                                                                                        row.startsWith(
+                                                                                            'XSRF-TOKEN=',
+                                                                                        ),
+                                                                                )
+                                                                                ?.split(
+                                                                                    '=',
+                                                                                )[1] ??
+                                                                                '',
+                                                                        ),
+                                                                },
                                                             },
-                                                        );
+                                                        ).then((res) => {
+                                                            if (res.ok) {
+                                                                queryClient.setQueriesData(
+                                                                    {
+                                                                        queryKey:
+                                                                            [
+                                                                                'posts',
+                                                                            ],
+                                                                    },
+                                                                    (
+                                                                        old: any,
+                                                                    ) => {
+                                                                        if (
+                                                                            !old
+                                                                        )
+                                                                            return old;
+                                                                        return {
+                                                                            ...old,
+                                                                            pages: old.pages.map(
+                                                                                (
+                                                                                    page: any,
+                                                                                ) => ({
+                                                                                    ...page,
+                                                                                    data: page.data.filter(
+                                                                                        (
+                                                                                            p: any,
+                                                                                        ) =>
+                                                                                            p.id !==
+                                                                                            post.id,
+                                                                                    ),
+                                                                                }),
+                                                                            ),
+                                                                        };
+                                                                    },
+                                                                );
+                                                                onDelete?.();
+                                                            }
+                                                        });
                                                     }
                                                     setMenuOpen(false);
                                                 }}

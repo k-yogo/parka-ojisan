@@ -1,18 +1,17 @@
 import CreatePostModal from '@/Components/CreatePostModal';
 import PostList from '@/Components/PostList';
 import Layout from '@/Layouts/Layout';
-import { PaginatedData, Post } from '@/types';
 import { router, usePage } from '@inertiajs/react';
 import { Plus } from 'lucide-react';
 import { useState } from 'react';
 
-const Index = ({ posts }: { posts: PaginatedData<Post> }) => {
+const Index = () => {
     const { auth } = usePage().props;
     const [showModal, setShowModal] = useState(false);
 
     return (
         <>
-            <PostList posts={posts} />
+            <PostList />
 
             <button
                 onClick={() => {

@@ -1,5 +1,5 @@
 import Modal from '@/Components/Modal';
-import { router, useForm } from '@inertiajs/react';
+import { useQueryClient } from '@tanstack/react-query';
 import { X } from 'lucide-react';
 import { DragEvent, useEffect, useRef, useState } from 'react';
 
@@ -10,19 +10,17 @@ export default function CreatePostModal({
     show: boolean;
     onClose: () => void;
 }) {
-    const { data, setData, post, processing, errors, reset } = useForm<{
-        image: File | null;
-        text: string;
-    }>({
-        image: null,
-        text: '',
-    });
+    const queryClient = useQueryClient();
 
-    const fileInputRef = useRef<HTMLInputElement>(null);
+    const [image, setImage] = useState<File | null>(null);
+    const [text, setText] = useState('');
     const [preview, setPreview] = useState<string | null>(null);
     const [isDragging, setIsDragging] = useState(false);
-
+    const [processing, setProcessing] = useState(false);
+    const [errors, setErrors] = useState<{ image?: string; text?: string }>({});
     const [dots, setDots] = useState('');
+
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
         if (!processing) return;
@@ -33,16 +31,24 @@ export default function CreatePostModal({
     }, [processing]);
 
     const handleFile = (file: File) => {
-        setData('image', file);
+        setImage(file);
         const reader = new FileReader();
         reader.onload = (e) => setPreview(e.target?.result as string);
         reader.readAsDataURL(file);
     };
 
     const resetImage = () => {
-        setData('image', null);
+        setImage(null);
         setPreview(null);
         if (fileInputRef.current) fileInputRef.current.value = '';
+    };
+
+    const handleClose = () => {
+        setImage(null);
+        setText('');
+        setPreview(null);
+        setErrors({});
+        onClose();
     };
 
     const handleDragOver = (e: DragEvent) => {
@@ -62,34 +68,43 @@ export default function CreatePostModal({
         if (file) handleFile(file);
     };
 
-    const handleClose = () => {
-        reset();
-        resetImage();
-        onClose();
-    };
-
-    const handleSubmit = (e: { preventDefault: () => void }) => {
+    const handleSubmit = async (e: { preventDefault: () => void }) => {
         e.preventDefault();
-        post(route('posts.store'), {
-            onSuccess: () => {
-                reset();
-                resetImage();
-                onClose();
-                router.visit(window.location.href, {
-                    reset: ['posts'],
-                    preserveState: true,
-                    preserveScroll: true,
-                });
-            },
+        setProcessing(true);
+        setErrors({});
 
-            onError: () => {
-                router.visit(window.location.href, {
-                    reset: ['posts'],
-                    preserveState: true,
-                    preserveScroll: true,
-                });
+        const formData = new FormData();
+        if (image) formData.append('image', image);
+        formData.append('text', text);
+
+        const response = await fetch('/api/posts', {
+            method: 'POST',
+            headers: {
+                'X-XSRF-TOKEN': decodeURIComponent(
+                    document.cookie
+                        .split('; ')
+                        .find((row) => row.startsWith('XSRF-TOKEN='))
+                        ?.split('=')[1] ?? '',
+                ),
             },
+            body: formData,
         });
+
+        setProcessing(false);
+
+        if (response.status === 422) {
+            const json = await response.json();
+            setErrors(json.errors);
+            return;
+        }
+
+        if (response.ok) {
+            queryClient.invalidateQueries({ queryKey: ['posts'] });
+            setImage(null);
+            setText('');
+            resetImage();
+            onClose();
+        }
     };
 
     return (
@@ -110,7 +125,6 @@ export default function CreatePostModal({
                         onSubmit={handleSubmit}
                         className="flex flex-col gap-y-4"
                     >
-                        {/* 画像アップロード */}
                         <div className="flex flex-col gap-y-2">
                             <label className="text-sm">Image</label>
                             {preview ? (
@@ -186,7 +200,6 @@ export default function CreatePostModal({
                             )}
                         </div>
 
-                        {/* Text */}
                         <div className="flex flex-col gap-y-2">
                             <label htmlFor="text" className="text-sm">
                                 Text
@@ -195,10 +208,8 @@ export default function CreatePostModal({
                                 id="text"
                                 rows={4}
                                 className="block w-full border-gray-200 border focus:border-blue-500 focus:ring-blue-500 p-2 rounded-md"
-                                value={data.text}
-                                onChange={(e) =>
-                                    setData('text', e.target.value)
-                                }
+                                value={text}
+                                onChange={(e) => setText(e.target.value)}
                             />
                             {errors.text && (
                                 <p className="text-sm text-red-500">
