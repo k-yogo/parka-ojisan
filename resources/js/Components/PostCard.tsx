@@ -174,24 +174,18 @@ export default function PostCard({ post }: { post: Post }) {
                     </div>
                     <p className="whitespace-pre-wrap">{post.text}</p>
                     <div className="mt-2 flex items-center justify-between">
-                        <div className="flex items-center gap-x-1">
-                            <button
-                                onClick={handleLike}
-                                className={`cursor-pointer peer ${isLiked ? 'text-red-500' : 'text-gray-400 hover:text-red-500'}`}
-                            >
-                                <Heart
-                                    size={22}
-                                    fill={isLiked ? 'red' : 'none'}
-                                    color="currentColor"
-                                    strokeWidth={1}
-                                />
-                            </button>
-                            <span
-                                className={`text-xs ${isLiked ? 'text-red-500' : 'text-gray-400 peer-hover:text-red-500'}`}
-                            >
-                                {likesCount}
-                            </span>
-                        </div>
+                        <button
+                            onClick={handleLike}
+                            className={`flex items-center gap-x-1 cursor-pointer ${isLiked ? 'text-red-500' : 'text-gray-400 hover:text-red-500'}`}
+                        >
+                            <Heart
+                                size={22}
+                                fill={isLiked ? 'red' : 'none'}
+                                color="currentColor"
+                                strokeWidth={1}
+                            />
+                            <span className="text-xs">{likesCount}</span>
+                        </button>
 
                         <button
                             onClick={() => {
