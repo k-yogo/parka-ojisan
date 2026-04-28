@@ -1,5 +1,5 @@
 import { Post } from '@/types';
-import { Link, router, usePage, useRemember } from '@inertiajs/react';
+import { Link, router, usePage } from '@inertiajs/react';
 import { Ellipsis, Link2, Trash2, Heart, Share } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
@@ -14,14 +14,8 @@ export default function PostCard({
     const { auth } = usePage().props;
     const queryClient = useQueryClient();
     const [menuOpen, setMenuOpen] = useState(false);
-    const [isLiked, setIsLiked] = useRemember(
-        post.is_liked,
-        `post-liked:${post.id}`,
-    );
-    const [likesCount, setLikesCount] = useRemember(
-        post.likes_count,
-        `post-likes-count:${post.id}`,
-    );
+    const [isLiked, setIsLiked] = useState(post.is_liked);
+    const [likesCount, setLikesCount] = useState(post.likes_count);
 
     const handleLike = () => {
         if (!auth.user) {
@@ -59,6 +53,11 @@ export default function PostCard({
         }
         return () => document.removeEventListener('click', handleClickOutside);
     }, [menuOpen]);
+
+    useEffect(() => {
+        setIsLiked(post.is_liked);
+        setLikesCount(post.likes_count);
+    }, [post.is_liked, post.likes_count]);
 
     return (
         <li className="flex flex-col gap-y-0">

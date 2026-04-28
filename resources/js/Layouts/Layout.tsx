@@ -1,9 +1,12 @@
 import { Link, usePage, router } from '@inertiajs/react';
-import { PropsWithChildren, useState, useEffect } from 'react';
+import { PropsWithChildren, useState, useEffect, useRef } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
 export default function Layout({ children }: PropsWithChildren) {
     const { auth } = usePage().props;
     const [menuOpen, setMenuOpen] = useState(false);
+    const queryClient = useQueryClient();
+    const prevAuthId = useRef(auth.user?.id);
 
     useEffect(() => {
         const handleClickOutside = () => setMenuOpen(false);
@@ -21,6 +24,13 @@ export default function Layout({ children }: PropsWithChildren) {
             return () => clearTimeout(timer);
         }
     }, [flash.success]);
+
+    useEffect(() => {
+        if (prevAuthId.current !== auth.user?.id) {
+            prevAuthId.current = auth.user?.id;
+            queryClient.invalidateQueries({ queryKey: ['posts'] });
+        }
+    }, [auth.user?.id]);
 
     return (
         <>
