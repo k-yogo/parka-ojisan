@@ -104,20 +104,42 @@ export default function Layout({ children }: PropsWithChildren) {
                                                     {},
                                                     {
                                                         onSuccess: () => {
-                                                            router.visit('/', {
-                                                                reset: [
-                                                                    'posts',
-                                                                ],
-                                                                onSuccess:
-                                                                    () => {
-                                                                        router.flash(
-                                                                            () => ({
-                                                                                success:
-                                                                                    'ログアウトしました',
-                                                                            }),
-                                                                        );
+                                                            const protectedPaths =
+                                                                [
+                                                                    '/profile',
+                                                                    '/dashboard',
+                                                                ];
+                                                            const isProtected =
+                                                                protectedPaths.some(
+                                                                    (path) =>
+                                                                        window.location.pathname.startsWith(
+                                                                            path,
+                                                                        ),
+                                                                );
+
+                                                            if (isProtected) {
+                                                                router.visit(
+                                                                    '/',
+                                                                    {
+                                                                        onSuccess:
+                                                                            () => {
+                                                                                router.flash(
+                                                                                    () => ({
+                                                                                        success:
+                                                                                            'ログアウトしました',
+                                                                                    }),
+                                                                                );
+                                                                            },
                                                                     },
-                                                            });
+                                                                );
+                                                            } else {
+                                                                router.flash(
+                                                                    () => ({
+                                                                        success:
+                                                                            'ログアウトしました',
+                                                                    }),
+                                                                );
+                                                            }
                                                         },
                                                     },
                                                 )
