@@ -1,4 +1,5 @@
 import Modal from '@/Components/Modal';
+import { router } from '@inertiajs/react';
 import { useQueryClient } from '@tanstack/react-query';
 import { X } from 'lucide-react';
 import { DragEvent, useEffect, useRef, useState } from 'react';
@@ -99,6 +100,7 @@ export default function CreatePostModal({
         }
 
         if (response.ok) {
+            router.flash(() => ({ success: '投稿しました' }));
             queryClient.invalidateQueries({ queryKey: ['posts'] });
             setImage(null);
             setText('');

@@ -175,6 +175,12 @@ export default function PostCard({
                                                             },
                                                         ).then((res) => {
                                                             if (res.ok) {
+                                                                router.flash(
+                                                                    () => ({
+                                                                        success:
+                                                                            '削除しました',
+                                                                    }),
+                                                                );
                                                                 queryClient.setQueriesData(
                                                                     {
                                                                         queryKey:

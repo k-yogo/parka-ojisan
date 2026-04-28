@@ -29,6 +29,9 @@ export default function Layout({ children }: PropsWithChildren) {
         if (prevAuthId.current !== auth.user?.id) {
             prevAuthId.current = auth.user?.id;
             queryClient.invalidateQueries({ queryKey: ['posts'] });
+            if (auth.user) {
+                router.flash(() => ({ success: 'ログインしました' }));
+            }
         }
     }, [auth.user?.id]);
 
@@ -37,7 +40,7 @@ export default function Layout({ children }: PropsWithChildren) {
             <div className="flex flex-col min-h-dvh text-gray-950 bg-white">
                 {flash.success && (
                     <div
-                        className="fixed top-2 right-4 bg-gray-900 text-white px-6 py-3 rounded-lg shadow-lg z-50"
+                        className="fixed bottom-4 left-4 bg-gray-900 text-white px-6 py-3 rounded-lg shadow-lg z-50"
                         style={{
                             animation:
                                 'flash-notification 3.5s ease-in-out 0.05s both',
@@ -100,12 +103,22 @@ export default function Layout({ children }: PropsWithChildren) {
                                                     route('logout'),
                                                     {},
                                                     {
-                                                        onSuccess: () =>
+                                                        onSuccess: () => {
                                                             router.visit('/', {
                                                                 reset: [
                                                                     'posts',
                                                                 ],
-                                                            }),
+                                                                onSuccess:
+                                                                    () => {
+                                                                        router.flash(
+                                                                            () => ({
+                                                                                success:
+                                                                                    'ログアウトしました',
+                                                                            }),
+                                                                        );
+                                                                    },
+                                                            });
+                                                        },
                                                     },
                                                 )
                                             }
