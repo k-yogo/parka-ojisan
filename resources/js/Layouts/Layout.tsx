@@ -98,52 +98,36 @@ export default function Layout({ children }: PropsWithChildren) {
                                         </Link>
                                         <button
                                             type="button"
-                                            onClick={() =>
-                                                router.post(
-                                                    route('logout'),
-                                                    {},
-                                                    {
-                                                        onSuccess: () => {
-                                                            const protectedPaths =
-                                                                [
-                                                                    '/profile',
-                                                                    '/dashboard',
-                                                                ];
-                                                            const isProtected =
-                                                                protectedPaths.some(
-                                                                    (path) =>
-                                                                        window.location.pathname.startsWith(
-                                                                            path,
-                                                                        ),
-                                                                );
-
-                                                            if (isProtected) {
-                                                                router.visit(
-                                                                    '/',
-                                                                    {
-                                                                        onSuccess:
-                                                                            () => {
-                                                                                router.flash(
-                                                                                    () => ({
-                                                                                        success:
-                                                                                            'ログアウトしました',
-                                                                                    }),
-                                                                                );
-                                                                            },
-                                                                    },
-                                                                );
-                                                            } else {
-                                                                router.flash(
-                                                                    () => ({
-                                                                        success:
-                                                                            'ログアウトしました',
-                                                                    }),
-                                                                );
-                                                            }
-                                                        },
+                                            onClick={async () => {
+                                                const xsrfToken =
+                                                    decodeURIComponent(
+                                                        document.cookie
+                                                            .split('; ')
+                                                            .find((row) =>
+                                                                row.startsWith(
+                                                                    'XSRF-TOKEN=',
+                                                                ),
+                                                            )
+                                                            ?.split('=')[1] ??
+                                                            '',
+                                                    );
+                                                await fetch(route('logout'), {
+                                                    method: 'POST',
+                                                    headers: {
+                                                        'X-XSRF-TOKEN':
+                                                            xsrfToken,
                                                     },
-                                                )
-                                            }
+                                                });
+                                                router.reload({
+                                                    only: ['auth'],
+                                                    onSuccess: () => {
+                                                        router.flash(() => ({
+                                                            success:
+                                                                'ログアウトしました',
+                                                        }));
+                                                    },
+                                                });
+                                            }}
                                             className="block w-full text-left px-4 py-3 text-sm hover:bg-gray-50 cursor-pointer"
                                         >
                                             ログアウト
