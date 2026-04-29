@@ -114,7 +114,7 @@ const CommentSection = ({
     }, []);
 
     return (
-        <div>
+        <div className="px-4">
             <div className="my-2">
                 <form
                     className="flex flex-col gap-y-2 items-end"
@@ -155,7 +155,7 @@ const CommentSection = ({
             </div>
 
             {comments.map((comment) => (
-                <div key={comment.id} className="flex gap-x-3 py-2">
+                <div key={comment.id} className="flex gap-x-2 py-2">
                     {comment.user.icon_path ? (
                         <img
                             src={`/storage/${comment.user.icon_path}`}
