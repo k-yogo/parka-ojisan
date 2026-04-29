@@ -124,7 +124,7 @@ const CommentSection = ({
                         ref={textareaRef}
                         value={text}
                         onChange={(e) => setText(e.target.value)}
-                        className="flex-1 border rounded-xl px-4 py-2 text-sm resize-none w-full focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                        className="flex-1 border rounded-xl px-4 py-2 sm:text-sm resize-none w-full focus:ring-2 focus:ring-blue-500 focus:outline-none"
                         placeholder={
                             auth
                                 ? 'コメントを入力...'
