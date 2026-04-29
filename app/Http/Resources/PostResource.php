@@ -24,6 +24,7 @@ class PostResource extends JsonResource {
             'likes_count' => $this->likes_count,
             'is_liked' => $this->is_liked,
             'user' => new UserResource($this->user),
+            'comments_count' => $this->comments_count,
         ];
     }
 }

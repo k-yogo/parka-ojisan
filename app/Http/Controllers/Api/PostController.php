@@ -13,7 +13,7 @@ class PostController extends Controller {
         $userId = auth()->id();
         $posts = Post::latest()
             ->with('user')
-            ->withCount('likes')
+            ->withCount(['likes', 'comments'])
             ->when($request->user_id, fn($q) => $q->where('user_id', $request->user_id))
             ->when($userId, fn($q) => $q->withExists(['likes as is_liked' => fn($q) => $q->where('user_id', $userId)]))
             ->paginate(10);

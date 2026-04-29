@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 class PostController extends Controller {
     public function show(string $username, Post $post) {
         $userId = Auth::id();
-        $post->load('user')->loadCount('likes');
+        $post->load('user')->loadCount(['likes', 'comments']);
         if ($userId) {
             $post->is_liked = $post->likes()->where('user_id', $userId)->exists();
         } else {

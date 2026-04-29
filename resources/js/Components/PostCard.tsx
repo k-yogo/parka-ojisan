@@ -1,15 +1,28 @@
 import { Post } from '@/types';
 import { Link, router, usePage } from '@inertiajs/react';
-import { Ellipsis, Link2, Trash2, Heart, Share } from 'lucide-react';
+import {
+    Ellipsis,
+    Link2,
+    Trash2,
+    Heart,
+    Share,
+    MessageCircle,
+} from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 
 export default function PostCard({
     post,
     onDelete,
+    onCommentClick,
+    commentsCountOverride,
+    showFullDate,
 }: {
     post: Post;
     onDelete?: () => void;
+    onCommentClick?: () => void;
+    commentsCountOverride?: number;
+    showFullDate?: boolean;
 }) {
     const { auth } = usePage().props;
     const queryClient = useQueryClient();
@@ -59,6 +72,12 @@ export default function PostCard({
         setLikesCount(post.likes_count);
     }, [post.is_liked, post.likes_count]);
 
+    useEffect(() => {
+        if (!auth.user) {
+            setIsLiked(false);
+        }
+    }, [auth.user]);
+
     return (
         <li className="flex flex-col gap-y-0">
             <img
@@ -100,9 +119,20 @@ export default function PostCard({
                             href={`/${post.user.user_id}/status/${post.id}`}
                             className={`text-sm text-gray-500 hover:underline`}
                         >
-                            {new Date(post.created_at).toLocaleDateString(
-                                'ja-JP',
-                            )}
+                            {showFullDate
+                                ? new Date(post.created_at).toLocaleString(
+                                      'ja-JP',
+                                      {
+                                          year: 'numeric',
+                                          month: 'numeric',
+                                          day: 'numeric',
+                                          hour: '2-digit',
+                                          minute: '2-digit',
+                                      },
+                                  )
+                                : new Date(post.created_at).toLocaleDateString(
+                                      'ja-JP',
+                                  )}
                         </Link>
 
                         <div className="ml-auto">
@@ -113,7 +143,7 @@ export default function PostCard({
                                         e.stopPropagation();
                                         setMenuOpen(!menuOpen);
                                     }}
-                                    className="text-gray-400 hover:text-gray-600 text-xl cursor-pointer"
+                                    className="text-gray-400 hover:text-gray-600 text-xl cursor-pointer transition-colors"
                                 >
                                     <Ellipsis size={18} />
                                 </button>
@@ -236,8 +266,27 @@ export default function PostCard({
                     <p className="whitespace-pre-wrap">{post.text}</p>
                     <div className="mt-2 flex items-center justify-between">
                         <button
+                            onClick={() => {
+                                if (onCommentClick) {
+                                    onCommentClick();
+                                } else {
+                                    sessionStorage.setItem('focusComment', '1');
+                                    router.visit(
+                                        `/${post.user.user_id}/status/${post.id}`,
+                                    );
+                                }
+                            }}
+                            className="flex items-center gap-x-1 text-gray-400 hover:text-gray-600 cursor-pointer transition-colors"
+                        >
+                            <MessageCircle size={20} strokeWidth={1} />
+                            <span className="text-xs">
+                                {commentsCountOverride ?? post.comments_count}
+                            </span>
+                        </button>
+
+                        <button
                             onClick={handleLike}
-                            className={`flex items-center gap-x-1 cursor-pointer ${isLiked ? 'text-red-500' : 'text-gray-400 hover:text-red-500'}`}
+                            className={`flex items-center gap-x-1 cursor-pointer ${isLiked ? 'text-red-500' : 'text-gray-400 hover:text-red-500'} transition-colors`}
                         >
                             <Heart
                                 size={22}
@@ -260,7 +309,7 @@ export default function PostCard({
                                     );
                                 }
                             }}
-                            className="text-gray-400 hover:text-gray-600 cursor-pointer"
+                            className="text-gray-400 hover:text-gray-600 cursor-pointer transition-colors"
                         >
                             <Share size={18} />
                         </button>

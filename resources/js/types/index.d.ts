@@ -13,6 +13,7 @@ export interface Post {
     user: User;
     likes_count: number;
     is_liked: boolean;
+    comments_count: number;
 }
 
 export interface PaginatedData<T> {
@@ -50,3 +51,12 @@ export type PageProps<
 > = T & {
     auth: { user: User };
 };
+
+export interface Comment {
+    id: number;
+    post_id: number;
+    user_id: number;
+    text: string;
+    created_at: string;
+    user: User;
+}
