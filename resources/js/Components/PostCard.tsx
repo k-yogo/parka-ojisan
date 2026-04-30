@@ -169,7 +169,8 @@ export default function PostCard({
                                     <div className="absolute -right-1 bg-white shadow-md rounded-lg top-0 overflow-hidden">
                                         <button
                                             type="button"
-                                            onClick={() => {
+                                            onClick={(e) => {
+                                                e.stopPropagation();
                                                 navigator.clipboard.writeText(
                                                     `${window.location.origin}/${post.user.user_id}/status/${post.id}`,
                                                 );
@@ -189,7 +190,8 @@ export default function PostCard({
                                         {auth.user?.id === post.user_id && (
                                             <button
                                                 type="button"
-                                                onClick={() => {
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
                                                     if (
                                                         confirm(
                                                             'この投稿を削除しますか？',

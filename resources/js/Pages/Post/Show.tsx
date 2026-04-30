@@ -29,7 +29,7 @@ const Show = ({ post }: { post: Post }) => {
                 >
                     <ArrowLeft size={20} />
                 </button>
-                <span className="font-semibold text-base">投稿</span>
+                <span>投稿</span>
             </div>
             <ul>
                 <PostCard

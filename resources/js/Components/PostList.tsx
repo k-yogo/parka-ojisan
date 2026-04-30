@@ -3,7 +3,7 @@ import { Post } from '@/types';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useEffect, useRef } from 'react';
 
-export default function PostList({ userId }: { userId?: number }) {
+export default function PostList({ userId, onDelete }: { userId?: number; onDelete?: () => void }) {
     const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
         useInfiniteQuery({
             queryKey: ['posts', userId],
@@ -48,7 +48,7 @@ export default function PostList({ userId }: { userId?: number }) {
     return (
         <ul className="flex flex-col gap-y-4">
             {posts.map((post: Post) => (
-                <PostCard key={post.id} post={post} />
+                <PostCard key={post.id} post={post} onDelete={onDelete} />
             ))}
             {isFetchingNextPage && (
                 <div className="flex justify-center py-4">
