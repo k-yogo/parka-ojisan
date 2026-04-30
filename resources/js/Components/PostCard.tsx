@@ -7,9 +7,11 @@ import {
     Heart,
     Share,
     MessageCircle,
+    X,
 } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
+import { createPortal } from 'react-dom';
 
 export default function PostCard({
     post,
@@ -31,6 +33,7 @@ export default function PostCard({
     const [menuOpen, setMenuOpen] = useState(false);
     const [isLiked, setIsLiked] = useState(post.is_liked);
     const [likesCount, setLikesCount] = useState(post.likes_count);
+    const [imageModalOpen, setImageModalOpen] = useState(false);
 
     const handleLike = () => {
         if (!auth.user) {
@@ -90,7 +93,12 @@ export default function PostCard({
                 className="w-full"
                 width={post.width}
                 height={post.height}
+                onClick={(e) => {
+                    e.stopPropagation();
+                    setImageModalOpen(true);
+                }}
             />
+
             <div className="p-4 sm:py-4 sm:px-3 flex gap-x-3 items-start">
                 <Link
                     href={`/${post.user.user_id}`}
@@ -342,6 +350,30 @@ export default function PostCard({
                     </div>
                 </div>
             </div>
+            {imageModalOpen &&
+                createPortal(
+                    <div
+                        className="fixed inset-0 z-50 flex items-center justify-center bg-black/90"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setImageModalOpen(false);
+                        }}
+                    >
+                        <button
+                            className="absolute top-4 left-4 z-10 text-white cursor-pointer"
+                            onClick={() => setImageModalOpen(false)}
+                        >
+                            <X size={28} />
+                        </button>
+                        <img
+                            src={`/storage/${post.image}`}
+                            alt=""
+                            onClick={(e) => e.stopPropagation()}
+                            className="max-w-full max-h-full"
+                        />
+                    </div>,
+                    document.body,
+                )}
         </li>
     );
 }
