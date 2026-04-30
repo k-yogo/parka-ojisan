@@ -17,12 +17,14 @@ export default function PostCard({
     onCommentClick,
     commentsCountOverride,
     showFullDate,
+    disableLink,
 }: {
     post: Post;
     onDelete?: () => void;
     onCommentClick?: () => void;
     commentsCountOverride?: number;
     showFullDate?: boolean;
+    disableLink?: boolean;
 }) {
     const { auth } = usePage().props;
     const queryClient = useQueryClient();
@@ -80,10 +82,15 @@ export default function PostCard({
 
     return (
         <li
-            onClick={() =>
-                router.visit(`/${post.user.user_id}/status/${post.id}`)
+            onClick={
+                disableLink
+                    ? undefined
+                    : () =>
+                          router.visit(
+                              `/${post.user.user_id}/status/${post.id}`,
+                          )
             }
-            className="flex flex-col gap-y-0  hover:bg-gray-50 transition-colors cursor-pointer"
+            className={`flex flex-col gap-y-0 transition-colors ${disableLink ? '' : 'hover:bg-gray-50 cursor-pointer'}`}
         >
             <img
                 src={`/storage/${post.image}`}
