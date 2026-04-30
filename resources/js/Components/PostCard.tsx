@@ -62,14 +62,6 @@ export default function PostCard({
     };
 
     useEffect(() => {
-        const handleClickOutside = () => setMenuOpen(false);
-        if (menuOpen) {
-            document.addEventListener('click', handleClickOutside);
-        }
-        return () => document.removeEventListener('click', handleClickOutside);
-    }, [menuOpen]);
-
-    useEffect(() => {
         setIsLiked(post.is_liked);
         setLikesCount(post.likes_count);
     }, [post.is_liked, post.likes_count]);
@@ -166,119 +158,128 @@ export default function PostCard({
                                     <Ellipsis size={18} />
                                 </button>
                                 {menuOpen && (
-                                    <div className="absolute -right-1 bg-white shadow-md rounded-lg top-0 overflow-hidden">
-                                        <button
-                                            type="button"
+                                    <>
+                                        <div
+                                            className="fixed inset-0 z-10"
                                             onClick={(e) => {
                                                 e.stopPropagation();
-                                                navigator.clipboard.writeText(
-                                                    `${window.location.origin}/${post.user.user_id}/status/${post.id}`,
-                                                );
-                                                router.flash(() => ({
-                                                    success:
-                                                        'リンクをコピーしました',
-                                                }));
                                                 setMenuOpen(false);
                                             }}
-                                            className="px-4 py-2 text-sm hover:bg-gray-100 w-full text-left cursor-pointer flex items-center gap-x-2"
-                                        >
-                                            <Link2 size={16} />
-                                            <span className="whitespace-nowrap">
-                                                リンクをコピー
-                                            </span>
-                                        </button>
-                                        {auth.user?.id === post.user_id && (
+                                        />
+                                        <div className="absolute -right-1 bg-white shadow-md rounded-lg top-0 overflow-hidden z-20">
                                             <button
                                                 type="button"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    if (
-                                                        confirm(
-                                                            'この投稿を削除しますか？',
-                                                        )
-                                                    ) {
-                                                        fetch(
-                                                            `/api/posts/${post.id}`,
-                                                            {
-                                                                method: 'DELETE',
-                                                                headers: {
-                                                                    'X-XSRF-TOKEN':
-                                                                        decodeURIComponent(
-                                                                            document.cookie
-                                                                                .split(
-                                                                                    '; ',
-                                                                                )
-                                                                                .find(
-                                                                                    (
-                                                                                        row,
-                                                                                    ) =>
-                                                                                        row.startsWith(
-                                                                                            'XSRF-TOKEN=',
-                                                                                        ),
-                                                                                )
-                                                                                ?.split(
-                                                                                    '=',
-                                                                                )[1] ??
-                                                                                '',
-                                                                        ),
-                                                                },
-                                                            },
-                                                        ).then((res) => {
-                                                            if (res.ok) {
-                                                                router.flash(
-                                                                    () => ({
-                                                                        success:
-                                                                            '削除しました',
-                                                                    }),
-                                                                );
-                                                                queryClient.setQueriesData(
-                                                                    {
-                                                                        queryKey:
-                                                                            [
-                                                                                'posts',
-                                                                            ],
-                                                                    },
-                                                                    (
-                                                                        old: any,
-                                                                    ) => {
-                                                                        if (
-                                                                            !old
-                                                                        )
-                                                                            return old;
-                                                                        return {
-                                                                            ...old,
-                                                                            pages: old.pages.map(
-                                                                                (
-                                                                                    page: any,
-                                                                                ) => ({
-                                                                                    ...page,
-                                                                                    data: page.data.filter(
-                                                                                        (
-                                                                                            p: any,
-                                                                                        ) =>
-                                                                                            p.id !==
-                                                                                            post.id,
-                                                                                    ),
-                                                                                }),
-                                                                            ),
-                                                                        };
-                                                                    },
-                                                                );
-                                                                onDelete?.();
-                                                            }
-                                                        });
-                                                    }
+                                                    navigator.clipboard.writeText(
+                                                        `${window.location.origin}/${post.user.user_id}/status/${post.id}`,
+                                                    );
+                                                    router.flash(() => ({
+                                                        success:
+                                                            'リンクをコピーしました',
+                                                    }));
                                                     setMenuOpen(false);
                                                 }}
-                                                className="px-4 py-2 text-sm text-red-500 hover:bg-gray-100 w-full text-left cursor-pointer flex items-center gap-x-2"
+                                                className="px-4 py-2 text-sm hover:bg-gray-100 w-full text-left cursor-pointer flex items-center gap-x-2"
                                             >
-                                                <Trash2 size={16} />
+                                                <Link2 size={16} />
                                                 <span className="whitespace-nowrap">
-                                                    削除
+                                                    リンクをコピー
                                                 </span>
                                             </button>
-                                        )}
-                                    </div>
+                                            {auth.user?.id === post.user_id && (
+                                                <button
+                                                    type="button"
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        if (
+                                                            confirm(
+                                                                'この投稿を削除しますか？',
+                                                            )
+                                                        ) {
+                                                            fetch(
+                                                                `/api/posts/${post.id}`,
+                                                                {
+                                                                    method: 'DELETE',
+                                                                    headers: {
+                                                                        'X-XSRF-TOKEN':
+                                                                            decodeURIComponent(
+                                                                                document.cookie
+                                                                                    .split(
+                                                                                        '; ',
+                                                                                    )
+                                                                                    .find(
+                                                                                        (
+                                                                                            row,
+                                                                                        ) =>
+                                                                                            row.startsWith(
+                                                                                                'XSRF-TOKEN=',
+                                                                                            ),
+                                                                                    )
+                                                                                    ?.split(
+                                                                                        '=',
+                                                                                    )[1] ??
+                                                                                    '',
+                                                                            ),
+                                                                    },
+                                                                },
+                                                            ).then((res) => {
+                                                                if (res.ok) {
+                                                                    router.flash(
+                                                                        () => ({
+                                                                            success:
+                                                                                '削除しました',
+                                                                        }),
+                                                                    );
+                                                                    queryClient.setQueriesData(
+                                                                        {
+                                                                            queryKey:
+                                                                                [
+                                                                                    'posts',
+                                                                                ],
+                                                                        },
+                                                                        (
+                                                                            old: any,
+                                                                        ) => {
+                                                                            if (
+                                                                                !old
+                                                                            )
+                                                                                return old;
+                                                                            return {
+                                                                                ...old,
+                                                                                pages: old.pages.map(
+                                                                                    (
+                                                                                        page: any,
+                                                                                    ) => ({
+                                                                                        ...page,
+                                                                                        data: page.data.filter(
+                                                                                            (
+                                                                                                p: any,
+                                                                                            ) =>
+                                                                                                p.id !==
+                                                                                                post.id,
+                                                                                        ),
+                                                                                    }),
+                                                                                ),
+                                                                            };
+                                                                        },
+                                                                    );
+                                                                    onDelete?.();
+                                                                }
+                                                            });
+                                                        }
+                                                        setMenuOpen(false);
+                                                    }}
+                                                    className="px-4 py-2 text-sm text-red-500 hover:bg-gray-100 w-full text-left cursor-pointer flex items-center gap-x-2"
+                                                >
+                                                    <Trash2 size={16} />
+                                                    <span className="whitespace-nowrap">
+                                                        削除
+                                                    </span>
+                                                </button>
+                                            )}
+                                        </div>
+                                    </>
                                 )}
                             </div>
                         </div>
