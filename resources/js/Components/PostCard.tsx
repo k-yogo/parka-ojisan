@@ -94,8 +94,10 @@ export default function PostCard({
                 width={post.width}
                 height={post.height}
                 onClick={(e) => {
-                    e.stopPropagation();
-                    setImageModalOpen(true);
+                    if (window.innerWidth >= 640) {
+                        e.stopPropagation();
+                        setImageModalOpen(true);
+                    }
                 }}
             />
 
