@@ -37,11 +37,15 @@ export default function PostCard({
 
     useEffect(() => {
         if (!imageModalOpen) return;
+        document.body.style.overflow = 'hidden';
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.key === 'Escape') setImageModalOpen(false);
         };
         document.addEventListener('keydown', handleKeyDown);
-        return () => document.removeEventListener('keydown', handleKeyDown);
+        return () => {
+            document.body.style.overflow = '';
+            document.removeEventListener('keydown', handleKeyDown);
+        };
     }, [imageModalOpen]);
 
     const handleLike = () => {
