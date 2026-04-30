@@ -25,7 +25,7 @@ const Show = ({ post }: { post: Post }) => {
             <div className="flex items-center gap-x-4 px-4 sm:px-3 py-3">
                 <button
                     onClick={handleBack}
-                    className="text-gray-600 hover:text-gray-900 cursor-pointer transition-colors"
+                    className="text-gray-950 hover:text-gray-600 cursor-pointer transition-colors"
                 >
                     <ArrowLeft size={20} />
                 </button>
