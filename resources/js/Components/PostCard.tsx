@@ -79,7 +79,12 @@ export default function PostCard({
     }, [auth.user]);
 
     return (
-        <li className="flex flex-col gap-y-0">
+        <li
+            onClick={() =>
+                router.visit(`/${post.user.user_id}/status/${post.id}`)
+            }
+            className="flex flex-col gap-y-0  hover:bg-gray-50 transition-colors cursor-pointer"
+        >
             <img
                 src={`/storage/${post.image}`}
                 alt=""
@@ -87,8 +92,12 @@ export default function PostCard({
                 width={post.width}
                 height={post.height}
             />
-            <div className="p-4 sm:py-4 sm:px-2 flex gap-x-3 items-start">
-                <Link href={`/${post.user.user_id}`} className="relative group">
+            <div className="p-4 sm:py-4 sm:px-3 flex gap-x-3 items-start">
+                <Link
+                    href={`/${post.user.user_id}`}
+                    onClick={(e) => e.stopPropagation()}
+                    className="relative group"
+                >
                     <div className="absolute w-full h-full top-0 left-0 group-hover:bg-[rgba(26,26,26,0.15)] rounded-full duration-200"></div>
                     {post.user.icon_path ? (
                         <img
@@ -105,6 +114,7 @@ export default function PostCard({
                     <div className="flex justify-between items-center">
                         <Link
                             href={`/${post.user.user_id}`}
+                            onClick={(e) => e.stopPropagation()}
                             className="flex items-center gap-x-1"
                         >
                             <span className="font-semibold text-[15px] hover:underline">
@@ -117,6 +127,7 @@ export default function PostCard({
                         <span className="text-sm text-gray-500 px-1">·</span>
                         <Link
                             href={`/${post.user.user_id}/status/${post.id}`}
+                            onClick={(e) => e.stopPropagation()}
                             className={`text-sm text-gray-500 hover:underline`}
                         >
                             {showFullDate
@@ -266,7 +277,8 @@ export default function PostCard({
                     <p className="whitespace-pre-wrap">{post.text}</p>
                     <div className="mt-2 flex items-center justify-between">
                         <button
-                            onClick={() => {
+                            onClick={(e) => {
+                                e.stopPropagation();
                                 if (onCommentClick) {
                                     onCommentClick();
                                 } else {
@@ -285,7 +297,10 @@ export default function PostCard({
                         </button>
 
                         <button
-                            onClick={handleLike}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleLike();
+                            }}
                             className={`flex items-center gap-x-1 cursor-pointer ${isLiked ? 'text-red-500' : 'text-gray-400 hover:text-red-500'} transition-colors`}
                         >
                             <Heart
@@ -298,7 +313,8 @@ export default function PostCard({
                         </button>
 
                         <button
-                            onClick={() => {
+                            onClick={(e) => {
+                                e.stopPropagation();
                                 if (navigator.share) {
                                     navigator.share({
                                         url: `${window.location.origin}/${post.user.user_id}/status/${post.id}`,

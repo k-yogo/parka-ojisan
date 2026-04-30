@@ -114,7 +114,7 @@ const CommentSection = ({
     }, []);
 
     return (
-        <div className="px-4 sm:px-2">
+        <div className="px-4 sm:px-3">
             <div className="my-2">
                 <form
                     className="flex flex-col gap-y-2 items-end"
