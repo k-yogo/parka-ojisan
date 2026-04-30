@@ -35,6 +35,15 @@ export default function PostCard({
     const [likesCount, setLikesCount] = useState(post.likes_count);
     const [imageModalOpen, setImageModalOpen] = useState(false);
 
+    useEffect(() => {
+        if (!imageModalOpen) return;
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') setImageModalOpen(false);
+        };
+        document.addEventListener('keydown', handleKeyDown);
+        return () => document.removeEventListener('keydown', handleKeyDown);
+    }, [imageModalOpen]);
+
     const handleLike = () => {
         if (!auth.user) {
             router.visit('/login');
