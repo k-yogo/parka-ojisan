@@ -9,7 +9,16 @@ class Post extends Model {
 
     use HasFactory;
 
-    //
+    protected static function booted(): void {
+        static::creating(function (Post $post) {
+            $generator = new \Hidehalo\Nanoid\Client();
+            do {
+                $id = $generator->formattedId('0123456789', 19);
+            } while (static::where('public_id', $id)->exists());
+            $post->public_id = $id;
+        });
+    }
+
     protected $fillable = [
         'image',
         'width',      // 追加

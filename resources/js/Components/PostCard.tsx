@@ -95,7 +95,7 @@ export default function PostCard({
                     ? undefined
                     : () =>
                           router.visit(
-                              `/${post.user.user_id}/status/${post.id}`,
+                              `/${post.user.user_id}/status/${post.public_id}`,
                           )
             }
             className={`flex flex-col gap-y-0 transition-colors ${disableLink ? '' : 'hover:bg-gray-50 cursor-pointer'}`}
@@ -148,7 +148,7 @@ export default function PostCard({
                         </Link>
                         <span className="text-sm text-gray-500 px-1">·</span>
                         <Link
-                            href={`/${post.user.user_id}/status/${post.id}`}
+                            href={`/${post.user.user_id}/status/${post.public_id}`}
                             onClick={(e) => e.stopPropagation()}
                             className={`text-sm text-gray-500 hover:underline`}
                         >
@@ -195,7 +195,7 @@ export default function PostCard({
                                                 onClick={(e) => {
                                                     e.stopPropagation();
                                                     navigator.clipboard.writeText(
-                                                        `${window.location.origin}/${post.user.user_id}/status/${post.id}`,
+                                                        `${window.location.origin}/${post.user.user_id}/status/${post.public_id}`,
                                                     );
                                                     router.flash(() => ({
                                                         success:
@@ -317,7 +317,7 @@ export default function PostCard({
                                 } else {
                                     sessionStorage.setItem('focusComment', '1');
                                     router.visit(
-                                        `/${post.user.user_id}/status/${post.id}`,
+                                        `/${post.user.user_id}/status/${post.public_id}`,
                                     );
                                 }
                             }}
@@ -350,11 +350,11 @@ export default function PostCard({
                                 e.stopPropagation();
                                 if (navigator.share) {
                                     navigator.share({
-                                        url: `${window.location.origin}/${post.user.user_id}/status/${post.id}`,
+                                        url: `${window.location.origin}/${post.user.user_id}/status/${post.public_id}`,
                                     });
                                 } else {
                                     navigator.clipboard.writeText(
-                                        `${window.location.origin}/${post.user.user_id}/status/${post.id}`,
+                                        `${window.location.origin}/${post.user.user_id}/status/${post.public_id}`,
                                     );
                                 }
                             }}

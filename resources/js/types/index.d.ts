@@ -14,6 +14,7 @@ export interface Post {
     likes_count: number;
     is_liked: boolean;
     comments_count: number;
+    public_id: string;
 }
 
 export interface PaginatedData<T> {
