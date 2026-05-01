@@ -19,8 +19,13 @@ class PostController extends Controller {
         } else {
             $post->is_liked = false;
         }
+        $comments = $post->comments()
+            ->with('user')
+            ->latest()
+            ->paginate(3);
         return Inertia::render('Post/Show', [
             'post' => $post,
+            'initialComments' => $comments,
         ]);
     }
 }

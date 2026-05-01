@@ -1,12 +1,18 @@
 import CommentSection from '@/Components/CommentSection';
 import PostCard from '@/Components/PostCard';
 import Layout from '@/Layouts/Layout';
-import { Post } from '@/types';
+import { Post, Comment, PaginatedData } from '@/types';
 import { Head, router, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 
-const Show = ({ post }: { post: Post }) => {
+const Show = ({
+    post,
+    initialComments,
+}: {
+    post: Post;
+    initialComments: PaginatedData<Comment>;
+}) => {
     const { auth } = usePage().props;
     const [focusComment, setFocusComment] = useState(false);
     const [commentsCount, setCommentsCount] = useState(post.comments_count);
@@ -43,6 +49,7 @@ const Show = ({ post }: { post: Post }) => {
             </ul>
             <CommentSection
                 postId={post.id}
+                initialComments={initialComments}
                 auth={auth.user}
                 focusComment={focusComment}
                 onFocused={() => setFocusComment(false)}
