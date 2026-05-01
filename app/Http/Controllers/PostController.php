@@ -22,7 +22,8 @@ class PostController extends Controller {
         $comments = $post->comments()
             ->with('user')
             ->latest()
-            ->paginate(3);
+            ->paginate(3)
+            ->withPath("/api/posts/{$post->id}/comments");
         return Inertia::render('Post/Show', [
             'post' => $post,
             'initialComments' => $comments,

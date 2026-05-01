@@ -228,9 +228,10 @@ const CommentSection = ({
                 <div className="text-center mt-4">
                     <button
                         onClick={loadMore}
-                        className="text-sm text-gray-500 hover:text-gray-700 transition-color cursor-pointer"
+                        disabled={isLoading}
+                        className="text-sm text-gray-500 hover:text-gray-700 transition-color cursor-pointer disabled:opacity-50 disabled:cursor-default"
                     >
-                        {isLoading ? '読み込み中...' : 'もっと読み込む'}
+                        もっと読み込む
                     </button>
                 </div>
             )}
