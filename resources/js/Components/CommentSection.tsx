@@ -40,9 +40,7 @@ const CommentSection = ({
     const loadMore = () => {
         if (!nextPageUrl || isLoading) return;
         setIsLoading(true);
-        const relativeUrl =
-            new URL(nextPageUrl).pathname + new URL(nextPageUrl).search;
-        fetch(relativeUrl)
+        fetch(nextPageUrl)
             .then((res) => res.json() as Promise<PaginatedData<Comment>>)
             .then((data) => {
                 setComments((prev) => [...prev, ...data.data]);
