@@ -15,8 +15,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v6.4.0
         with:
-          node-version: '22'
-          cache: 'npm'
+          node-version: "22"
+          cache: "npm"
 
       - name: Build assets
         env:
@@ -45,6 +45,7 @@ jobs:
             cd ~/yogo.dev/parka-ojisan
             git pull origin main
             /usr/bin/php8.4 /usr/bin/composer install --no-dev --optimize-autoloader --no-scripts
+            git restore composer.json composer.lock
             rm -f bootstrap/cache/packages.php
             /usr/bin/php8.4 artisan package:discover --ansi
             /usr/bin/php8.4 artisan migrate --force
