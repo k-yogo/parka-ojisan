@@ -103,7 +103,7 @@ export default function PostCard({
             <img
                 src={`/storage/${post.image}`}
                 alt=""
-                className="w-full"
+                className="w-full sm:cursor-pointer"
                 width={post.width}
                 height={post.height}
                 onClick={(e) => {
