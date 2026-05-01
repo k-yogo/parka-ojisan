@@ -5,7 +5,6 @@ import { Ellipsis, Trash2 } from 'lucide-react';
 type Props = {
     postId: number;
     auth: User | null;
-    initialComments: PaginatedData<Comment>;
     focusComment?: boolean;
     onFocused?: () => void;
     onCommentAdded?: () => void;
@@ -15,15 +14,14 @@ type Props = {
 const CommentSection = ({
     postId,
     auth,
-    initialComments,
     focusComment,
     onFocused,
     onCommentAdded,
     onCommentDeleted,
 }: Props) => {
-    const [comments, setComments] = useState<Comment[]>(initialComments.data);
+    const [comments, setComments] = useState<Comment[]>([]);
     const [nextPageUrl, setNextPageUrl] = useState<string | null>(
-        initialComments.next_page_url,
+        `/api/posts/${postId}/comments`,
     );
     const [isLoading, setIsLoading] = useState(false);
     const [text, setText] = useState('');
@@ -110,6 +108,10 @@ const CommentSection = ({
             }
         });
     };
+
+    useEffect(() => {
+        loadMore();
+    }, []);
 
     return (
         <div className="px-4 sm:px-3">
