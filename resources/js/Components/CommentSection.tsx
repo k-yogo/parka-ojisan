@@ -155,27 +155,27 @@ const CommentSection = ({
             </div>
 
             {comments.map((comment) => (
-                <div key={comment.id} className="flex gap-x-2 py-2">
+                <div key={comment.id} className="flex gap-x-3 py-2">
                     {comment.user.icon_path ? (
                         <img
                             src={`/storage/${comment.user.icon_path}`}
                             alt=""
-                            className="w-8 h-8 rounded-full object-cover shrink-0"
+                            className="w-10 h-10 rounded-full object-cover shrink-0"
                         />
                     ) : (
-                        <div className="w-8 h-8 rounded-full bg-gray-200 shrink-0" />
+                        <div className="w-10 h-10 rounded-full bg-gray-200 shrink-0" />
                     )}
 
-                    <div className="flex flex-col gap-1 flex-1">
+                    <div className="flex flex-col gap-2 flex-1">
                         <div className="flex items-center gap-x-1">
-                            <span className="font-semibold text-sm">
+                            <span className="font-semibold text-[15px]">
                                 {comment.user.name}
                             </span>
-                            <span className="text-xs text-gray-500">
+                            <span className="text-sm text-gray-500">
                                 @{comment.user.user_id}
                             </span>
-                            <span className="text-xs text-gray-500">·</span>
-                            <span className="text-xs text-gray-500">
+                            <span className="text-sm text-gray-500">·</span>
+                            <span className="text-sm text-gray-500">
                                 {new Date(comment.created_at).toLocaleString(
                                     'ja-JP',
                                     {
