@@ -81,7 +81,12 @@ export default function Layout({ children }: PropsWithChildren) {
                             )}
                         </button>
                         {menuOpen && (
-                            <div className="absolute right-0 mt-1 w-44 bg-white shadow-lg rounded-lg border border-gray-100 overflow-hidden">
+                            <>
+                            <div
+                                className="fixed inset-0 z-20"
+                                onClick={() => setMenuOpen(false)}
+                            />
+                            <div className="absolute right-0 mt-1 w-44 bg-white shadow-lg rounded-lg border border-gray-100 overflow-hidden z-30">
                                 {auth.user ? (
                                     <>
                                         <Link
@@ -150,6 +155,7 @@ export default function Layout({ children }: PropsWithChildren) {
                                     </>
                                 )}
                             </div>
+                            </>
                         )}
                     </div>
                 </header>
