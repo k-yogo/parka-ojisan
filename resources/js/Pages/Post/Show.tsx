@@ -6,19 +6,16 @@ import { Head, router, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 
-const Show = ({
-    post,
-    initialComments,
-}: {
-    post: Post;
-    initialComments: PaginatedData<Comment>;
-}) => {
+const Show = ({ post, initialComments }: { post: Post; initialComments: PaginatedData<Comment> }) => {
     const { auth } = usePage().props;
     const [focusComment, setFocusComment] = useState(false);
     const [commentsCount, setCommentsCount] = useState(post.comments_count);
 
     const handleBack = () => {
-        if (window.history.length > 1) {
+        const referrer = document.referrer;
+        const isFromSameOrigin = referrer && new URL(referrer).origin === window.location.origin;
+
+        if (window.history.length > 1 && isFromSameOrigin) {
             window.history.back();
         } else {
             router.visit('/');
@@ -28,11 +25,8 @@ const Show = ({
     return (
         <>
             <Head title={`${post.user.name}さん:「${post.text}」`} />
-            <div className="flex items-center gap-x-4 px-4 sm:px-3 py-3">
-                <button
-                    onClick={handleBack}
-                    className="text-gray-950 hover:text-gray-600 cursor-pointer transition-colors"
-                >
+            <div className="flex items-center gap-x-4 px-4 py-3 sm:px-3">
+                <button onClick={handleBack} className="cursor-pointer text-gray-950 transition-colors hover:text-gray-600">
                     <ArrowLeft size={20} />
                 </button>
                 <span>投稿</span>
