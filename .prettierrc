@@ -4,7 +4,7 @@
         {
             "files": "*.tsx",
             "options": {
-                "printWidth": 10000,
+                "printWidth": 160,
                 "singleQuote": true
             }
         }
