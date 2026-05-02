@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { Link } from '@inertiajs/react';
 import { Comment, PaginatedData, User } from '@/types';
 import { Ellipsis, Trash2 } from 'lucide-react';
 
@@ -153,25 +154,30 @@ const CommentSection = ({
             </div>
 
             {comments.map((comment) => (
-                <div key={comment.id} className="flex gap-x-3 py-2">
-                    {comment.user.icon_path ? (
-                        <img
-                            src={`/storage/${comment.user.icon_path}`}
-                            alt=""
-                            className="w-10 h-10 rounded-full object-cover shrink-0"
-                        />
-                    ) : (
-                        <div className="w-10 h-10 rounded-full bg-gray-200 shrink-0" />
-                    )}
+                <div key={comment.id} className="flex gap-x-3 py-2 items-start">
+                    <Link href={`/${comment.user.user_id}`} className="relative group shrink-0">
+                        <div className="absolute w-full h-full top-0 left-0 group-hover:bg-[rgba(26,26,26,0.15)] rounded-full duration-200"></div>
+                        {comment.user.icon_path ? (
+                            <img
+                                src={`/storage/${comment.user.icon_path}`}
+                                alt=""
+                                className="w-10 h-10 rounded-full object-cover"
+                            />
+                        ) : (
+                            <div className="w-10 h-10 rounded-full bg-gray-200" />
+                        )}
+                    </Link>
 
                     <div className="flex flex-col gap-2 flex-1">
                         <div className="flex items-center gap-x-1">
-                            <span className="font-semibold text-[15px]">
-                                {comment.user.name}
-                            </span>
-                            <span className="text-sm text-gray-500">
-                                @{comment.user.user_id}
-                            </span>
+                            <Link href={`/${comment.user.user_id}`} className="flex items-center gap-x-1">
+                                <span className="font-semibold text-[15px] hover:underline">
+                                    {comment.user.name}
+                                </span>
+                                <span className="text-sm text-gray-500">
+                                    @{comment.user.user_id}
+                                </span>
+                            </Link>
                             <span className="text-sm text-gray-500">·</span>
                             <span className="text-sm text-gray-500">
                                 {new Date(comment.created_at).toLocaleString(
