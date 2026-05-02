@@ -220,7 +220,7 @@ const CommentSection = ({
                                 </div>
                             )}
                         </div>
-                        <p className="text-sm">{comment.text}</p>
+                        <p className="text-[15px]">{comment.text}</p>
                     </div>
                 </div>
             ))}
@@ -229,7 +229,7 @@ const CommentSection = ({
                     <button
                         onClick={loadMore}
                         disabled={isLoading}
-                        className="text-sm text-gray-500 hover:text-gray-700 transition-color cursor-pointer disabled:opacity-50 disabled:cursor-default"
+                        className="text-sm text-gray-500 hover:text-gray-700 transition-color cursor-pointer disabled:cursor-default"
                     >
                         もっと読み込む
                     </button>
