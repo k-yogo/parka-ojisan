@@ -1,14 +1,6 @@
 import { Post } from '@/types';
 import { Link, router, usePage } from '@inertiajs/react';
-import {
-    Ellipsis,
-    Link2,
-    Trash2,
-    Heart,
-    Share,
-    MessageCircle,
-    X,
-} from 'lucide-react';
+import { Ellipsis, Link2, Trash2, Heart, Share, MessageCircle, X } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { createPortal } from 'react-dom';
@@ -90,15 +82,8 @@ export default function PostCard({
 
     return (
         <li
-            onClick={
-                disableLink
-                    ? undefined
-                    : () =>
-                          router.visit(
-                              `/${post.user.user_id}/status/${post.public_id}`,
-                          )
-            }
-            className={`flex flex-col gap-y-0 transition-colors ${disableLink ? '' : 'hover:bg-gray-50 cursor-pointer'}`}
+            onClick={disableLink ? undefined : () => router.visit(`/${post.user.user_id}/status/${post.public_id}`)}
+            className={`flex flex-col gap-y-0 transition-colors ${disableLink ? '' : 'cursor-pointer'}`}
         >
             <img
                 src={`/storage/${post.image}`}
@@ -114,58 +99,37 @@ export default function PostCard({
                 }}
             />
 
-            <div className="p-4 sm:py-4 sm:px-3 flex gap-x-3 items-start">
-                <Link
-                    href={`/${post.user.user_id}`}
-                    onClick={(e) => e.stopPropagation()}
-                    className="relative group"
-                >
-                    <div className="absolute w-full h-full top-0 left-0 group-hover:bg-[rgba(26,26,26,0.15)] rounded-full duration-200"></div>
+            <div className="flex items-start gap-x-3 p-4 sm:px-3 sm:py-4 hover:bg-gray-50 transition-colors">
+                <Link href={`/${post.user.user_id}`} onClick={(e) => e.stopPropagation()} className="group relative">
+                    <div className="absolute top-0 left-0 h-full w-full rounded-full duration-200 group-hover:bg-[rgba(26,26,26,0.15)]"></div>
                     {post.user.icon_path ? (
-                        <img
-                            src={`/storage/${post.user.icon_path}`}
-                            alt=""
-                            className="w-10 h-10 rounded-full object-cover"
-                        />
+                        <img src={`/storage/${post.user.icon_path}`} alt="" className="h-10 w-10 rounded-full object-cover" />
                     ) : (
-                        <div className="w-10 h-10 rounded-full bg-gray-200" />
+                        <div className="h-10 w-10 rounded-full bg-gray-200" />
                     )}
                 </Link>
 
-                <div className="flex flex-col gap-2 flex-1">
-                    <div className="flex justify-between items-center">
-                        <Link
-                            href={`/${post.user.user_id}`}
-                            onClick={(e) => e.stopPropagation()}
-                            className="flex items-center gap-x-1"
-                        >
-                            <span className="font-semibold text-[15px] hover:underline">
-                                {post.user.name}
-                            </span>
-                            <span className="text-sm text-gray-500">
-                                @{post.user.user_id}
-                            </span>
+                <div className="flex flex-1 flex-col gap-2">
+                    <div className="flex items-center justify-between">
+                        <Link href={`/${post.user.user_id}`} onClick={(e) => e.stopPropagation()} className="flex items-center gap-x-1">
+                            <span className="text-[15px] font-semibold hover:underline">{post.user.name}</span>
+                            <span className="text-sm text-gray-500">@{post.user.user_id}</span>
                         </Link>
-                        <span className="text-sm text-gray-500 px-1">·</span>
+                        <span className="px-1 text-sm text-gray-500">·</span>
                         <Link
                             href={`/${post.user.user_id}/status/${post.public_id}`}
                             onClick={(e) => e.stopPropagation()}
                             className={`text-sm text-gray-500 hover:underline`}
                         >
                             {showFullDate
-                                ? new Date(post.created_at).toLocaleString(
-                                      'ja-JP',
-                                      {
-                                          year: 'numeric',
-                                          month: 'numeric',
-                                          day: 'numeric',
-                                          hour: '2-digit',
-                                          minute: '2-digit',
-                                      },
-                                  )
-                                : new Date(post.created_at).toLocaleDateString(
-                                      'ja-JP',
-                                  )}
+                                ? new Date(post.created_at).toLocaleString('ja-JP', {
+                                      year: 'numeric',
+                                      month: 'numeric',
+                                      day: 'numeric',
+                                      hour: '2-digit',
+                                      minute: '2-digit',
+                                  })
+                                : new Date(post.created_at).toLocaleDateString('ja-JP')}
                         </Link>
 
                         <div className="ml-auto">
@@ -176,7 +140,7 @@ export default function PostCard({
                                         e.stopPropagation();
                                         setMenuOpen(!menuOpen);
                                     }}
-                                    className="text-gray-400 hover:text-gray-600 text-xl cursor-pointer transition-colors"
+                                    className="cursor-pointer text-xl text-gray-400 transition-colors hover:text-gray-600"
                                 >
                                     <Ellipsis size={18} />
                                 </button>
@@ -189,101 +153,55 @@ export default function PostCard({
                                                 setMenuOpen(false);
                                             }}
                                         />
-                                        <div className="absolute -right-1 bg-white shadow-md rounded-lg top-0 overflow-hidden z-20">
+                                        <div className="absolute top-0 -right-1 z-20 overflow-hidden rounded-lg bg-white shadow-md">
                                             <button
                                                 type="button"
                                                 onClick={(e) => {
                                                     e.stopPropagation();
-                                                    navigator.clipboard.writeText(
-                                                        `${window.location.origin}/${post.user.user_id}/status/${post.public_id}`,
-                                                    );
+                                                    navigator.clipboard.writeText(`${window.location.origin}/${post.user.user_id}/status/${post.public_id}`);
                                                     router.flash(() => ({
-                                                        success:
-                                                            'リンクをコピーしました',
+                                                        success: 'リンクをコピーしました',
                                                     }));
                                                     setMenuOpen(false);
                                                 }}
-                                                className="px-4 py-2 text-sm hover:bg-gray-100 w-full text-left cursor-pointer flex items-center gap-x-2"
+                                                className="flex w-full cursor-pointer items-center gap-x-2 px-4 py-2 text-left text-sm hover:bg-gray-100"
                                             >
                                                 <Link2 size={16} />
-                                                <span className="whitespace-nowrap">
-                                                    リンクをコピー
-                                                </span>
+                                                <span className="whitespace-nowrap">リンクをコピー</span>
                                             </button>
                                             {auth.user?.id === post.user_id && (
                                                 <button
                                                     type="button"
                                                     onClick={(e) => {
                                                         e.stopPropagation();
-                                                        if (
-                                                            confirm(
-                                                                'この投稿を削除しますか？',
-                                                            )
-                                                        ) {
-                                                            fetch(
-                                                                `/api/posts/${post.id}`,
-                                                                {
-                                                                    method: 'DELETE',
-                                                                    headers: {
-                                                                        'X-XSRF-TOKEN':
-                                                                            decodeURIComponent(
-                                                                                document.cookie
-                                                                                    .split(
-                                                                                        '; ',
-                                                                                    )
-                                                                                    .find(
-                                                                                        (
-                                                                                            row,
-                                                                                        ) =>
-                                                                                            row.startsWith(
-                                                                                                'XSRF-TOKEN=',
-                                                                                            ),
-                                                                                    )
-                                                                                    ?.split(
-                                                                                        '=',
-                                                                                    )[1] ??
-                                                                                    '',
-                                                                            ),
-                                                                    },
+                                                        if (confirm('この投稿を削除しますか？')) {
+                                                            fetch(`/api/posts/${post.id}`, {
+                                                                method: 'DELETE',
+                                                                headers: {
+                                                                    'X-XSRF-TOKEN': decodeURIComponent(
+                                                                        document.cookie
+                                                                            .split('; ')
+                                                                            .find((row) => row.startsWith('XSRF-TOKEN='))
+                                                                            ?.split('=')[1] ?? '',
+                                                                    ),
                                                                 },
-                                                            ).then((res) => {
+                                                            }).then((res) => {
                                                                 if (res.ok) {
-                                                                    router.flash(
-                                                                        () => ({
-                                                                            success:
-                                                                                '削除しました',
-                                                                        }),
-                                                                    );
+                                                                    router.flash(() => ({
+                                                                        success: '削除しました',
+                                                                    }));
                                                                     queryClient.setQueriesData(
                                                                         {
-                                                                            queryKey:
-                                                                                [
-                                                                                    'posts',
-                                                                                ],
+                                                                            queryKey: ['posts'],
                                                                         },
-                                                                        (
-                                                                            old: any,
-                                                                        ) => {
-                                                                            if (
-                                                                                !old
-                                                                            )
-                                                                                return old;
+                                                                        (old: any) => {
+                                                                            if (!old) return old;
                                                                             return {
                                                                                 ...old,
-                                                                                pages: old.pages.map(
-                                                                                    (
-                                                                                        page: any,
-                                                                                    ) => ({
-                                                                                        ...page,
-                                                                                        data: page.data.filter(
-                                                                                            (
-                                                                                                p: any,
-                                                                                            ) =>
-                                                                                                p.id !==
-                                                                                                post.id,
-                                                                                        ),
-                                                                                    }),
-                                                                                ),
+                                                                                pages: old.pages.map((page: any) => ({
+                                                                                    ...page,
+                                                                                    data: page.data.filter((p: any) => p.id !== post.id),
+                                                                                })),
                                                                             };
                                                                         },
                                                                     );
@@ -293,12 +211,10 @@ export default function PostCard({
                                                         }
                                                         setMenuOpen(false);
                                                     }}
-                                                    className="px-4 py-2 text-sm text-red-500 hover:bg-gray-100 w-full text-left cursor-pointer flex items-center gap-x-2"
+                                                    className="flex w-full cursor-pointer items-center gap-x-2 px-4 py-2 text-left text-sm text-red-500 hover:bg-gray-100"
                                                 >
                                                     <Trash2 size={16} />
-                                                    <span className="whitespace-nowrap">
-                                                        削除
-                                                    </span>
+                                                    <span className="whitespace-nowrap">削除</span>
                                                 </button>
                                             )}
                                         </div>
@@ -316,17 +232,13 @@ export default function PostCard({
                                     onCommentClick();
                                 } else {
                                     sessionStorage.setItem('focusComment', '1');
-                                    router.visit(
-                                        `/${post.user.user_id}/status/${post.public_id}`,
-                                    );
+                                    router.visit(`/${post.user.user_id}/status/${post.public_id}`);
                                 }
                             }}
-                            className="flex items-center gap-x-1 text-gray-400 hover:text-gray-600 cursor-pointer transition-colors"
+                            className="flex cursor-pointer items-center gap-x-1 text-gray-400 transition-colors hover:text-gray-600"
                         >
                             <MessageCircle size={20} strokeWidth={1} />
-                            <span className="text-xs">
-                                {commentsCountOverride ?? post.comments_count}
-                            </span>
+                            <span className="text-xs">{commentsCountOverride ?? post.comments_count}</span>
                         </button>
 
                         <button
@@ -334,14 +246,9 @@ export default function PostCard({
                                 e.stopPropagation();
                                 handleLike();
                             }}
-                            className={`flex items-center gap-x-1 cursor-pointer ${isLiked ? 'text-red-500' : 'text-gray-400 hover:text-red-500'} transition-colors`}
+                            className={`flex cursor-pointer items-center gap-x-1 ${isLiked ? 'text-red-500' : 'text-gray-400 hover:text-red-500'} transition-colors`}
                         >
-                            <Heart
-                                size={22}
-                                fill={isLiked ? 'red' : 'none'}
-                                color="currentColor"
-                                strokeWidth={1}
-                            />
+                            <Heart size={22} fill={isLiked ? 'red' : 'none'} color="currentColor" strokeWidth={1} />
                             <span className="text-xs">{likesCount}</span>
                         </button>
 
@@ -353,12 +260,10 @@ export default function PostCard({
                                         url: `${window.location.origin}/${post.user.user_id}/status/${post.public_id}`,
                                     });
                                 } else {
-                                    navigator.clipboard.writeText(
-                                        `${window.location.origin}/${post.user.user_id}/status/${post.public_id}`,
-                                    );
+                                    navigator.clipboard.writeText(`${window.location.origin}/${post.user.user_id}/status/${post.public_id}`);
                                 }
                             }}
-                            className="text-gray-400 hover:text-gray-600 cursor-pointer transition-colors"
+                            className="cursor-pointer text-gray-400 transition-colors hover:text-gray-600"
                         >
                             <Share size={18} />
                         </button>
@@ -374,18 +279,10 @@ export default function PostCard({
                             setImageModalOpen(false);
                         }}
                     >
-                        <button
-                            className="absolute top-4 left-4 z-10 text-white cursor-pointer"
-                            onClick={() => setImageModalOpen(false)}
-                        >
+                        <button className="absolute top-4 left-4 z-10 cursor-pointer text-white" onClick={() => setImageModalOpen(false)}>
                             <X size={28} />
                         </button>
-                        <img
-                            src={`/storage/${post.image}`}
-                            alt=""
-                            onClick={(e) => e.stopPropagation()}
-                            className="max-w-full max-h-full"
-                        />
+                        <img src={`/storage/${post.image}`} alt="" onClick={(e) => e.stopPropagation()} className="max-h-full max-w-full" />
                     </div>,
                     document.body,
                 )}
