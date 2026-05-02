@@ -4,20 +4,12 @@ import { User } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import { ArrowLeft } from 'lucide-react';
 import { useState } from 'react';
+import { useHandleBack } from '@/hooks/useHandleBack';
 
 const Show = ({ user }: { user: User }) => {
     const [postsCount, setPostsCount] = useState(user.posts_count ?? 0);
 
-    const handleBack = () => {
-        const referrer = document.referrer;
-        const isFromSameOrigin = referrer && new URL(referrer).origin === window.location.origin;
-
-        if (window.history.length > 1 && isFromSameOrigin) {
-            window.history.back();
-        } else {
-            router.visit('/');
-        }
-    };
+    const handleBack = useHandleBack();
 
     return (
         <>

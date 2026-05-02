@@ -5,22 +5,14 @@ import { Post, Comment, PaginatedData } from '@/types';
 import { Head, router, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
+import { useHandleBack } from '@/hooks/useHandleBack';
 
 const Show = ({ post, initialComments }: { post: Post; initialComments: PaginatedData<Comment> }) => {
     const { auth } = usePage().props;
     const [focusComment, setFocusComment] = useState(false);
     const [commentsCount, setCommentsCount] = useState(post.comments_count);
 
-    const handleBack = () => {
-        const referrer = document.referrer;
-        const isFromSameOrigin = referrer && new URL(referrer).origin === window.location.origin;
-
-        if (window.history.length > 1 && isFromSameOrigin) {
-            window.history.back();
-        } else {
-            router.visit('/');
-        }
-    };
+    const handleBack = useHandleBack();
 
     return (
         <>
