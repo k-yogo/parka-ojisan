@@ -99,7 +99,7 @@ export default function PostCard({
                 }}
             />
 
-            <div className="flex items-start gap-x-3 p-4 sm:px-3 sm:py-4 hover:bg-gray-50 transition-colors">
+            <div className="flex items-start gap-x-3 p-4 transition-colors hover:bg-gray-50 sm:px-3 sm:py-4">
                 <Link href={`/${post.user.user_id}`} onClick={(e) => e.stopPropagation()} className="group relative">
                     <div className="absolute top-0 left-0 h-full w-full rounded-full duration-200 group-hover:bg-[rgba(26,26,26,0.15)]"></div>
                     {post.user.icon_path ? (
@@ -109,17 +109,17 @@ export default function PostCard({
                     )}
                 </Link>
 
-                <div className="flex flex-1 flex-col gap-2">
+                <div className="flex flex-1 min-w-0 flex-col gap-2">
                     <div className="flex items-center justify-between">
-                        <Link href={`/${post.user.user_id}`} onClick={(e) => e.stopPropagation()} className="flex items-center gap-x-1">
-                            <span className="text-[15px] font-semibold hover:underline">{post.user.name}</span>
-                            <span className="text-sm text-gray-500">@{post.user.user_id}</span>
+                        <Link href={`/${post.user.user_id}`} onClick={(e) => e.stopPropagation()} className="flex min-w-0 shrink items-center gap-x-1">
+                            <span className="truncate text-[15px] font-semibold hover:underline">{post.user.name}</span>
+                            <span className="truncate text-sm text-gray-500">@{post.user.user_id}</span>
                         </Link>
-                        <span className="px-1 text-sm text-gray-500">·</span>
+                        <span className="shrink-0 px-1 text-sm text-gray-500">·</span>
                         <Link
                             href={`/${post.user.user_id}/status/${post.public_id}`}
                             onClick={(e) => e.stopPropagation()}
-                            className={`text-sm text-gray-500 hover:underline`}
+                            className={`shrink-0 text-sm text-gray-500 hover:underline`}
                         >
                             {showFullDate
                                 ? new Date(post.created_at).toLocaleString('ja-JP', {
@@ -132,7 +132,7 @@ export default function PostCard({
                                 : new Date(post.created_at).toLocaleDateString('ja-JP')}
                         </Link>
 
-                        <div className="ml-auto">
+                        <div className="ml-auto shrink-0 pl-2">
                             <div className="relative">
                                 <button
                                     type="button"

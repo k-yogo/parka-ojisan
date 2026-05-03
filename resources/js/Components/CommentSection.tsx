@@ -141,14 +141,14 @@ const CommentSection = ({ postId, auth, initialComments, focusComment, onFocused
                         )}
                     </Link>
 
-                    <div className="flex flex-1 flex-col gap-2">
+                    <div className="flex min-w-0 flex-1 flex-col gap-2">
                         <div className="flex items-center gap-x-1">
-                            <Link href={`/${comment.user.user_id}`} className="flex items-center gap-x-1">
-                                <span className="text-[15px] font-semibold hover:underline">{comment.user.name}</span>
-                                <span className="text-sm text-gray-500">@{comment.user.user_id}</span>
+                            <Link href={`/${comment.user.user_id}`} className="flex min-w-0 shrink items-center gap-x-1">
+                                <span className="truncate text-[15px] font-semibold hover:underline">{comment.user.name}</span>
+                                <span className="truncate text-sm text-gray-500">@{comment.user.user_id}</span>
                             </Link>
-                            <span className="text-sm text-gray-500">·</span>
-                            <span className="text-sm text-gray-500">
+                            <span className="shrink-0 px-1 text-sm text-gray-500">·</span>
+                            <span className="shrink-0 text-sm text-gray-500">
                                 {new Date(comment.created_at).toLocaleString('ja-JP', {
                                     year: 'numeric',
                                     month: 'numeric',
@@ -158,7 +158,7 @@ const CommentSection = ({ postId, auth, initialComments, focusComment, onFocused
                                 })}
                             </span>
                             {auth?.id === comment.user_id && (
-                                <div className="relative ml-auto">
+                                <div className="relative ml-auto shrink-0 pl-2">
                                     <button
                                         type="button"
                                         onClick={(e) => {
