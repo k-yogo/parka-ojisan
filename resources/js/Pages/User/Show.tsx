@@ -31,9 +31,9 @@ const Show = ({ user }: { user: User }) => {
                 ) : (
                     <div className="h-24 w-24 rounded-full bg-gray-200" />
                 )}
-                <div className="flex items-center gap-x-2">
-                    <p className="text-lg font-bold">{user.name}</p>
-                    <p className="text-sm text-gray-500">@{user.user_id}</p>
+                <div className="flex items-center gap-x-2 max-w-full">
+                    <p className="text-lg font-bold truncate shrink min-w-0">{user.name}</p>
+                    <p className="text-sm text-gray-500 truncate shrink min-w-0">@{user.user_id}</p>
                 </div>
             </div>
 
