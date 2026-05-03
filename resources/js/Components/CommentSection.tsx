@@ -13,19 +13,9 @@ type Props = {
     onCommentDeleted?: () => void;
 };
 
-const CommentSection = ({
-    postId,
-    auth,
-    initialComments,
-    focusComment,
-    onFocused,
-    onCommentAdded,
-    onCommentDeleted,
-}: Props) => {
+const CommentSection = ({ postId, auth, initialComments, focusComment, onFocused, onCommentAdded, onCommentDeleted }: Props) => {
     const [comments, setComments] = useState<Comment[]>(initialComments.data);
-    const [nextPageUrl, setNextPageUrl] = useState<string | null>(
-        initialComments.next_page_url,
-    );
+    const [nextPageUrl, setNextPageUrl] = useState<string | null>(initialComments.next_page_url);
     const [isLoading, setIsLoading] = useState(false);
     const [text, setText] = useState('');
     const [openMenuId, setOpenMenuId] = useState<number | null>(null);
@@ -115,38 +105,25 @@ const CommentSection = ({
     return (
         <div className="px-4 sm:px-3">
             <div className="my-2">
-                <form
-                    className="flex flex-col gap-y-2 items-end"
-                    onSubmit={handleSubmit}
-                >
+                <form className="flex flex-col items-end gap-y-2" onSubmit={handleSubmit}>
                     <textarea
                         ref={textareaRef}
                         value={text}
                         onChange={(e) => setText(e.target.value)}
-                        className="flex-1 border rounded-xl px-4 py-2 sm:text-sm placeholder:text-sm resize-none w-full focus:ring-2 focus:ring-blue-500 focus:outline-none"
-                        placeholder={
-                            auth
-                                ? 'コメントを入力...'
-                                : 'ログインするとコメントできます'
-                        }
+                        className="w-full flex-1 resize-none rounded-xl border px-4 py-2 placeholder:text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none sm:text-sm"
+                        placeholder={auth ? 'コメントを入力...' : 'ログインするとコメントできます'}
                         rows={2}
                         disabled={!auth}
                     />
                     {auth && (
-                        <button
-                            type="submit"
-                            className="text-sm text-blue-500 cursor-pointer hover:text-blue-700 transition-colors"
-                        >
+                        <button type="submit" className="cursor-pointer text-sm text-blue-500 transition-colors hover:text-blue-700">
                             送信
                         </button>
                     )}
                 </form>
                 {!auth && (
-                    <div className="text-right mt-2">
-                        <a
-                            href="/login"
-                            className="text-sm text-blue-500 hover:text-blue-700"
-                        >
+                    <div className="mt-2 text-right">
+                        <a href="/login" className="text-sm text-blue-500 hover:text-blue-700">
                             ログイン
                         </a>
                     </div>
@@ -154,42 +131,31 @@ const CommentSection = ({
             </div>
 
             {comments.map((comment) => (
-                <div key={comment.id} className="flex gap-x-3 py-2 items-start">
-                    <Link href={`/${comment.user.user_id}`} className="relative group shrink-0">
-                        <div className="absolute w-full h-full top-0 left-0 group-hover:bg-[rgba(26,26,26,0.15)] rounded-full duration-200"></div>
+                <div key={comment.id} className="flex items-start gap-x-3 py-2">
+                    <Link href={`/${comment.user.user_id}`} className="group relative shrink-0">
+                        <div className="absolute top-0 left-0 h-full w-full rounded-full duration-200 group-hover:bg-[rgba(26,26,26,0.15)]"></div>
                         {comment.user.icon_path ? (
-                            <img
-                                src={`/storage/${comment.user.icon_path}`}
-                                alt=""
-                                className="w-10 h-10 rounded-full object-cover"
-                            />
+                            <img src={`/storage/${comment.user.icon_path}`} alt="" className="h-10 w-10 rounded-full object-cover" />
                         ) : (
-                            <div className="w-10 h-10 rounded-full bg-gray-200" />
+                            <div className="h-10 w-10 rounded-full bg-gray-200" />
                         )}
                     </Link>
 
-                    <div className="flex flex-col gap-2 flex-1">
+                    <div className="flex flex-1 flex-col gap-2">
                         <div className="flex items-center gap-x-1">
                             <Link href={`/${comment.user.user_id}`} className="flex items-center gap-x-1">
-                                <span className="font-semibold text-[15px] hover:underline">
-                                    {comment.user.name}
-                                </span>
-                                <span className="text-sm text-gray-500">
-                                    @{comment.user.user_id}
-                                </span>
+                                <span className="text-[15px] font-semibold hover:underline">{comment.user.name}</span>
+                                <span className="text-sm text-gray-500">@{comment.user.user_id}</span>
                             </Link>
                             <span className="text-sm text-gray-500">·</span>
                             <span className="text-sm text-gray-500">
-                                {new Date(comment.created_at).toLocaleString(
-                                    'ja-JP',
-                                    {
-                                        year: 'numeric',
-                                        month: 'numeric',
-                                        day: 'numeric',
-                                        hour: '2-digit',
-                                        minute: '2-digit',
-                                    },
-                                )}
+                                {new Date(comment.created_at).toLocaleString('ja-JP', {
+                                    year: 'numeric',
+                                    month: 'numeric',
+                                    day: 'numeric',
+                                    hour: '2-digit',
+                                    minute: '2-digit',
+                                })}
                             </span>
                             {auth?.id === comment.user_id && (
                                 <div className="relative ml-auto">
@@ -197,45 +163,37 @@ const CommentSection = ({
                                         type="button"
                                         onClick={(e) => {
                                             e.stopPropagation();
-                                            setOpenMenuId(
-                                                openMenuId === comment.id
-                                                    ? null
-                                                    : comment.id,
-                                            );
+                                            setOpenMenuId(openMenuId === comment.id ? null : comment.id);
                                         }}
-                                        className="text-gray-400 hover:text-gray-600 cursor-pointer"
+                                        className="cursor-pointer text-gray-400 hover:text-gray-600"
                                     >
                                         <Ellipsis size={16} />
                                     </button>
                                     {openMenuId === comment.id && (
-                                        <div className="absolute right-0 bg-white shadow-md rounded-lg overflow-hidden">
+                                        <div className="absolute right-0 overflow-hidden rounded-lg bg-white shadow-md">
                                             <button
                                                 type="button"
-                                                onClick={() =>
-                                                    handleDelete(comment.id)
-                                                }
-                                                className="px-4 py-2 text-sm text-red-500 hover:bg-gray-100 w-full text-left cursor-pointer flex items-center gap-x-2"
+                                                onClick={() => handleDelete(comment.id)}
+                                                className="flex w-full cursor-pointer items-center gap-x-2 px-4 py-2 text-left text-sm text-red-500 hover:bg-gray-100"
                                             >
                                                 <Trash2 size={14} />
-                                                <span className="whitespace-nowrap">
-                                                    削除
-                                                </span>
+                                                <span className="whitespace-nowrap">削除</span>
                                             </button>
                                         </div>
                                     )}
                                 </div>
                             )}
                         </div>
-                        <p className="text-[15px]">{comment.text}</p>
+                        <p className="text-[15px] whitespace-pre-wrap">{comment.text}</p>
                     </div>
                 </div>
             ))}
             {nextPageUrl && (
-                <div className="text-center mt-4">
+                <div className="mt-4 text-center">
                     <button
                         onClick={loadMore}
                         disabled={isLoading}
-                        className="text-sm text-gray-500 hover:text-gray-700 transition-color cursor-pointer disabled:cursor-default"
+                        className="transition-color cursor-pointer text-sm text-gray-500 hover:text-gray-700 disabled:cursor-default"
                     >
                         もっと読み込む
                     </button>
