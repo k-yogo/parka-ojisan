@@ -3,16 +3,18 @@
 投稿時にAIが画像を判定し、パーカーおじさん以外の画像は投稿できません。<br>
 レスポンシブ対応しているのでスマホからもご確認いただけます。
 
-<!-- スクリーンショットがあれば追加 -->
-<img width="1400" alt="スクリーンショット" src="https://github.com/user-attachments/assets/c8a26e15-e05f-4f42-bcf1-cffb363dcc2d">
+![スクリーンショット](docs/screenshot.jpg)
 
 ## URL
 https://parka-ojisan.yogo.dev/
 
 ## 使用技術
 - PHP 8.4
-- Laravel 12
+- Laravel 12 / Laravel Breeze
 - MySQL 8.0
+- React 19 / TypeScript
+- Inertia.js v3
+- TanStack Query v5
 - Tailwind CSS 4
 - Vite 7
 - OpenAI API (GPT-4o-mini)
@@ -30,14 +32,23 @@ https://parka-ojisan.yogo.dev/
   - ドラッグ&ドロップ対応
   - 画像プレビュー表示
   - 自動リサイズ・WebP変換 (Intervention Image)
+  - 画像サイズ制限 (最小400x400px・最大5MB・最大幅1500pxにリサイズ)
+  - アスペクト比制限 (1:4 〜 4:1)
+  - ファイル形式制限 (PNG, JPG, GIF, WebP)
 - AI画像判定機能
   - OpenAI GPT-4o-mini による画像分析
   - パーカーおじさん以外は投稿拒否
-- バリデーション機能
-  - 画像サイズ制限 (最小400x400px)
-  - アスペクト比制限 (1:3 〜 3:1)
-  - ファイル形式制限 (PNG, JPG, GIF, WebP)
-- ページネーション機能
+- いいね機能
+  - 楽観的更新
+- コメント機能
+  - 楽観的更新
+  - 「もっと読み込む」による追加取得
+- ユーザーページ (`/{username}`)
+- 個別投稿ページ (`/{username}/status/{id}`)
+- プロフィール編集（アイコン画像・ユーザーID変更対応）
+- 画像モーダル (PCのみ)
+- 未ログイン制限（投稿・いいね・コメント）
+- 無限スクロール (TanStack Query)
 - レスポンシブデザイン (Tailwind CSS)
 
 ## ローカル環境構築
