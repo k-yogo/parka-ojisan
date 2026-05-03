@@ -1,7 +1,7 @@
 import Layout from '@/Layouts/Layout';
 import PostList from '@/Components/PostList';
 import { User } from '@/types';
-import { Head, router } from '@inertiajs/react';
+import { Head } from '@inertiajs/react';
 import { ArrowLeft } from 'lucide-react';
 import { useState } from 'react';
 import { useHandleBack } from '@/hooks/useHandleBack';
