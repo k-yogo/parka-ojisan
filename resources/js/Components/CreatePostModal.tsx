@@ -4,13 +4,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { X } from 'lucide-react';
 import { DragEvent, useEffect, useRef, useState } from 'react';
 
-export default function CreatePostModal({
-    show,
-    onClose,
-}: {
-    show: boolean;
-    onClose: () => void;
-}) {
+export default function CreatePostModal({ show, onClose }: { show: boolean; onClose: () => void }) {
     const queryClient = useQueryClient();
 
     const [image, setImage] = useState<File | null>(null);
@@ -81,6 +75,7 @@ export default function CreatePostModal({
         const response = await fetch('/api/posts', {
             method: 'POST',
             headers: {
+                Accept: 'application/json',
                 'X-XSRF-TOKEN': decodeURIComponent(
                     document.cookie
                         .split('; ')
@@ -115,53 +110,37 @@ export default function CreatePostModal({
                 <button
                     type="button"
                     onClick={handleClose}
-                    className="absolute top-2 right-3 text-gray-400 hover:text-gray-600 cursor-pointer transition-colors"
+                    className="absolute top-2 right-3 cursor-pointer text-gray-400 transition-colors hover:text-gray-600"
                 >
                     <X size={32} />
                 </button>
-                <div className="w-full max-w-md mx-auto flex flex-col gap-y-4">
-                    <h2 className="text-sm text-center">
-                        パーカーおじさんの画像を追加
-                    </h2>
-                    <form
-                        onSubmit={handleSubmit}
-                        className="flex flex-col gap-y-4"
-                    >
+                <div className="mx-auto flex w-full max-w-md flex-col gap-y-4">
+                    <h2 className="text-center text-sm">パーカーおじさんの画像を追加</h2>
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-y-4">
                         <div className="flex flex-col gap-y-2">
                             <label className="text-sm">Image</label>
                             {preview ? (
                                 <div className="relative">
-                                    <img
-                                        src={preview}
-                                        alt="Preview"
-                                        className="w-full rounded-md"
-                                    />
+                                    <img src={preview} alt="Preview" className="w-full rounded-md" />
                                     <button
                                         type="button"
                                         onClick={resetImage}
-                                        className="absolute top-2 right-2 bg-black/60 hover:bg-black/80 text-white rounded-full p-1 cursor-pointer transition-colors"
+                                        className="absolute top-2 right-2 cursor-pointer rounded-full bg-black/60 p-1 text-white transition-colors hover:bg-black/80"
                                     >
                                         <X size={18} />
                                     </button>
                                 </div>
                             ) : (
                                 <label
-                                    className={`flex flex-col items-center justify-center w-full h-64 border border-dashed rounded-md cursor-pointer transition-colors ${
-                                        isDragging
-                                            ? 'bg-blue-50 border-blue-400'
-                                            : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
+                                    className={`flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-md border border-dashed transition-colors ${
+                                        isDragging ? 'border-blue-400 bg-blue-50' : 'border-gray-200 bg-gray-50 hover:bg-gray-100'
                                     }`}
                                     onDragOver={handleDragOver}
                                     onDragLeave={handleDragLeave}
                                     onDrop={handleDrop}
                                 >
-                                    <div className="flex flex-col items-center text-gray-600 px-2">
-                                        <svg
-                                            className="w-8 h-8 mb-4"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                        >
+                                    <div className="flex flex-col items-center px-2 text-gray-600">
+                                        <svg className="mb-4 h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                                             <path
                                                 stroke="currentColor"
                                                 strokeLinecap="round"
@@ -171,17 +150,10 @@ export default function CreatePostModal({
                                             />
                                         </svg>
                                         <p className="mb-2 text-sm">
-                                            <span className="font-semibold">
-                                                Click to upload
-                                            </span>{' '}
-                                            or drag and drop
+                                            <span className="font-semibold">Click to upload</span> or drag and drop
                                         </p>
-                                        <p className="text-xs">
-                                            PNG, JPG, GIF, WebP (MIN. 400x400px)
-                                        </p>
-                                        <p className="text-xs text-gray-500 mt-2">
-                                            🤖 AIがパーカーおじさんか判定します
-                                        </p>
+                                        <p className="text-xs">PNG, JPG, GIF, WebP (MIN. 400x400px)</p>
+                                        <p className="mt-2 text-xs text-gray-500">🤖 AIがパーカーおじさんか判定します</p>
                                     </div>
                                     <input
                                         ref={fileInputRef}
@@ -189,17 +161,12 @@ export default function CreatePostModal({
                                         className="hidden"
                                         accept="image/*"
                                         onChange={(e) => {
-                                            if (e.target.files?.[0])
-                                                handleFile(e.target.files[0]);
+                                            if (e.target.files?.[0]) handleFile(e.target.files[0]);
                                         }}
                                     />
                                 </label>
                             )}
-                            {errors.image && (
-                                <p className="text-sm text-red-500">
-                                    {errors.image}
-                                </p>
-                            )}
+                            {errors.image && <p className="text-sm text-red-500">{errors.image}</p>}
                         </div>
 
                         <div className="flex flex-col gap-y-2">
@@ -209,28 +176,22 @@ export default function CreatePostModal({
                             <textarea
                                 id="text"
                                 rows={4}
-                                className="block w-full border-gray-200 border focus:border-blue-500 focus:ring-blue-500 p-2 rounded-md"
+                                className="block w-full rounded-md border border-gray-200 p-2 focus:border-blue-500 focus:ring-blue-500"
                                 value={text}
                                 onChange={(e) => setText(e.target.value)}
                             />
-                            {errors.text && (
-                                <p className="text-sm text-red-500">
-                                    {errors.text}
-                                </p>
-                            )}
+                            {errors.text && <p className="text-sm text-red-500">{errors.text}</p>}
                         </div>
 
                         <button
                             type="submit"
                             disabled={processing}
-                            className="my-2 px-4 py-2 bg-gray-900 hover:bg-gray-700 text-white rounded-md cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                            className="my-2 cursor-pointer rounded-md bg-gray-900 px-4 py-2 text-white transition-colors hover:bg-gray-700 disabled:cursor-not-allowed disabled:opacity-50"
                         >
                             {processing ? (
                                 <>
                                     解析中
-                                    <span className="inline-block w-6 text-left">
-                                        {dots}
-                                    </span>
+                                    <span className="inline-block w-6 text-left">{dots}</span>
                                 </>
                             ) : (
                                 '投稿'
