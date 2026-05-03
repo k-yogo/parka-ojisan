@@ -35,8 +35,8 @@ class PostController extends Controller {
                         $width = $image[0];
                         $height = $image[1];
                         $ratio = $width / $height;
-                        if ($ratio < 0.33 || $ratio > 3) {
-                            $fail('The image aspect ratio must be between 1:3 and 3:1.');
+                        if ($ratio < 0.25 || $ratio > 4) {
+                            $fail('The image aspect ratio must be between 1:4 and 4:1.');
                         }
                     }
                 },
