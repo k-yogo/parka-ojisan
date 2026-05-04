@@ -114,7 +114,7 @@ export default function CreatePostModal({ show, onClose }: { show: boolean; onCl
                 >
                     <X size={32} />
                 </button>
-                <div className="mx-auto flex w-full max-w-lg flex-col gap-y-4">
+                <div className="mx-auto flex w-full max-w-md flex-col gap-y-4">
                     <h2 className="text-center text-sm">パーカーおじさんの画像を追加</h2>
                     <form onSubmit={handleSubmit} className="flex flex-col gap-y-4">
                         <div className="flex flex-col gap-y-2">
@@ -132,7 +132,7 @@ export default function CreatePostModal({ show, onClose }: { show: boolean; onCl
                                 </div>
                             ) : (
                                 <label
-                                    className={`flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-md border border-dashed transition-colors sm:h-80 ${
+                                    className={`flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-md border border-dashed transition-colors ${
                                         isDragging ? 'border-blue-400 bg-blue-50' : 'border-gray-200 bg-gray-50 hover:bg-gray-100'
                                     }`}
                                     onDragOver={handleDragOver}

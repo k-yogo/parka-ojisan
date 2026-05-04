@@ -136,7 +136,7 @@ export default function Layout({ children }: PropsWithChildren) {
                         )}
                     </div>
                 </header>
-                <main className="mx-auto flex w-full max-w-lg flex-1 flex-col pb-8">{children}</main>
+                <main className="mx-auto flex w-full max-w-md flex-1 flex-col pb-8">{children}</main>
                 <footer className="border-t border-gray-200 bg-white p-4 text-center text-sm text-gray-600">
                     <div className="flex flex-col items-center gap-2">
                         <a
