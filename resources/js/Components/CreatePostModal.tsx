@@ -132,7 +132,7 @@ export default function CreatePostModal({ show, onClose }: { show: boolean; onCl
                                 </div>
                             ) : (
                                 <label
-                                    className={`flex h-64 w-full cursor-pointer flex-col items-center justify-center rounded-md border border-dashed transition-colors ${
+                                    className={`flex h-64 sm:h-80 w-full cursor-pointer flex-col items-center justify-center rounded-md border border-dashed transition-colors ${
                                         isDragging ? 'border-blue-400 bg-blue-50' : 'border-gray-200 bg-gray-50 hover:bg-gray-100'
                                     }`}
                                     onDragOver={handleDragOver}
