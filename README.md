@@ -17,8 +17,10 @@ https://parka-ojisan.yogo.dev/
 - TanStack Query v5
 - Tailwind CSS 4
 - Vite 7
-- OpenAI API (GPT-4o-mini)
-- Intervention Image (画像処理)
+- Laravel Sanctum（API認証）
+- OpenAI API（GPT-4o-mini）
+- Intervention Image（画像処理）
+- Lucide React（アイコン）
 
 ## 開発環境
 - Docker / Docker Compose
@@ -26,15 +28,16 @@ https://parka-ojisan.yogo.dev/
 
 ## 本番環境
 - スターレンタルサーバー
+- GitHub Actions（mainブランチへのpushで自動デプロイ）
 
 ## 機能一覧
 - 画像投稿機能
   - ドラッグ&ドロップ対応
   - 画像プレビュー表示
-  - 自動リサイズ・WebP変換 (Intervention Image)
-  - 画像サイズ制限 (最小400x400px・最大5MB・最大幅1500pxにリサイズ)
-  - アスペクト比制限 (1:4 〜 4:1)
-  - ファイル形式制限 (PNG, JPG, GIF, WebP)
+  - 自動リサイズ・WebP変換（Intervention Image）
+  - 画像サイズ制限（最小400x400px・最大5MB・最大幅1500pxにリサイズ）
+  - アスペクト比制限（1:4 〜 4:1）
+  - ファイル形式制限（PNG, JPG, GIF, WebP）
 - AI画像判定機能
   - OpenAI GPT-4o-mini による画像分析
   - パーカーおじさん以外は投稿拒否
@@ -43,13 +46,17 @@ https://parka-ojisan.yogo.dev/
 - コメント機能
   - 楽観的更新
   - 「もっと読み込む」による追加取得
-- ユーザーページ (`/{username}`)
-- 個別投稿ページ (`/{username}/status/{id}`)
+- ユーザーページ（`/{username}`）
+- 個別投稿ページ（`/{username}/status/{id}`）
 - プロフィール編集（アイコン画像・ユーザーID変更対応）
-- 画像モーダル (PCのみ)
+- 画像モーダル（PCのみ）
 - 未ログイン制限（投稿・いいね・コメント）
-- 無限スクロール (TanStack Query)
-- レスポンシブデザイン (Tailwind CSS)
+- OGP / メタタグの動的設定
+  - 個別投稿ページ：投稿者名をタイトルに・投稿画像をOGP画像に・投稿テキストをdescriptionに
+  - ユーザーページ：ユーザー名をタイトルに・プロフィール画像をOGP画像に
+  - その他のページ：サイト名をタイトルに・共通OGP画像を使用
+- 無限スクロール（TanStack Query）
+- レスポンシブデザイン（Tailwind CSS）
 
 ## ローカル環境構築
 
