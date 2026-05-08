@@ -6,7 +6,7 @@
 ![スクリーンショット](docs/screenshot.jpg)
 
 ## URL
-https://parka-ojisan.yogo.dev/
+https://parka-ojisan.yogo.dev
 
 ## 使用技術
 - PHP 8.4
