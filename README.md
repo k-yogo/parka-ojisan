@@ -16,10 +16,8 @@ https://parka-ojisan.yogo.dev
 - TanStack Query v5
 - Tailwind CSS 4
 - Vite 7
-- Laravel Sanctum（API認証）
 - OpenAI API（GPT-4o-mini）
 - Intervention Image（画像処理）
-- Lucide React（アイコン）
 
 ## 開発環境
 - Docker / Docker Compose
